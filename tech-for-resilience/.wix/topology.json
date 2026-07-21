@@ -1,0 +1,11 @@
+{
+  "production": {
+    "id": "00a9526e-a9d1-4f4a-a0e1-eaa6cc74f4ad",
+    "site": {
+      "main": "https://4awrqa-projects-99fe9bab-judithj7.wix-site-host.com"
+    },
+    "dashboard": {
+      "main": "https://manage.wix.com/dashboard/ce32a469-1fd1-4f5a-8ea6-93fbc56dbe56?apps-override=00a9526e-a9d1-4f4a-a0e1-eaa6cc74f4ad"
+    }
+  }
+}

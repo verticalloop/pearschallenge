@@ -772,12 +772,22 @@
     .tl-photo { border-radius: 18px; overflow: hidden; box-shadow: 0 14px 32px rgba(0,0,0,0.14); }
     .tl-photo img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 3/2; }
 
+    .tl-badge { display: none; }
+
     @media (max-width: 900px) {
       .timeline2 { padding: 56px 18px 64px; }
       .tl-brand { padding: 0; }
       .tl-rail { display: none; }
       .tl-content, .tl-photo { position: static !important; width: auto !important; top: auto !important; transform: none !important; opacity: 1 !important; margin: 0 0 26px; }
-      .tl-content { border-left: 4px solid var(--c, #45c3f2); padding-left: 20px; }
+      .tl-content { display: flex; gap: 16px; align-items: flex-start; }
+      .tl-badge {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        flex: 0 0 56px; width: 56px; height: 56px; border-radius: 50%;
+        background: var(--c, #45c3f2);
+      }
+      .tl-badge span { font-family: var(--font-body); font-weight: 800; font-size: 1.05rem; color: #1a2a52; line-height: 1; }
+      .tl-badge small { font-family: var(--font-mono); font-size: 0.45rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #1a2a52; margin-top: 2px; }
+      .tl-text { flex: 1; min-width: 0; border-left: 4px solid var(--c, #45c3f2); padding-left: 20px; }
     }
 
     /* ── STATS / ALUMNI ── */
@@ -1405,6 +1415,8 @@
         </div>
 
         <div class="tl-content" data-reveal data-tl="1" data-side="right" style="--c:#5CDCFF">
+          <div class="tl-badge" aria-hidden="true"><span>1</span><small>Stage</small></div>
+          <div class="tl-text">
           <p class="tl-date">Sept – Oct 2026</p>
           <h3>Selection</h3>
           <ul class="tl-lines">
@@ -1412,9 +1424,12 @@
             <li>Advance through the Pears Challenge Selection Process</li>
             <li>Join the most promising ventures and secure your enrollment in the bootcamp phase</li>
           </ul>
+          </div>
         </div>
 
         <div class="tl-content" data-reveal data-tl="2" data-side="left" style="--c:#4B80E0">
+          <div class="tl-badge" aria-hidden="true"><span>2</span><small>Stage</small></div>
+          <div class="tl-text">
           <p class="tl-date">Nov – Dec 2026</p>
           <h3>Bootcamp</h3>
           <ul class="tl-lines">
@@ -1423,12 +1438,15 @@
             <li>Adjust your venture idea to the local context</li>
           </ul>
           <div class="tl-tags"><span>5 Weeks</span><span>2 Full Days/Wk</span><span>Tel Aviv Israel</span></div>
+          </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="2" data-side="right">
           <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=800&q=80" alt="Bootcamp collaboration" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="3" data-side="right" style="--c:#FFE53C">
+          <div class="tl-badge" aria-hidden="true"><span>3</span><small>Stage</small></div>
+          <div class="tl-text">
           <p class="tl-date">Dec 2026 – Feb 2027</p>
           <h3>Field Prep &amp; Remote Validation</h3>
           <ul class="tl-lines">
@@ -1437,12 +1455,15 @@
             <li>Prepare for on-the-ground market validation and field visit.</li>
           </ul>
           <div class="tl-tags"><span>10 Weeks</span><span>Hybrid Format</span><span>Tel Aviv Israel &amp; Remote</span></div>
+          </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="3" data-side="left">
           <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800&q=80" alt="Pears Challenge cohort" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="4" data-side="left" style="--c:#31FFB1">
+          <div class="tl-badge" aria-hidden="true"><span>4</span><small>Stage</small></div>
+          <div class="tl-text">
           <p class="tl-date">Feb – March 2027</p>
           <h3>Field Validation Trip</h3>
           <ul class="tl-lines">
@@ -1451,12 +1472,15 @@
             <li>Pitch and connect with pan-African investors and partners at the Sankalp Africa Summit.</li>
           </ul>
           <div class="tl-tags"><span>2 Weeks</span><span>Kenya or East Africa</span></div>
+          </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="4" data-side="right">
           <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80" alt="Field validation visit" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="5" data-side="right" style="--c:#5CDCFF">
+          <div class="tl-badge" aria-hidden="true"><span>5</span><small>Stage</small></div>
+          <div class="tl-text">
           <p class="tl-date">Apr 2027 – Apr 2028</p>
           <h3>Navigation</h3>
           <ul class="tl-lines">
@@ -1466,6 +1490,7 @@
             <li>Join Nura's active global alumni community.</li>
           </ul>
           <div class="tl-tags"><span>1 Year</span><span>Remote</span></div>
+          </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="5" data-side="left">
           <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80" alt="Demo day presentation" />

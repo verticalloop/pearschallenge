@@ -772,12 +772,22 @@
     .tl-photo { border-radius: 18px; overflow: hidden; box-shadow: 0 14px 32px rgba(0,0,0,0.14); }
     .tl-photo img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 3/2; }
 
+    .tl-badge { display: none; }
+
     @media (max-width: 900px) {
       .timeline2 { padding: 56px 18px 64px; }
       .tl-brand { padding: 0; }
       .tl-rail { display: none; }
       .tl-content, .tl-photo { position: static !important; width: auto !important; top: auto !important; transform: none !important; opacity: 1 !important; margin: 0 0 26px; }
-      .tl-content { border-left: 4px solid var(--c, #45c3f2); padding-left: 20px; }
+      .tl-content { display: flex; gap: 16px; align-items: flex-start; }
+      .tl-badge {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        flex: 0 0 56px; width: 56px; height: 56px; border-radius: 50%;
+        background: var(--c, #45c3f2);
+      }
+      .tl-badge span { font-family: var(--font-body); font-weight: 800; font-size: 1.05rem; color: #1a2a52; line-height: 1; }
+      .tl-badge small { font-family: var(--font-mono); font-size: 0.45rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #1a2a52; margin-top: 2px; }
+      .tl-text { flex: 1; min-width: 0; border-left: 4px solid var(--c, #45c3f2); padding-left: 20px; }
     }
 
     /* ── STATS / ALUMNI ── */
@@ -833,6 +843,44 @@
     .stats-cta::before { content: '\25B7'; color: #45c3f2; font-size: 1.1rem; }
     .stats-cta:hover { background: rgba(255,255,255,0.08); }
 
+    /* ── FUNDING & COLLABORATIONS (auto-scrolling logo marquee) ── */
+    .funding-section { background: #fff; padding: 88px 0; overflow: hidden; }
+    .funding-inner { max-width: 1500px; margin: 0 auto; }
+    .funding-head { padding: 0 48px; margin-bottom: 48px; }
+    .funding-head h2 {
+      font-family: var(--font-body); font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 14px;
+    }
+    .funding-sub { font-family: var(--font-body); font-size: 1.1rem; color: var(--text-mid); font-weight: 500; }
+    .marquee {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+    .marquee-track {
+      display: flex; align-items: center; gap: 88px; width: max-content;
+      animation: funding-scroll 38s linear infinite;
+    }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    .funder-logo {
+      flex-shrink: 0; white-space: nowrap;
+      font-family: var(--font-body); font-weight: 700; font-size: 1.3rem; color: var(--navy);
+    }
+    .marquee-track img { height: 38px; width: auto; object-fit: contain; flex-shrink: 0; }
+    @keyframes funding-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track { animation: none; }
+    }
+    @media (max-width: 900px) {
+      .funding-section { padding: 56px 0; }
+      .funding-head { padding: 0 20px; margin-bottom: 32px; }
+      .marquee-track { gap: 56px; }
+      .funder-logo { font-size: 1.1rem; }
+    }
+
     /* ── READY SECTION (split card + steps) ── */
     .ready-section {
       position: relative;
@@ -859,7 +907,7 @@
       align-items: stretch;
     }
     .ready-photo { position: relative; }
-    .ready-photo img {
+    .ready-photo img, .ready-photo video {
       width: 100%; height: 100%; min-height: 520px;
       object-fit: cover; border-radius: 30px; display: block;
     }
@@ -915,7 +963,7 @@
     .ready-apply:hover { transform: translateY(-2px); background: #16283a; }
     @media (max-width: 900px) {
       .ready-grid { grid-template-columns: 1fr; }
-      .ready-photo img { min-height: 320px; }
+      .ready-photo img, .ready-photo video { min-height: 320px; }
       .ready-card { padding: 40px 28px; }
       .ready-frame::before, .ready-frame::after { width: 90px; height: 100px; }
     }
@@ -1056,6 +1104,7 @@
     .footer-social { display: flex; gap: 22px; margin-bottom: 40px; }
     .footer-social a { color: #fff; display: inline-flex; }
     .footer-social svg { width: 22px; height: 22px; fill: currentColor; }
+    .footer-social .social-icon-custom { width: 22px; height: 22px; object-fit: contain; }
     .footer-fine { font-family: var(--font-body); font-size: 0.92rem; color: rgba(255,255,255,0.8); line-height: 1.7; }
     .footer-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
     .footer-group { margin-bottom: 40px; }
@@ -1405,6 +1454,8 @@
         </div>
 
         <div class="tl-content" data-reveal data-tl="1" data-side="right" style="--c:#5CDCFF">
+          <div class="tl-badge" aria-hidden="true"><span>1</span><small>Stage</small></div>
+          <div class="tl-text">
           <p class="tl-date">Sept – Oct 2026</p>
           <h3>Selection</h3>
           <ul class="tl-lines">
@@ -1412,9 +1463,12 @@
             <li>Advance through the Pears Challenge Selection Process</li>
             <li>Join the most promising ventures and secure your enrollment in the bootcamp phase</li>
           </ul>
+          </div>
         </div>
 
         <div class="tl-content" data-reveal data-tl="2" data-side="left" style="--c:#4B80E0">
+          <div class="tl-badge" aria-hidden="true"><span>2</span><small>Stage</small></div>
+          <div class="tl-text">
           <p class="tl-date">Nov – Dec 2026</p>
           <h3>Bootcamp</h3>
           <ul class="tl-lines">
@@ -1423,12 +1477,15 @@
             <li>Adjust your venture idea to the local context</li>
           </ul>
           <div class="tl-tags"><span>5 Weeks</span><span>2 Full Days/Wk</span><span>Tel Aviv Israel</span></div>
+          </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="2" data-side="right">
           <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=800&q=80" alt="Bootcamp collaboration" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="3" data-side="right" style="--c:#FFE53C">
+          <div class="tl-badge" aria-hidden="true"><span>3</span><small>Stage</small></div>
+          <div class="tl-text">
           <p class="tl-date">Dec 2026 – Feb 2027</p>
           <h3>Field Prep &amp; Remote Validation</h3>
           <ul class="tl-lines">
@@ -1437,12 +1494,15 @@
             <li>Prepare for on-the-ground market validation and field visit.</li>
           </ul>
           <div class="tl-tags"><span>10 Weeks</span><span>Hybrid Format</span><span>Tel Aviv Israel &amp; Remote</span></div>
+          </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="3" data-side="left">
           <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800&q=80" alt="Pears Challenge cohort" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="4" data-side="left" style="--c:#31FFB1">
+          <div class="tl-badge" aria-hidden="true"><span>4</span><small>Stage</small></div>
+          <div class="tl-text">
           <p class="tl-date">Feb – March 2027</p>
           <h3>Field Validation Trip</h3>
           <ul class="tl-lines">
@@ -1451,12 +1511,15 @@
             <li>Pitch and connect with pan-African investors and partners at the Sankalp Africa Summit.</li>
           </ul>
           <div class="tl-tags"><span>2 Weeks</span><span>Kenya or East Africa</span></div>
+          </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="4" data-side="right">
           <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80" alt="Field validation visit" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="5" data-side="right" style="--c:#5CDCFF">
+          <div class="tl-badge" aria-hidden="true"><span>5</span><small>Stage</small></div>
+          <div class="tl-text">
           <p class="tl-date">Apr 2027 – Apr 2028</p>
           <h3>Navigation</h3>
           <ul class="tl-lines">
@@ -1466,6 +1529,7 @@
             <li>Join Nura's active global alumni community.</li>
           </ul>
           <div class="tl-tags"><span>1 Year</span><span>Remote</span></div>
+          </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="5" data-side="left">
           <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80" alt="Demo day presentation" />
@@ -1492,12 +1556,40 @@
     </div>
   </section>
 
+  <!-- FUNDING & COLLABORATIONS -->
+  <section class="funding-section" id="funding">
+    <div class="funding-inner">
+      <div class="funding-head">
+        <h2 data-cms="funding_title">Funding &amp; Collaborations</h2>
+        <p class="funding-sub" data-cms="funding_sub">Graduating ventures have secured funding and partnered with</p>
+      </div>
+      <div class="marquee">
+        <div class="marquee-track" id="funders-track">
+          <span class="funder-logo">Israel Innovation Authority</span>
+          <span class="funder-logo">IFC · International Finance Corporation</span>
+          <span class="funder-logo">Techstars</span>
+          <span class="funder-logo">eHealth Ventures</span>
+          <span class="funder-logo">Microsoft for Startups</span>
+          <span class="funder-logo">Maccabi Healthcare Services</span>
+          <span class="funder-logo" aria-hidden="true">Israel Innovation Authority</span>
+          <span class="funder-logo" aria-hidden="true">IFC · International Finance Corporation</span>
+          <span class="funder-logo" aria-hidden="true">Techstars</span>
+          <span class="funder-logo" aria-hidden="true">eHealth Ventures</span>
+          <span class="funder-logo" aria-hidden="true">Microsoft for Startups</span>
+          <span class="funder-logo" aria-hidden="true">Maccabi Healthcare Services</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- READY -->
   <section class="ready-section">
     <div class="ready-grid">
       <div class="ready-photo">
         <span class="ready-frame"></span>
-        <img data-cms-img="ready_image" src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=1000&q=80" alt="East African market" />
+        <video autoplay muted loop playsinline preload="metadata" aria-label="East African market">
+          <source src="https://video.wixstatic.com/video/3efa7e_1c3f39d16e0b4f84a281c06c000ac692/1080p/mp4/file.mp4" type="video/mp4" />
+        </video>
       </div>
       <div class="ready-card">
         <h2 data-cms="ready_title">Ready for the journey?</h2>
@@ -1608,9 +1700,10 @@
           <img class="footer-logo" data-cms-img="nav_logo" src="https://static.wixstatic.com/media/3efa7e_8f2eaad210244caaa1d1c00f1af60914~mv2.png" alt="Nura — Global Innovation Lab" />
           <p class="footer-tagline" data-cms="footer_nura_tagline">Connecting between Israeli Innovation &amp; Global Development Challenges</p>
           <div class="footer-social">
-            <a href="#" data-cms-href="footer_facebook_url" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5H14z"/></svg></a>
-            <a href="#" data-cms-href="footer_instagram_url" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .4 1.4.9.5.4.7.8.9 1.4.1.4.3 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.4 1-.9 1.4-.4.5-.8.7-1.4.9-.4.1-1 .3-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.4-1.4-.9-.5-.4-.7-.8-.9-1.4-.1-.4-.3-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.4-1 .9-1.4.4-.5.8-.7 1.4-.9.4-.1 1-.3 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3zm6.8-11.2a1.5 1.5 0 1 0 1.5 1.5 1.5 1.5 0 0 0-1.5-1.5z"/></svg></a>
-            <a href="#" data-cms-href="footer_linkedin_url" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M6.9 8.2H3.6V20h3.3zM5.2 3.5A1.9 1.9 0 1 0 5.2 7.3a1.9 1.9 0 0 0 0-3.8zM20.4 20v-6.5c0-3.2-.7-5.6-4.4-5.6a3.9 3.9 0 0 0-3.5 1.9V8.2H9.2V20h3.3v-5.8c0-1.5.3-3 2.2-3s1.9 1.8 1.9 3.1V20z"/></svg></a>
+            <a href="#" data-cms-href="footer_facebook_url" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5H14z"/></svg><img class="social-icon-custom" data-cms-img="footer_facebook_url" alt="" hidden></a>
+            <a href="#" data-cms-href="footer_instagram_url" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .4 1.4.9.5.4.7.8.9 1.4.1.4.3 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.4 1-.9 1.4-.4.5-.8.7-1.4.9-.4.1-1 .3-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.4-1.4-.9-.5-.4-.7-.8-.9-1.4-.1-.4-.3-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.4-1 .9-1.4.4-.5.8-.7 1.4-.9.4-.1 1-.3 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3zm6.8-11.2a1.5 1.5 0 1 0 1.5 1.5 1.5 1.5 0 0 0-1.5-1.5z"/></svg><img class="social-icon-custom" data-cms-img="footer_instagram_url" alt="" hidden></a>
+            <a href="#" data-cms-href="footer_linkedin_url" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M6.9 8.2H3.6V20h3.3zM5.2 3.5A1.9 1.9 0 1 0 5.2 7.3a1.9 1.9 0 0 0 0-3.8zM20.4 20v-6.5c0-3.2-.7-5.6-4.4-5.6a3.9 3.9 0 0 0-3.5 1.9V8.2H9.2V20h3.3v-5.8c0-1.5.3-3 2.2-3s1.9 1.8 1.9 3.1V20z"/></svg><img class="social-icon-custom" data-cms-img="footer_linkedin_url" alt="" hidden></a>
+            <a href="https://www.youtube.com/@NuraGlobal-IL" data-cms-href="footer_youtube_url" aria-label="YouTube" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><img class="social-icon-custom" data-cms-img="footer_youtube_url" alt="" hidden></a>
           </div>
           <p class="footer-fine"><span data-cms="footer_fineprint1">A Public Benefit Company (Non-Profit Organization)</span><br><span data-cms="footer_fineprint2">Registered in Israel (registration number- 517005658)</span></p>
         </div>
@@ -1658,17 +1751,52 @@
 
   <script type="module">
     import { createClient, OAuthStrategy, media } from 'https://esm.sh/@wix/sdk@1';
-    import { items } from 'https://esm.sh/@wix/data?deps=@wix/sdk@1';
-    import { forms, submissions } from 'https://esm.sh/@wix/forms?deps=@wix/sdk@1';
 
     // Public OAuth client id (== the OAuth app id in wix.config.json). Not a secret.
     const CLIENT_ID = '2d0c50dd-a5d6-47f2-ac05-0e190ea93ca1';
     const FORM_ID = '5423544f-9fbd-4834-aa39-48e9a8989cac';
 
     const client = createClient({
-      modules: { items, forms, submissions },
+      modules: {},
       auth: OAuthStrategy({ clientId: CLIENT_ID }),
     });
+
+    // @wix/wix-data-items-sdk and @wix/forms currently pin an incompatible
+    // @wix/sdk-runtime peer range vs. @wix/sdk core, which breaks
+    // client.items/.forms/.submissions module registration outright. Call the
+    // REST endpoints directly via client.fetchWithAuth (unaffected by the bug)
+    // instead of registering those host modules.
+    async function queryCollection(dataCollectionId, limit) {
+      const res = await client.fetchWithAuth('https://www.wixapis.com/wix-data/v2/items/query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dataCollectionId, query: { paging: { limit } } }),
+      });
+      if (!res.ok) throw new Error('wix-data query failed: ' + res.status);
+      const json = await res.json();
+      return (json.dataItems || []).map((d) => d.data);
+    }
+    async function getForm(formId) {
+      const res = await client.fetchWithAuth(`https://www.wixapis.com/form-schema-service/v4/forms/${formId}`);
+      if (!res.ok) throw new Error('getForm failed: ' + res.status);
+      const json = await res.json();
+      return json.form;
+    }
+    async function createSubmission(formId, data) {
+      const res = await client.fetchWithAuth('https://www.wixapis.com/forms/v4/submissions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ submission: { formId, submissions: data } }),
+      });
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        const err = new Error('createSubmission failed: ' + res.status);
+        err.details = errJson?.details?.applicationError?.data ?? errJson?.details ?? errJson;
+        throw err;
+      }
+      const json = await res.json();
+      return json.submission;
+    }
 
     const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
       ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -1695,7 +1823,7 @@
     }
     async function applySiteContent() {
       try {
-        const { items: rows } = await client.items.query('site-content').limit(200).find();
+        const rows = await queryCollection('site-content', 200);
         if (!rows.length) return;
         const map = {};
         rows.forEach((r) => { if (r.key) map[r.key] = r; });
@@ -1711,6 +1839,17 @@
         document.querySelectorAll('[data-cms-href]').forEach((el) => {
           const r = map[el.getAttribute('data-cms-href')];
           if (r && r.text) el.setAttribute('href', r.text);
+        });
+        document.querySelectorAll('.footer-social a').forEach((a) => {
+          const r = map[a.getAttribute('data-cms-href')];
+          const src = imgSrc(r && r.image, 64, 64);
+          const img = a.querySelector('.social-icon-custom');
+          const svg = a.querySelector('svg');
+          if (src && img) {
+            img.src = src;
+            img.hidden = false;
+            if (svg) svg.style.display = 'none';
+          }
         });
         document.querySelectorAll('[data-cms-mailto]').forEach((el) => {
           const r = map[el.getAttribute('data-cms-mailto')];
@@ -1729,7 +1868,7 @@
     /* ---------- Generic list renderers (all keep static markup as fallback) ---------- */
     async function renderList(collection, containerId, build) {
       try {
-        const { items: rows } = await client.items.query(collection).limit(100).find();
+        const rows = await queryCollection(collection, 100);
         if (!rows.length) return;
         rows.sort(byOrder);
         const el = document.getElementById(containerId);
@@ -1739,7 +1878,7 @@
     }
     async function renderNav() {
       try {
-        const { items: rows } = await client.items.query('nav-links').limit(50).find();
+        const rows = await queryCollection('nav-links', 50);
         if (!rows.length) return;
         rows.sort(byOrder);
         const html = rows.map((r) => `<li><a href="${esc(linkOf(r) || '#')}">${esc(r.label || '')}</a></li>`).join('');
@@ -1764,10 +1903,21 @@
         ? `<span class="partner"><img src="${logo}" alt="${esc(r.name || '')}" style="height:42px;width:auto;object-fit:contain"></span>`
         : `<span class="partner">${esc(r.name || '')}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`;
     });
-    const renderFunders = () => renderList('funders', 'funders', (r) => {
-      const logo = imgSrc(r.logo, 220, 80);
-      return logo ? `<img src="${logo}" alt="${esc(r.name || '')}">` : `<span class="partner-placeholder">${esc(r.name || '')}</span>`;
-    });
+    async function renderFunders() {
+      try {
+        const rows = await queryCollection('funders', 100);
+        if (!rows.length) return;
+        rows.sort(byOrder);
+        const el = document.getElementById('funders-track');
+        if (!el) return;
+        const html = rows.map((r) => {
+          const logo = imgSrc(r.logo, 220, 80);
+          return logo ? `<img src="${logo}" alt="${esc(r.name || '')}">` : `<span class="funder-logo">${esc(r.name || '')}</span>`;
+        }).join('');
+        // Duplicated so the marquee can loop seamlessly at -50% translation.
+        el.innerHTML = html + html;
+      } catch (e) { console.warn('funders load failed:', e); }
+    }
     const renderWhoCards = () => renderList('who-cards', 'who-cards', (r) =>
       `<div class="who-card"><span class="num">${esc(r.num || '')}</span><h3>${esc(r.title || '')}</h3><p>${esc(r.body || '')}</p></div>`);
     const renderStats = () => renderList('stats', 'stats-grid', (r) =>
@@ -1822,7 +1972,7 @@
     const FOOTER_LAYOUT = [['Menu'], ['Quick Access', 'Social'], ['Offices', 'Legal Info']];
     async function renderFooter() {
       try {
-        const { items: rows } = await client.items.query('footer-links').limit(100).find();
+        const rows = await queryCollection('footer-links', 100);
         if (!rows.length) return;
         rows.sort(byOrder);
         const container = document.getElementById('footer-links');
@@ -1846,7 +1996,7 @@
 
     async function renderTimelineContent() {
       try {
-        const { items: rows } = await client.items.query('timeline').limit(50).find();
+        const rows = await queryCollection('timeline', 50);
         if (!rows.length || !rows.some((r) => r.title)) return;
         rows.sort(byOrder);
         rows.forEach((r, idx) => {
@@ -1881,7 +2031,7 @@
 
     async function renderFAQ() {
       try {
-        const { items: rows } = await client.items.query('faq').limit(50).find();
+        const rows = await queryCollection('faq', 50);
         if (!rows.length) return;
         rows.sort(byOrder);
         const list = document.getElementById('faq-list');
@@ -1899,7 +2049,7 @@
     const FOCUS_COLORS = ['#3fe3a3', '#45c3f2', '#ecec78'];
     async function renderFocus() {
       try {
-        const { items: rows } = await client.items.query('focus-areas').limit(50).find();
+        const rows = await queryCollection('focus-areas', 50);
         if (!rows.length) return;
         // Only take over the static markup if the collection carries the new schema.
         if (!rows.some((r) => r.accent)) return;
@@ -1921,7 +2071,7 @@
 
     async function renderTimeline() {
       try {
-        const { items: rows } = await client.items.query('timeline').limit(50).find();
+        const rows = await queryCollection('timeline', 50);
         if (!rows.length) return;
         rows.sort(byOrder);
         const el = document.getElementById('timeline-list');
@@ -2008,7 +2158,7 @@
 
     async function buildForm() {
       try {
-        const form = await client.forms.getForm(FORM_ID);
+        const form = await getForm(FORM_ID);
         schemaFields = projectFields(form);
         formEl.innerHTML =
           schemaFields.map(fieldHtml).join('') +
@@ -2045,7 +2195,7 @@
       const btn = formEl.querySelector('button[type="submit"]');
       btn.disabled = true; btn.textContent = 'Submitting…';
       try {
-        await client.submissions.createSubmission({ formId: FORM_ID, submissions: data });
+        await createSubmission(FORM_ID, data);
         document.getElementById('apply-modal-body').innerHTML = `
           <div class="modal-success">
             <div class="check">&#10003;</div>
@@ -2184,7 +2334,7 @@
         { target: 'question', label: 'Question', required: false },
       ];
       try {
-        const f = await client.forms.getForm(CONTACT_FORM_ID);
+        const f = await getForm(CONTACT_FORM_ID);
         const proj = projectFields(f);
         if (proj.length) {
           schema = proj;
@@ -2207,7 +2357,7 @@
         const btn = form.querySelector('.contact-submit');
         btn.disabled = true;
         try {
-          await client.submissions.createSubmission({ formId: CONTACT_FORM_ID, submissions: data });
+          await createSubmission(CONTACT_FORM_ID, data);
           form.innerHTML = '<p class="contact-thanks">Thanks — we\'ll be in touch soon.</p>';
         } catch (err) {
           statusEl.textContent = 'Something went wrong. Please try again.';
@@ -2224,6 +2374,7 @@
     initMobileMenu();
     renderNav();
     renderPartners();
+    renderFunders();
     renderWhoCards();
     renderStats().then(initStatsCountUp);
     renderChecklist();

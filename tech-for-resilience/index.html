@@ -843,6 +843,44 @@
     .stats-cta::before { content: '\25B7'; color: #45c3f2; font-size: 1.1rem; }
     .stats-cta:hover { background: rgba(255,255,255,0.08); }
 
+    /* ── FUNDING & COLLABORATIONS (auto-scrolling logo marquee) ── */
+    .funding-section { background: #fff; padding: 88px 0; overflow: hidden; }
+    .funding-inner { max-width: 1500px; margin: 0 auto; }
+    .funding-head { padding: 0 48px; margin-bottom: 48px; }
+    .funding-head h2 {
+      font-family: var(--font-body); font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 14px;
+    }
+    .funding-sub { font-family: var(--font-body); font-size: 1.1rem; color: var(--text-mid); font-weight: 500; }
+    .marquee {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+    .marquee-track {
+      display: flex; align-items: center; gap: 88px; width: max-content;
+      animation: funding-scroll 38s linear infinite;
+    }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    .funder-logo {
+      flex-shrink: 0; white-space: nowrap;
+      font-family: var(--font-body); font-weight: 700; font-size: 1.3rem; color: var(--navy);
+    }
+    .marquee-track img { height: 38px; width: auto; object-fit: contain; flex-shrink: 0; }
+    @keyframes funding-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track { animation: none; }
+    }
+    @media (max-width: 900px) {
+      .funding-section { padding: 56px 0; }
+      .funding-head { padding: 0 20px; margin-bottom: 32px; }
+      .marquee-track { gap: 56px; }
+      .funder-logo { font-size: 1.1rem; }
+    }
+
     /* ── READY SECTION (split card + steps) ── */
     .ready-section {
       position: relative;
@@ -1517,6 +1555,32 @@
     </div>
   </section>
 
+  <!-- FUNDING & COLLABORATIONS -->
+  <section class="funding-section" id="funding">
+    <div class="funding-inner">
+      <div class="funding-head">
+        <h2 data-cms="funding_title">Funding &amp; Collaborations</h2>
+        <p class="funding-sub" data-cms="funding_sub">Graduating ventures have secured funding and partnered with</p>
+      </div>
+      <div class="marquee">
+        <div class="marquee-track" id="funders-track">
+          <span class="funder-logo">Israel Innovation Authority</span>
+          <span class="funder-logo">IFC · International Finance Corporation</span>
+          <span class="funder-logo">Techstars</span>
+          <span class="funder-logo">eHealth Ventures</span>
+          <span class="funder-logo">Microsoft for Startups</span>
+          <span class="funder-logo">Maccabi Healthcare Services</span>
+          <span class="funder-logo" aria-hidden="true">Israel Innovation Authority</span>
+          <span class="funder-logo" aria-hidden="true">IFC · International Finance Corporation</span>
+          <span class="funder-logo" aria-hidden="true">Techstars</span>
+          <span class="funder-logo" aria-hidden="true">eHealth Ventures</span>
+          <span class="funder-logo" aria-hidden="true">Microsoft for Startups</span>
+          <span class="funder-logo" aria-hidden="true">Maccabi Healthcare Services</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- READY -->
   <section class="ready-section">
     <div class="ready-grid">
@@ -1792,10 +1856,21 @@
         ? `<span class="partner"><img src="${logo}" alt="${esc(r.name || '')}" style="height:42px;width:auto;object-fit:contain"></span>`
         : `<span class="partner">${esc(r.name || '')}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`;
     });
-    const renderFunders = () => renderList('funders', 'funders', (r) => {
-      const logo = imgSrc(r.logo, 220, 80);
-      return logo ? `<img src="${logo}" alt="${esc(r.name || '')}">` : `<span class="partner-placeholder">${esc(r.name || '')}</span>`;
-    });
+    async function renderFunders() {
+      try {
+        const { items: rows } = await client.items.query('funders').limit(100).find();
+        if (!rows.length) return;
+        rows.sort(byOrder);
+        const el = document.getElementById('funders-track');
+        if (!el) return;
+        const html = rows.map((r) => {
+          const logo = imgSrc(r.logo, 220, 80);
+          return logo ? `<img src="${logo}" alt="${esc(r.name || '')}">` : `<span class="funder-logo">${esc(r.name || '')}</span>`;
+        }).join('');
+        // Duplicated so the marquee can loop seamlessly at -50% translation.
+        el.innerHTML = html + html;
+      } catch (e) { console.warn('funders load failed:', e); }
+    }
     const renderWhoCards = () => renderList('who-cards', 'who-cards', (r) =>
       `<div class="who-card"><span class="num">${esc(r.num || '')}</span><h3>${esc(r.title || '')}</h3><p>${esc(r.body || '')}</p></div>`);
     const renderStats = () => renderList('stats', 'stats-grid', (r) =>
@@ -2252,6 +2327,7 @@
     initMobileMenu();
     renderNav();
     renderPartners();
+    renderFunders();
     renderWhoCards();
     renderStats().then(initStatsCountUp);
     renderChecklist();

@@ -1588,7 +1588,7 @@
       <div class="ready-photo">
         <span class="ready-frame"></span>
         <video autoplay muted loop playsinline preload="metadata" aria-label="East African market">
-          <source src="https://video.wixstatic.com/video/3efa7e_1c3f39d16e0b4f84a281c06c000ac692/1080p/mp4/file.mp4" type="video/mp4" />
+          <source data-cms-video="ready_video" src="https://video.wixstatic.com/video/3efa7e_1c3f39d16e0b4f84a281c06c000ac692/1080p/mp4/file.mp4" type="video/mp4" />
         </video>
       </div>
       <div class="ready-card">
@@ -1854,6 +1854,10 @@
         document.querySelectorAll('[data-cms-mailto]').forEach((el) => {
           const r = map[el.getAttribute('data-cms-mailto')];
           if (r && r.text) el.setAttribute('href', 'mailto:' + r.text);
+        });
+        document.querySelectorAll('[data-cms-video]').forEach((el) => {
+          const r = map[el.getAttribute('data-cms-video')];
+          if (r && r.text) { el.src = r.text; el.closest('video')?.load(); }
         });
         const bgMap = { hero_bg: '--hero-bg-img', challenge_image: '--challenge-bg-img', cta_bg: '--cta-bg-img', ready_image: '--ready-bg-img' };
         Object.entries(bgMap).forEach(([key, varName]) => {

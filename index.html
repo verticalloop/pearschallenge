@@ -1,0 +1,2238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nura · Pears Challenge 2026 — Food-Tech for Resilience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0a1628;
+      --pc-yellow: #fdff9e;
+      --hero-bg-img: url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1800&q=80');
+      --challenge-bg-img: url('https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=1600&q=80');
+      --cta-bg-img: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1400&q=80');
+      --ready-bg-img: url('https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=1600&q=80');
+      --font-body: 'Urbanist', 'Helvetica Neue', Arial, sans-serif;
+      --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+      --teal: #1a4a4a;
+      --olive: #2d4a2d;
+      --yellow: #f5c842;
+      --blue-accent: #1e6fa8;
+      --light-blue: #4a9fd4;
+      --green-dark: #1a3a1a;
+      --white: #ffffff;
+      --gray-light: #f4f4f4;
+      --gray-mid: #e0e0e0;
+      --text-dark: #1a1a1a;
+      --text-mid: #444;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* ── NAV (transparent, over hero) ── */
+    .nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      padding: 26px 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .nav .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .nav .brand-icon { width: 30px; height: 30px; flex-shrink: 0; }
+    .nav .brand-icon svg { width: 100%; height: 100%; display: block; }
+    .nav .brand-logo { height: 40px; width: auto; display: block; }
+    .nav .brand-name {
+      font-family: var(--font-body);
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--white);
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .nav .brand-sub {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.62rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.15;
+      margin-top: 2px;
+    }
+    .nav .brand-lockup { display: flex; align-items: center; gap: 12px; }
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--pc-yellow); }
+    .nav-cta {
+      font-family: var(--font-mono);
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.85);
+      padding: 11px 24px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--white); color: var(--navy); }
+    /* mobile hamburger */
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px; height: 44px;
+      background: transparent; border: none; cursor: pointer;
+      padding: 10px; flex-shrink: 0;
+    }
+    .nav-burger span { display: block; width: 100%; height: 2px; background: #fff; border-radius: 2px; transition: transform 0.25s, opacity 0.2s; }
+    .mobile-menu {
+      position: fixed; inset: 0; z-index: 1200;
+      background: #0c1420;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      transform: translateX(100%); transition: transform 0.3s ease; visibility: hidden;
+    }
+    .mobile-menu.open { transform: none; visibility: visible; }
+    .mobile-close {
+      position: absolute; top: 22px; right: 24px;
+      width: 44px; height: 44px; background: transparent; border: none; cursor: pointer;
+      color: #fff; font-size: 2rem; line-height: 1;
+    }
+    .mobile-nav-links { list-style: none; text-align: center; margin-bottom: 28px; }
+    .mobile-nav-links li { margin: 4px 0; }
+    .mobile-nav-links a {
+      font-family: var(--font-mono); color: #fff; text-decoration: none;
+      font-size: 1.05rem; letter-spacing: 0.12em; text-transform: uppercase;
+      display: block; padding: 14px 24px; transition: color 0.2s;
+    }
+    .mobile-nav-links a:hover { color: var(--pc-yellow); }
+    .mobile-apply {
+      font-family: var(--font-mono); background: var(--pc-yellow); color: var(--navy);
+      padding: 15px 40px; border-radius: 999px; text-decoration: none;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    }
+
+    /* ── HERO (full-bleed photo + frosted card) ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 40px 64px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(30,20,0,0.55) 0%, rgba(40,28,4,0.35) 45%, rgba(30,20,0,0.6) 100%),
+        var(--hero-bg-img) center/cover no-repeat;
+    }
+    .hero-card {
+      position: relative;
+      width: 100%;
+      max-width: 1140px;
+      min-height: 500px;
+      padding: 72px 56px 76px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border-radius: 40px;
+      background: rgba(24,20,8,0.28);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    /* yellow corner brackets */
+    .hero-card::before,
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border: 3px solid var(--pc-yellow);
+      pointer-events: none;
+    }
+    .hero-card::before {
+      top: -14px; left: -14px;
+      border-right: none; border-bottom: none;
+      border-top-left-radius: 44px;
+    }
+    .hero-card::after {
+      bottom: -14px; right: -14px;
+      border-left: none; border-top: none;
+      border-bottom-right-radius: 44px;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 26px;
+      padding-left: 0.5em;
+    }
+    .hero-title {
+      font-family: var(--font-body);
+      font-size: clamp(2.6rem, 6vw, 5.25rem);
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 26px;
+    }
+    .hero-title .accent { color: var(--pc-yellow); }
+    .hero-sub {
+      font-family: var(--font-body);
+      color: rgba(255,255,255,0.92);
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      font-weight: 500;
+      max-width: 620px;
+      margin-bottom: 40px;
+    }
+    .hero-cta {
+      font-family: var(--font-mono);
+      display: inline-block;
+      background: var(--white);
+      color: var(--navy);
+      padding: 22px 60px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 1.02rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+    .btn-primary {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--navy);
+      padding: 12px 28px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+
+    /* ── PARTNERS / BACKERS STRIP ── */
+    .partners {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 56px 48px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px 40px;
+      flex-wrap: wrap;
+    }
+    .partners .partner {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.98rem;
+      letter-spacing: 0.01em;
+      color: #16283a;
+      opacity: 0.72;
+      white-space: nowrap;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+    .partners .partner small {
+      font-size: 0.56rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+    .partners img { height: 42px; width: auto; object-fit: contain; }
+
+    /* ── WHO WE'RE LOOKING FOR ── */
+    .who-section { max-width: 1500px; margin: 0 auto; padding: 64px 48px 96px; }
+    .who-eyebrow {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      border: 1px solid var(--gray-mid);
+      border-radius: 999px;
+      padding: 9px 20px;
+      margin-bottom: 30px;
+    }
+    .who-section > h2 {
+      font-family: var(--font-body);
+      font-size: clamp(2.2rem, 5.2vw, 4.1rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 22px;
+    }
+    .who-sub {
+      font-family: var(--font-body);
+      font-size: clamp(1.05rem, 1.6vw, 1.45rem);
+      font-weight: 500;
+      color: var(--navy);
+      margin-bottom: 52px;
+    }
+    .who-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .who-card {
+      border: 1px solid var(--gray-mid);
+      border-radius: 22px;
+      padding: 40px 36px 46px;
+      background: var(--white);
+      transition: background 0.25s ease, border-color 0.25s ease;
+    }
+    .who-card:hover { background: #d8edfb; border-color: #d8edfb; }
+    .who-card .num {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 44px;
+    }
+    .who-card h3 {
+      font-family: var(--font-body);
+      font-size: clamp(1.4rem, 2vw, 1.85rem);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.1;
+      margin-bottom: 22px;
+    }
+    .who-card p {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text-mid);
+      line-height: 1.62;
+    }
+    @media (max-width: 900px) {
+      .partners { padding: 40px 20px 16px; gap: 20px 28px; justify-content: center; }
+      .who-section { padding: 44px 20px 64px; }
+      .who-cards { grid-template-columns: 1fr; }
+      .who-card .num { margin-bottom: 24px; }
+    }
+
+    /* ── YELLOW BANNER ── */
+    .banner-yellow {
+      background: var(--yellow);
+      padding: 14px 48px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .banner-yellow span {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--navy);
+    }
+    .banner-yellow a {
+      color: var(--navy);
+      font-size: 0.85rem;
+      margin-left: auto;
+      text-decoration: underline;
+    }
+
+    /* ── INTRO SPLIT ── */
+    .intro-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding: 60px 48px;
+      background: var(--white);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .intro-split h2 {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 800;
+      color: var(--navy);
+      grid-column: 1 / -1;
+      margin-bottom: 32px;
+    }
+    .intro-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .intro-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      color: var(--text-mid);
+    }
+    .intro-list li::before {
+      content: '→';
+      color: var(--blue-accent);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .intro-cta-box {
+      background: var(--yellow);
+      border-radius: 8px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-self: start;
+    }
+    .intro-cta-box p {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .intro-cta-box a {
+      color: var(--navy);
+      font-size: 0.85rem;
+      text-decoration: underline;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    /* ── TECH SECTION ── */
+    .tech-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      padding: 80px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: center;
+    }
+    .tech-section .section-label { color: var(--blue-accent); }
+    .tech-section h2 {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .tech-section p {
+      color: var(--text-mid);
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+    .tech-section img {
+      width: 100%;
+      border-radius: 8px;
+      object-fit: cover;
+      aspect-ratio: 4/3;
+    }
+
+    /* ── THE CHALLENGE (split card + read-more modal) ── */
+    .challenge {
+      position: relative;
+      padding: 88px 48px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .challenge::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--challenge-bg-img) center/cover no-repeat;
+      filter: blur(28px) brightness(0.92) saturate(1.1);
+      transform: scale(1.18);
+      z-index: -1;
+    }
+    .challenge-card {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+    .challenge-content {
+      background: var(--white);
+      border-radius: 30px;
+      padding: 60px 56px 52px;
+      display: flex;
+      flex-direction: column;
+    }
+    .challenge-eyebrow {
+      display: inline-block;
+      align-self: flex-start;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      border: 1px solid var(--gray-mid);
+      border-radius: 999px;
+      padding: 9px 20px;
+      margin-bottom: 28px;
+    }
+    .challenge-content h2 {
+      font-family: var(--font-body);
+      font-size: clamp(2rem, 3.8vw, 3.4rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.03;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+    .challenge-content > p {
+      font-family: var(--font-body);
+      font-size: clamp(1.05rem, 1.4vw, 1.35rem);
+      font-weight: 500;
+      color: var(--text-mid);
+      line-height: 1.5;
+      margin-bottom: 40px;
+      max-width: 470px;
+    }
+    .challenge-readmore {
+      align-self: flex-start;
+      margin-top: auto;
+      font-family: var(--font-mono);
+      background: #0c1420;
+      color: #fff;
+      border: none;
+      padding: 16px 38px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .challenge-readmore:hover { transform: translateY(-2px); background: #16283a; }
+    .challenge-image {
+      border-radius: 30px;
+      overflow: hidden;
+      min-height: 470px;
+    }
+    .challenge-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Challenge "Read more" modal */
+    .challenge-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1100;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      overflow: hidden;
+    }
+    .challenge-modal-overlay.open { display: flex; }
+    .challenge-modal-overlay::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--challenge-bg-img) center/cover no-repeat;
+      filter: blur(24px) brightness(0.5);
+      transform: scale(1.18);
+    }
+    .challenge-modal {
+      position: relative;
+      background: var(--white);
+      border-radius: 30px;
+      max-width: 1200px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 64px 72px;
+    }
+    .challenge-modal-close {
+      position: absolute;
+      top: 26px;
+      right: 34px;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--navy);
+      cursor: pointer;
+    }
+    .challenge-modal-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+    }
+    .challenge-modal-cols p {
+      font-family: var(--font-body);
+      font-size: 1.02rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .challenge-modal-cols .col-tight p { margin-bottom: 9px; }
+    .challenge-modal-cols .col-tight p.gap { margin-top: 22px; }
+    @media (max-width: 900px) {
+      .challenge { padding: 56px 20px; }
+      .challenge-card { grid-template-columns: 1fr; }
+      .challenge-image { min-height: 280px; order: -1; }
+      .challenge-content { padding: 40px 28px; }
+      .challenge-modal { padding: 52px 24px 40px; }
+      .challenge-modal-close { top: 16px; right: 18px; }
+      .challenge-modal-cols { grid-template-columns: 1fr; gap: 8px; }
+    }
+
+    /* ── FOCUS AREAS (bracketed cards) ── */
+    .focus-areas {
+      background: #222d5e;
+      padding: 100px 48px 112px;
+      text-align: center;
+    }
+    .focus-eyebrow {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.45);
+      border-radius: 999px;
+      padding: 9px 22px;
+      margin-bottom: 30px;
+    }
+    .focus-areas h2 {
+      font-family: var(--font-body);
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .focus-areas .subtitle {
+      font-family: var(--font-body);
+      color: rgba(255,255,255,0.85);
+      font-size: clamp(1.02rem, 1.5vw, 1.3rem);
+      font-weight: 500;
+      max-width: 660px;
+      margin: 0 auto 64px;
+    }
+    .focus-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 44px;
+      max-width: 1380px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .focus-card {
+      position: relative;
+      border-radius: 26px;
+      padding: 46px 42px 42px;
+      background: rgba(255,255,255,0.03);
+    }
+    .focus-card .fc-frame { position: absolute; inset: 0; pointer-events: none; }
+    .focus-card::before,
+    .focus-card::after,
+    .focus-card .fc-frame::before,
+    .focus-card .fc-frame::after {
+      content: '';
+      position: absolute;
+      width: 46%;
+      height: 45%;
+      border: 2.5px solid var(--accent, #3fe3a3);
+      pointer-events: none;
+    }
+    .focus-card::before { top: 0; left: 0; border-right: none; border-bottom: none; border-top-left-radius: 26px; }
+    .focus-card::after { bottom: 0; right: 0; border-left: none; border-top: none; border-bottom-right-radius: 26px; }
+    .focus-card .fc-frame::before { top: 0; right: 0; border-left: none; border-bottom: none; border-top-right-radius: 26px; }
+    .focus-card .fc-frame::after { bottom: 0; left: 0; border-right: none; border-top: none; border-bottom-left-radius: 26px; }
+    .focus-card h3 {
+      font-family: var(--font-body);
+      font-size: clamp(1.3rem, 1.8vw, 1.7rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.16;
+      margin-bottom: 22px;
+    }
+    .focus-card h3 .accent { color: var(--accent, #3fe3a3); }
+    .focus-card .goal {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.55;
+      margin-bottom: 30px;
+    }
+    .focus-card .goal strong { color: #fff; font-weight: 700; }
+    .fc-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .fc-tags span {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent, #3fe3a3);
+      border: 1px solid var(--accent, #3fe3a3);
+      border-radius: 999px;
+      padding: 6px 16px;
+      white-space: nowrap;
+    }
+    @media (max-width: 900px) {
+      .focus-areas { padding: 64px 20px 72px; }
+      .focus-cards { grid-template-columns: 1fr; gap: 30px; }
+    }
+
+    /* ── TIMELINE (serpentine + scroll transition) ── */
+    .timeline2 { position: relative; overflow: hidden; background: #ffffff; padding: 96px 48px 112px; }
+    .tl-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+    .tl-underlay { position: absolute; inset: 0; background: #ffffff; }
+    .tl-media {
+      position: absolute;
+      inset: -18% 0;
+      background:
+        radial-gradient(58% 40% at 18% 12%, rgba(69,195,242,0.13), transparent 70%),
+        radial-gradient(52% 38% at 86% 42%, rgba(242,227,62,0.12), transparent 70%),
+        radial-gradient(60% 42% at 28% 88%, rgba(63,227,163,0.13), transparent 70%);
+      will-change: transform;
+    }
+    .tl-inner { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; }
+    .tl-head { text-align: center; margin-bottom: 46px; }
+    .tl-eyebrow {
+      display: inline-block; font-family: var(--font-mono);
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--text-mid); border: 1px solid var(--gray-mid); border-radius: 999px;
+      padding: 7px 18px; margin-bottom: 18px;
+    }
+    .tl-head h2 { font-family: var(--font-body); font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 8px; }
+    .tl-sub { font-family: var(--font-body); font-size: 1.05rem; color: var(--text-mid); font-weight: 600; margin-bottom: 6px; }
+    .tl-range { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #9aa4b0; }
+
+    /* brand serpentine rail */
+    .tl-brand { position: relative; padding: 40px 0 130px; }
+    .tl-rail { width: 340px; max-width: 62vw; margin: 0 auto; }
+    .tl-rail svg { width: 100%; height: auto; display: block; overflow: visible; }
+    .tl-stroke { transition: stroke-dashoffset 0.08s linear; }
+
+    .tl-content, .tl-photo { position: absolute; width: 33%; }
+    .reveal-ready .tl-content, .reveal-ready .tl-photo { opacity: 0; transition: opacity .7s ease; }
+    .tl-content.in, .tl-photo.in { opacity: 1; }
+    .tl-content[data-side="left"], .tl-photo[data-side="left"] { left: 0; }
+    .tl-content[data-side="right"], .tl-photo[data-side="right"] { right: 0; }
+    .tl-date { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: #3f63d6; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .tl-date::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--c, #45c3f2); flex-shrink: 0; }
+    .tl-content h3 { font-family: var(--font-body); font-size: clamp(1.4rem, 2vw, 1.85rem); font-weight: 800; color: var(--navy); line-height: 1.1; margin-bottom: 14px; }
+    .tl-lines { list-style: none; }
+    .tl-lines li { font-family: var(--font-body); font-size: 0.95rem; color: var(--text-mid); line-height: 1.5; padding: 12px 0; border-bottom: 1px solid var(--gray-mid); }
+    .tl-lines li:first-child { border-top: 1px solid var(--gray-mid); }
+    .tl-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .tl-tags span { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: #3f63d6; border: 1px solid #3f63d6; border-radius: 999px; padding: 6px 13px; }
+    .tl-photo { border-radius: 18px; overflow: hidden; box-shadow: 0 14px 32px rgba(0,0,0,0.14); }
+    .tl-photo img { display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 3/2; }
+
+    @media (max-width: 900px) {
+      .timeline2 { padding: 56px 18px 64px; }
+      .tl-brand { padding: 0; }
+      .tl-rail { display: none; }
+      .tl-content, .tl-photo { position: static !important; width: auto !important; top: auto !important; transform: none !important; opacity: 1 !important; margin: 0 0 26px; }
+      .tl-content { border-left: 4px solid var(--c, #45c3f2); padding-left: 20px; }
+    }
+
+    /* ── STATS / ALUMNI ── */
+    .stats-section { background: #222d5e; padding: 100px 48px 96px; }
+    .stats-inner { max-width: 1440px; margin: 0 auto; }
+    .stats-eyebrow {
+      display: inline-block; font-family: var(--font-mono);
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.35); border-radius: 999px;
+      padding: 8px 20px; margin-bottom: 30px;
+    }
+    .stats-section h2 {
+      font-family: var(--font-body);
+      font-size: clamp(2.2rem, 5vw, 3.9rem);
+      font-weight: 800; color: #fff; line-height: 1.0; letter-spacing: -0.02em;
+      margin-bottom: 52px;
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 56px;
+    }
+    .stat-item {
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 18px;
+      padding: 36px 34px 34px;
+    }
+    .stat-item .number {
+      font-family: var(--font-body);
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 800; color: #45c3f2; line-height: 1;
+      margin-bottom: 22px;
+    }
+    .stat-item .label {
+      font-family: var(--font-body);
+      font-size: 1.05rem; font-weight: 500; color: #fff; line-height: 1.3;
+    }
+    .stats-actions {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 20px;
+    }
+    .stats-link {
+      font-family: var(--font-body); font-weight: 700; font-size: 1.15rem;
+      color: #fff; text-decoration: none; border-bottom: 2px solid rgba(69,195,242,0.7);
+      padding-bottom: 4px;
+    }
+    .stats-link::after { content: ' \2197'; color: #45c3f2; }
+    .stats-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      border: 1.5px solid rgba(255,255,255,0.4); border-radius: 999px;
+      padding: 14px 28px; color: #fff; text-decoration: none;
+      font-family: var(--font-body); font-weight: 700; font-size: 1.05rem;
+      transition: background 0.2s;
+    }
+    .stats-cta::before { content: '\25B7'; color: #45c3f2; font-size: 1.1rem; }
+    .stats-cta:hover { background: rgba(255,255,255,0.08); }
+
+    /* ── READY SECTION (split card + steps) ── */
+    .ready-section {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      padding: 88px 48px;
+    }
+    .ready-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--ready-bg-img) center/cover no-repeat;
+      filter: blur(28px) brightness(0.9) saturate(1.05);
+      transform: scale(1.18);
+      z-index: -1;
+    }
+    .ready-grid {
+      position: relative;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.02fr;
+      gap: 40px;
+      align-items: stretch;
+    }
+    .ready-photo { position: relative; }
+    .ready-photo img {
+      width: 100%; height: 100%; min-height: 520px;
+      object-fit: cover; border-radius: 30px; display: block;
+    }
+    .ready-frame { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+    .ready-frame::before, .ready-frame::after {
+      content: ''; position: absolute; width: 130px; height: 150px;
+      border: 3px solid var(--pc-yellow);
+    }
+    .ready-frame::before { top: -12px; left: -14px; border-right: none; border-bottom: none; border-top-left-radius: 34px; }
+    .ready-frame::after { bottom: -12px; right: -14px; border-left: none; border-top: none; border-bottom-right-radius: 34px; }
+    .ready-card {
+      background: var(--white);
+      border-radius: 30px;
+      padding: 56px 56px 52px;
+      display: flex;
+      flex-direction: column;
+    }
+    .ready-card h2 {
+      font-family: var(--font-body);
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 800; color: var(--navy); line-height: 1.02; letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .ready-sub {
+      font-family: var(--font-body);
+      font-size: clamp(1.05rem, 1.4vw, 1.3rem); font-weight: 500;
+      color: var(--text-mid); line-height: 1.45; margin-bottom: 30px; max-width: 460px;
+    }
+    .ready-steps { list-style: none; }
+    .ready-step {
+      display: flex; align-items: center; gap: 20px;
+      padding: 20px 0; border-top: 1px solid var(--gray-mid);
+    }
+    .ready-step:last-child { border-bottom: 1px solid var(--gray-mid); }
+    .step-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      border: 1.5px dashed #c7ccd3;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .step-icon svg { width: 24px; height: 24px; stroke: #16283a; fill: none; stroke-width: 1.6; }
+    .ready-step p {
+      font-family: var(--font-body); font-size: 1.1rem; color: var(--text-mid); line-height: 1.35;
+    }
+    .ready-step p strong { color: var(--navy); font-weight: 700; }
+    .ready-apply {
+      align-self: flex-start; margin-top: 34px;
+      font-family: var(--font-mono);
+      background: #0c1420; color: #fff; border: none;
+      padding: 16px 42px; border-radius: 999px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+      text-decoration: none; cursor: pointer; transition: transform 0.2s, background 0.2s;
+    }
+    .ready-apply:hover { transform: translateY(-2px); background: #16283a; }
+    @media (max-width: 900px) {
+      .ready-grid { grid-template-columns: 1fr; }
+      .ready-photo img { min-height: 320px; }
+      .ready-card { padding: 40px 28px; }
+      .ready-frame::before, .ready-frame::after { width: 90px; height: 100px; }
+    }
+
+    /* ── FAQ ── */
+    .faq-section { background: #fff; padding: 96px 48px 110px; }
+    .faq-inner { max-width: 1400px; margin: 0 auto; }
+    .faq-eyebrow {
+      display: inline-block; font-family: var(--font-mono);
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--text-mid); border: 1px solid var(--gray-mid); border-radius: 999px;
+      padding: 8px 20px; margin-bottom: 28px;
+    }
+    .faq-section h2 {
+      font-family: var(--font-body);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800; color: var(--navy); letter-spacing: -0.02em; line-height: 1.0;
+      margin-bottom: 44px;
+    }
+    #faq-list { display: flex; flex-direction: column; gap: 20px; }
+    .faq-item { border: 1px solid var(--gray-mid); border-radius: 18px; padding: 28px 36px; }
+    .faq-q { display: flex; justify-content: space-between; align-items: center; gap: 24px; cursor: pointer; user-select: none; }
+    .faq-question { font-family: var(--font-body); font-weight: 700; color: var(--navy); font-size: clamp(1.2rem, 1.6vw, 1.5rem); line-height: 1.25; }
+    .faq-toggle { position: relative; width: 44px; height: 44px; border-radius: 50%; border: 1.5px dashed #c7ccd3; flex-shrink: 0; transition: transform 0.25s; }
+    .faq-toggle::before, .faq-toggle::after { content: ''; position: absolute; left: 50%; top: 50%; background: #16283a; }
+    .faq-toggle::before { width: 15px; height: 1.7px; transform: translate(-50%, -50%); }
+    .faq-toggle::after { width: 1.7px; height: 15px; transform: translate(-50%, -50%); }
+    .faq-item.open .faq-toggle { transform: rotate(45deg); }
+    .faq-answer { display: none; margin-top: 20px; max-width: 1150px; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-answer p { font-family: var(--font-body); color: var(--text-mid); font-size: 1.02rem; line-height: 1.6; margin-bottom: 14px; }
+    .faq-answer p:last-child { margin-bottom: 0; }
+    @media (max-width: 900px) {
+      .faq-item { padding: 22px 22px; }
+      .faq-question { font-size: 1.1rem; }
+    }
+
+    /* ── BOTTOM CTA (cyan + inline contact form) ── */
+    .bottom-cta {
+      background: #45c3f2;
+      padding: 110px 48px 120px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-inner { position: relative; z-index: 2; max-width: 1000px; margin: 0 auto; }
+    .bottom-cta h2 {
+      font-family: var(--font-body);
+      font-size: clamp(2rem, 4.4vw, 3.4rem);
+      font-weight: 800; color: #0c1420; line-height: 1.05; letter-spacing: -0.02em;
+      margin-top: 96px; margin-bottom: 34px;
+    }
+    .cta-apply {
+      display: inline-block; font-family: var(--font-mono);
+      background: #0c1420; color: #fff;
+      padding: 16px 40px; border-radius: 999px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+      text-decoration: none; transition: transform 0.2s;
+    }
+    .cta-apply:hover { transform: translateY(-2px); }
+    .cta-write {
+      font-family: var(--font-body);
+      font-size: clamp(1.05rem, 1.5vw, 1.35rem); font-weight: 700; color: #0c1420;
+      max-width: 620px; margin: 0 auto 30px; line-height: 1.35;
+    }
+    .cta-email {
+      font-family: var(--font-body); font-size: 1rem; font-weight: 500;
+      color: #0c1420; margin-top: 20px;
+    }
+    .cta-email a { color: #0c1420; text-decoration: none; font-weight: 700; }
+    .cta-email a:hover { text-decoration: underline; }
+    .contact-form { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .contact-fields { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; flex: 1 1 auto; max-width: 860px; }
+    .contact-fields input {
+      font-family: var(--font-body); font-size: 1rem;
+      flex: 1 1 200px; min-width: 0;
+      background: #fff; border: none; border-radius: 999px;
+      padding: 18px 26px; color: var(--text-dark);
+    }
+    .contact-fields input::placeholder { color: #8a9099; }
+    .contact-fields input:focus { outline: none; box-shadow: 0 0 0 3px rgba(12,20,32,0.18); }
+    .contact-submit {
+      flex-shrink: 0; width: 58px; height: 58px; border-radius: 50%;
+      background: #0c1420; color: #fff; border: none; cursor: pointer;
+      font-size: 1.4rem; line-height: 1; display: flex; align-items: center; justify-content: center;
+      transition: transform 0.2s;
+    }
+    .contact-submit:hover { transform: scale(1.06); }
+    .contact-submit:disabled { opacity: 0.55; cursor: default; }
+    .contact-status { flex-basis: 100%; margin-top: 14px; font-family: var(--font-body); font-size: 0.9rem; color: #0c1420; }
+    .contact-status.error { color: #7a1f1f; font-weight: 600; }
+    .contact-thanks { font-family: var(--font-body); font-size: 1.15rem; font-weight: 700; color: #0c1420; }
+    /* decorative squiggles */
+    .cta-squiggle { position: absolute; z-index: 1; pointer-events: none; }
+    .cta-squiggle svg { display: block; }
+    .cta-sq-tr { top: -10px; right: 0; }
+    .cta-sq-l { top: 44%; left: -20px; }
+    .cta-sq-b { bottom: -10px; left: 8%; }
+    @media (max-width: 700px) {
+      .bottom-cta { padding: 72px 20px 84px; }
+      .contact-fields input { flex-basis: 100%; }
+      .cta-squiggle { display: none; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #232e63;
+      padding: 0;
+      color: #fff;
+    }
+    .footer-banner-band { background: #ffffff; padding: 44px 48px; border-bottom: 1px solid #e6e6ec; }
+    .footer-main-wrap { max-width: 1500px; margin: 0 auto; padding: 48px 48px 64px; }
+    .footer-inner { max-width: 1500px; margin: 0 auto; }
+    .footer-banner {
+      max-width: 1500px; margin: 0 auto;
+      display: flex; align-items: center; gap: 48px; flex-wrap: wrap;
+    }
+    .funder-box {
+      background: #f1f1f4; border-radius: 22px;
+      padding: 36px 60px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; min-width: 300px;
+    }
+    .funder-box img { max-height: 90px; width: auto; display: block; }
+    .pears-mark { font-family: var(--font-body); line-height: 0.95; text-align: left; }
+    .pears-mark b { display: block; font-size: 2.6rem; font-weight: 800; color: #a4c93f; letter-spacing: -0.01em; }
+    .pears-mark span { display: block; font-size: 1.5rem; font-weight: 700; color: #283C70; letter-spacing: 0.02em; }
+    .funder-text {
+      font-family: var(--font-body); font-size: clamp(1.2rem, 2vw, 1.9rem);
+      font-weight: 500; color: #283C70; line-height: 1.25; flex: 1 1 400px;
+    }
+    .funder-text strong { font-weight: 800; }
+    .footer-main { display: grid; grid-template-columns: 1.4fr 2.2fr; gap: 48px; }
+    .footer-logo { height: 46px; width: auto; display: block; margin-bottom: 26px; }
+    .footer-tagline {
+      font-family: var(--font-body); font-size: 1.2rem; font-weight: 700;
+      color: #fff; line-height: 1.35; max-width: 420px; margin-bottom: 26px;
+    }
+    .footer-social { display: flex; gap: 22px; margin-bottom: 40px; }
+    .footer-social a { color: #fff; display: inline-flex; }
+    .footer-social svg { width: 22px; height: 22px; fill: currentColor; }
+    .footer-fine { font-family: var(--font-body); font-size: 0.92rem; color: rgba(255,255,255,0.8); line-height: 1.7; }
+    .footer-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .footer-group { margin-bottom: 40px; }
+    .footer-group h4 {
+      font-family: var(--font-body); color: var(--pc-yellow);
+      font-size: 1.15rem; font-weight: 700; margin-bottom: 20px;
+    }
+    .footer-group ul { list-style: none; }
+    .footer-group li { margin-bottom: 14px; }
+    .footer-group a, .footer-group span {
+      font-family: var(--font-body); font-size: 1rem; color: rgba(255,255,255,0.82);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-group a:hover { color: #fff; }
+    .footer-group .fl-bold { font-weight: 700; color: #fff; }
+    @media (max-width: 900px) {
+      .footer-banner-band { padding: 28px 20px; }
+      .footer-main-wrap { padding: 32px 20px 48px; }
+      .funder-box { padding: 24px 36px; min-width: 0; }
+      .footer-banner { gap: 24px; }
+      .footer-main { grid-template-columns: 1fr; gap: 36px; }
+      .footer-links { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── APPLICATION MODAL (Wix Forms) ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,22,40,0.72);
+      z-index: 1000;
+      padding: 32px 16px;
+      overflow-y: auto;
+    }
+    .modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+    .modal {
+      background: var(--white);
+      border-radius: 12px;
+      max-width: 640px;
+      width: 100%;
+      margin: auto;
+      padding: 36px 36px 32px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      line-height: 1;
+      color: var(--text-mid);
+      cursor: pointer;
+    }
+    .modal .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      margin-bottom: 8px;
+    }
+    .modal h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .modal .modal-sub {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      margin-bottom: 24px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-field { display: flex; flex-direction: column; gap: 6px; }
+    .form-field.full { grid-column: 1 / -1; }
+    .form-field label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .form-field label .req { color: #c0392b; }
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 10px 12px;
+      border: 1px solid var(--gray-mid);
+      border-radius: 6px;
+      color: var(--text-dark);
+      background: var(--white);
+      width: 100%;
+    }
+    .form-field textarea { resize: vertical; min-height: 96px; }
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      outline: none;
+      border-color: var(--blue-accent);
+      box-shadow: 0 0 0 3px rgba(30,111,168,0.12);
+    }
+    .form-field .field-error {
+      font-size: 0.72rem;
+      color: #c0392b;
+      min-height: 0;
+    }
+    .form-actions { grid-column: 1 / -1; margin-top: 8px; }
+    .form-actions button {
+      width: 100%;
+      background: var(--yellow);
+      color: var(--navy);
+      border: none;
+      padding: 13px 28px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .form-actions button:hover { opacity: 0.9; }
+    .form-actions button:disabled { opacity: 0.55; cursor: default; }
+    .form-status { grid-column: 1 / -1; font-size: 0.82rem; margin-top: 4px; }
+    .form-status.error { color: #c0392b; }
+    .modal-success { text-align: center; padding: 24px 8px; }
+    .modal-success .check {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--yellow); color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 800; margin: 0 auto 20px;
+    }
+    .modal-success h2 { margin-bottom: 10px; }
+    .modal-success p { font-size: 0.9rem; color: var(--text-mid); }
+    @media (max-width: 560px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .modal { padding: 28px 20px 24px; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .nav { padding: 18px 20px; }
+      .nav-links { display: none; }
+      .nav > .nav-cta { display: none; }
+      .nav-burger { display: flex; }
+      .hero { padding: 100px 18px 48px; min-height: 90vh; }
+      .hero-card { padding: 52px 24px 56px; border-radius: 28px; min-height: 0; }
+      .hero-card::before, .hero-card::after { width: 90px; height: 90px; }
+      .hero-eyebrow { letter-spacing: 0.35em; font-size: 0.8rem; }
+      .intro-split, .tech-section, .ready-section { grid-template-columns: 1fr; padding: 48px 20px; }
+      .intro-split h2 { grid-column: 1; }
+      .focus-areas, .stats-section, .timeline-section, .faq-section, .bottom-cta { padding: 60px 20px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; padding: 0 20px; }
+      .banner-yellow { padding: 12px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO + NAV -->
+  <header class="hero">
+    <nav class="nav">
+      <a class="brand" href="#">
+        <img class="brand-logo" data-cms-img="nav_logo" src="https://static.wixstatic.com/media/3efa7e_8f2eaad210244caaa1d1c00f1af60914~mv2.png" alt="Nura — Global Innovation Lab" />
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#focus">Pears Challenge</a></li>
+        <li><a href="#timeline">Market Entry</a></li>
+        <li><a href="#alumni">Global Partners</a></li>
+        <li><a href="#faq">Community</a></li>
+        <li><a href="#faq">Blog</a></li>
+        <li><a href="#apply">Contact</a></li>
+      </ul>
+      <a href="#apply" class="nav-cta" data-cms="nav_cta">Apply Now</a>
+      <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </nav>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <button class="mobile-close" id="mobile-close" aria-label="Close menu">&times;</button>
+      <ul class="mobile-nav-links" id="mobile-nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#focus">Pears Challenge</a></li>
+        <li><a href="#timeline">Market Entry</a></li>
+        <li><a href="#alumni">Global Partners</a></li>
+        <li><a href="#faq">Community</a></li>
+        <li><a href="#faq">Blog</a></li>
+        <li><a href="#apply">Contact</a></li>
+      </ul>
+      <a href="#apply" class="mobile-apply" data-cms="nav_cta">Apply Now</a>
+    </div>
+
+    <div class="hero-card">
+      <p class="hero-eyebrow" data-cms="hero_eyebrow">Pears Challenge 2026</p>
+      <h1 class="hero-title"><span class="accent" data-cms="hero_title_accent">Food-Tech for Resilience</span><br><span data-cms="hero_title_rest">In East Africa</span></h1>
+      <p class="hero-sub" data-cms="hero_sub">A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets</p>
+      <a href="#apply" class="hero-cta" data-cms="hero_cta">Apply Now</a>
+    </div>
+  </header>
+
+  <!-- PARTNERS / BACKERS STRIP -->
+  <div class="partners" id="partners">
+    <span class="partner">TradeIL<small>Israel Trade &amp; Invest</small></span>
+    <span class="partner">2B.Friendly</span>
+    <span class="partner">Herzog<small>Fox &amp; Neeman</small></span>
+    <span class="partner">British Embassy<small>Israel</small></span>
+    <span class="partner">Embassy of Israel<small>in Kenya</small></span>
+    <span class="partner">Kenya Climate Ventures<small>KCV</small></span>
+    <span class="partner">Pears Foundation</span>
+    <span class="partner">Quercus Group</span>
+  </div>
+
+  <!-- WHO WE'RE LOOKING FOR -->
+  <section class="who-section" id="about">
+    <span class="who-eyebrow" data-cms="who_eyebrow">Who we're looking for</span>
+    <h2 data-cms="who_title">Seeking visionary impact-tech founders</h2>
+    <p class="who-sub" data-cms="who_sub">You belong to the Pears Challenge if you:</p>
+    <div class="who-cards" id="who-cards">
+      <div class="who-card">
+        <span class="num">01</span>
+        <h3>Have Entrepreneurial Drive</h3>
+        <p>You come with an existing venture idea, ranging from concept to early product, and the entrepreneurial grit to turn it into reality.</p>
+      </div>
+      <div class="who-card">
+        <span class="num">02</span>
+        <h3>Bring Your Leadership and Expertise</h3>
+        <p>Your professional background speaks for itself. Whether your experience lies in tech, engineering or business, you possess more than just technical skill — you bring the strategic vision and leadership required to navigate complex ecosystems, manage teams and solve real-world problems.</p>
+      </div>
+      <div class="who-card">
+        <span class="num">03</span>
+        <h3>Are Ready to Immerse</h3>
+        <p>You are open-minded and eager to dive deep into the East African context, ready to validate your idea and adapt it for emerging markets.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE CHALLENGE -->
+  <section class="challenge">
+    <div class="challenge-card">
+      <div class="challenge-content">
+        <span class="challenge-eyebrow" data-cms="challenge_eyebrow">The Challenge</span>
+        <h2 data-cms="challenge_title">The Next Israeli Frontier: Driving Resilience in East Africa</h2>
+        <p data-cms="challenge_intro">East Africa faces urgent climate and economic shifts that create a unique opportunity for Israeli tech entrepreneurs to solve and scale.</p>
+        <button type="button" class="challenge-readmore" id="challenge-open" data-cms="challenge_readmore">Read More</button>
+      </div>
+      <div class="challenge-image">
+        <img data-cms-img="challenge_image" src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=1000&q=80" alt="East African market" />
+      </div>
+    </div>
+  </section>
+
+  <!-- THE CHALLENGE — read-more modal -->
+  <div class="challenge-modal-overlay" id="challenge-modal" role="dialog" aria-modal="true" aria-label="The Challenge">
+    <div class="challenge-modal">
+      <button type="button" class="challenge-modal-close" id="challenge-close" aria-label="Close">&times;</button>
+      <div class="challenge-modal-cols">
+        <div class="col" id="challenge-col1">
+          <p>East Africa is one of the world's fastest-growing regions, expanding at 5–6% GDP growth per year. It is a market of extraordinary momentum, and one still shaped by challenges deep enough to build ventures around.</p>
+          <p>Those resilience challenges are real, and they are compounding. Since the 1970s, severe droughts across the region have tripled and extreme floods have risen more than tenfold, locking agriculture — which employs over 60% of East Africa's workforce — into a cycle of deepening climate volatility. Up to 40–50% of fruits and vegetables spoil before they reach consumers, driven by gaps in storage, cold chains, and rural infrastructure.</p>
+          <p>The infrastructure gaps run deeper still. Across Kenya, Uganda, and Tanzania alone, more than 82 million people live without reliable electricity and over 60 million without access to clean drinking water — most of them smallholder farmers already on the front line of every climate shock. Large-scale infrastructure building is slow and costly, leaving the communities that need it most without a foundation to grow on.</p>
+          <p>Capital is scarce where it counts too: close to 70% of MSMEs across the three countries cannot access the formal financing they need — a shortfall of roughly $35 billion across Kenya, Uganda and Tanzania. Without capital to invest, absorb shocks, or scale, even strong businesses stay fragile.</p>
+        </div>
+        <div class="col col-tight" id="challenge-col2">
+          <p>Read another way, every one of these numbers is a market opportunity. And East Africa's response is already underway. Kenya and its neighbors have become one of the continent's true innovation frontiers. Nairobi ranks as Africa's third-largest startup ecosystem, behind only Lagos and Cairo, drawing nearly $1 billion in venture funding in 2025, with clean energy, e-mobility, agri-tech, and water-tech leading the flow. The region adopts technology fast, its population is young and entrepreneurial, and its doors are open to Israeli innovation.</p>
+          <p class="gap">For an Israeli entrepreneur, this is rare terrain. The problems are urgent and worth solving. The environment is tech-friendly and fast-moving. And the partnerships run on trust and shared interest — an edge few others can claim.</p>
+          <p class="gap">East Africa is not just a growing market. It is a place where the right venture, built alongside local partners and aimed at real needs, can create lasting resilience for the people it serves, and a durable business for the people who build it.</p>
+          <p>This is your chance to build something that lasts, where it matters most.</p>
+          <p class="gap">The 2026 Pears Challenge is where you build it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOCUS AREAS -->
+  <section class="focus-areas" id="focus">
+    <span class="focus-eyebrow" data-cms="focus_eyebrow">The challenges we are looking at</span>
+    <h2 data-cms="focus_title">The Pears Challenge focus areas</h2>
+    <p class="subtitle" data-cms="focus_sub">We are seeking startups and venture ideas that tackle specific, real-world challenges in one of these focus areas:</p>
+    <div class="focus-cards" id="focus-cards">
+      <div class="focus-card" style="--accent:#3fe3a3">
+        <span class="fc-frame"></span>
+        <h3>Resilient <span class="accent">food systems &amp; climate adaptation</span></h3>
+        <p class="goal"><strong>Goal:</strong> Empowering farming communities, strengthening domestic food production and export capabilities, and improving supply chains from production to markets, while strengthening systems to withstand climate change shocks and supporting environmental and regenerative agriculture practices.</p>
+        <div class="fc-tags"><span>Agri-Tech</span><span>Food-Tech</span><span>Climate-Tech</span><span>Aquacul-Tech</span></div>
+      </div>
+      <div class="focus-card" style="--accent:#45c3f2">
+        <span class="fc-frame"></span>
+        <h3>Resilient <span class="accent">infrastructure &amp; supply chains</span></h3>
+        <p class="goal"><strong>Goal:</strong> Ensuring quality and uninterrupted access to clean water, safely managed sanitation, reliable energy, transportation, and essential services for both rapidly growing urban centers and rural communities.</p>
+        <div class="fc-tags"><span>WaterTech</span><span>EnergyTech</span><span>LogiTech</span><span>InfraTech &amp; Smart Cities</span></div>
+      </div>
+      <div class="focus-card" style="--accent:#ecec78">
+        <span class="fc-frame"></span>
+        <h3>Resilient <span class="accent">finance &amp; business continuity</span></h3>
+        <p class="goal"><strong>Goal:</strong> Improving economic stability and household incomes of small and medium farmers, market traders, and local MSMEs against climate and economic shocks.</p>
+        <div class="fc-tags"><span>FinTech</span><span>InsurTech</span><span>Applied AI</span><span>Web3</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="timeline2" id="timeline">
+    <div class="tl-bg" aria-hidden="true">
+      <div class="tl-underlay"></div>
+      <div class="tl-media" id="tl-media"></div>
+    </div>
+    <div class="tl-inner">
+      <div class="tl-head">
+        <span class="tl-eyebrow" data-cms="tl_eyebrow">About the program</span>
+        <h2 data-cms="tl_title">Timeline</h2>
+        <p class="tl-sub" data-cms="tl_sub">The Pears Challenge 2026 Journey</p>
+        <p class="tl-range" data-cms="tl_range">Dec 2026 – Feb 2027</p>
+      </div>
+
+      <div class="tl-brand" id="tl-brand">
+        <div class="tl-rail" id="tl-rail">
+          <svg viewBox="0 0 547 2525" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path class="tl-stroke" d="M289 203V204.415C289 243.074 257.66 274.415 219 274.415H89C50.3401 274.415 19 305.755 19 344.415V357.232C19 395.892 50.3401 427.232 89 427.232H219C257.66 427.232 289 458.572 289 497.232V524.116V621" stroke="#5CDCFF" stroke-width="8"/>
+            <path class="tl-stroke" d="M290.001 1906V1917.22C290.001 1955.88 321.341 1987.22 360.001 1987.22H453.583C492.243 1987.22 523.583 2018.56 523.583 2057.22V2174.07C523.583 2209.1 495.185 2237.5 460.154 2237.5H360.001C321.341 2237.5 290.001 2268.84 290.001 2307.5V2324.25V2411" stroke="#31FFB1" stroke-width="8"/>
+            <path class="tl-stroke" d="M290 2417.52V2330.77" stroke="#5CDCFF" stroke-width="8"/>
+            <path class="tl-stroke" d="M289 731V772C289 786.074 300.409 797.484 314.483 797.484C328.557 797.484 339.966 808.893 339.966 822.967V876.456C339.966 915.116 371.306 946.457 409.966 946.457H499.523C523.535 946.457 543 965.922 543 989.933C543 1014.15 523.222 1033.69 499.012 1033.41L377.948 1031.98L364.494 1031.68C325.218 1030.78 292.896 1062.37 292.896 1101.66V1112.02V1194" stroke="#4B80E0" stroke-width="8"/>
+            <line class="tl-stroke" x1="294" y1="-1.74846e-07" x2="294" y2="95" stroke="#5CDCFF" stroke-width="8"/>
+            <rect data-node="1" x="237" y="95" width="112" height="112" rx="56" fill="#5CDCFF"/>
+            <path d="M284.439 156V151.648H291.375V140.156H285.459V136.144H288.111C290.831 136.144 291.987 134.988 291.987 131.86H296.203V151.648H301.575V156H284.439Z" fill="#283C70"/>
+            <path d="M276.536 173.192C274.652 173.192 273.5 172.028 273.356 170.168L274.868 170.084C275.024 171.248 275.636 171.848 276.608 171.848C277.508 171.848 278.036 171.476 278.036 170.792C278.036 170.084 277.628 169.676 276.032 169.232C274.304 168.776 273.536 168.188 273.536 166.82C273.536 165.296 274.616 164.288 276.44 164.288C278.24 164.288 279.272 165.368 279.428 167.096L277.904 167.168C277.784 166.232 277.28 165.632 276.38 165.632C275.576 165.632 275.048 166.076 275.048 166.736C275.048 167.42 275.456 167.708 276.884 168.08C278.864 168.608 279.548 169.388 279.548 170.756C279.548 172.232 278.384 173.192 276.536 173.192ZM283.983 173V165.848H281.607V164.48H287.847V165.848H285.471V173H283.983ZM289.654 173L292.078 164.48H293.926L296.35 173H294.826L294.286 170.984H291.718L291.178 173H289.654ZM293.002 166.16L292.066 169.652H293.938L293.002 166.16ZM301.278 173.192C299.394 173.192 298.086 171.608 298.086 168.752C298.086 166.004 299.286 164.288 301.314 164.288C302.958 164.288 304.014 165.38 304.386 167.192L302.85 167.288C302.646 166.256 302.13 165.644 301.326 165.644C300.234 165.644 299.622 166.76 299.622 168.752C299.622 170.732 300.27 171.836 301.41 171.836C302.37 171.836 302.958 171.056 303.006 169.82H301.302V168.608H304.374V173H303.294L303.258 171.992C302.886 172.7 302.238 173.192 301.278 173.192ZM306.985 173V164.48H312.265V165.848H308.473V168.068H312.121V169.388H308.473V171.632H312.361V173H306.985Z" fill="#283C70"/>
+            <rect data-node="3" x="237" y="1197" width="112" height="112" rx="56" fill="#FFE53C"/>
+            <path d="M292.837 1258.54C287.295 1258.54 284.541 1255.72 284.303 1251.34L289.199 1251.1C289.403 1253.44 290.967 1254.26 292.939 1254.26C295.081 1254.26 296.747 1253.24 296.747 1250.86C296.747 1248.55 295.217 1247.32 292.701 1247.32H290.899V1243.48H292.701C294.605 1243.48 295.999 1242.63 295.999 1240.56C295.999 1238.55 294.809 1237.57 292.905 1237.57C290.797 1237.57 289.777 1238.62 289.573 1240.29L284.677 1240.05C285.153 1235.93 287.975 1233.32 292.939 1233.32C297.903 1233.32 300.963 1235.76 300.963 1239.91C300.963 1242.53 299.603 1244.26 297.053 1245.08C300.011 1245.93 301.711 1248.14 301.711 1251.2C301.711 1255.76 298.277 1258.54 292.837 1258.54Z" fill="#283C70"/>
+            <path d="M276.536 1275.19C274.652 1275.19 273.5 1274.03 273.356 1272.17L274.868 1272.08C275.024 1273.25 275.636 1273.85 276.608 1273.85C277.508 1273.85 278.036 1273.48 278.036 1272.79C278.036 1272.08 277.628 1271.68 276.032 1271.23C274.304 1270.78 273.536 1270.19 273.536 1268.82C273.536 1267.3 274.616 1266.29 276.44 1266.29C278.24 1266.29 279.272 1267.37 279.428 1269.1L277.904 1269.17C277.784 1268.23 277.28 1267.63 276.38 1267.63C275.576 1267.63 275.048 1268.08 275.048 1268.74C275.048 1269.42 275.456 1269.71 276.884 1270.08C278.864 1270.61 279.548 1271.39 279.548 1272.76C279.548 1274.23 278.384 1275.19 276.536 1275.19ZM283.983 1275V1267.85H281.607V1266.48H287.847V1267.85H285.471V1275H283.983ZM289.654 1275L292.078 1266.48H293.926L296.35 1275H294.826L294.286 1272.98H291.718L291.178 1275H289.654ZM293.002 1268.16L292.066 1271.65H293.938L293.002 1268.16ZM301.278 1275.19C299.394 1275.19 298.086 1273.61 298.086 1270.75C298.086 1268 299.286 1266.29 301.314 1266.29C302.958 1266.29 304.014 1267.38 304.386 1269.19L302.85 1269.29C302.646 1268.26 302.13 1267.64 301.326 1267.64C300.234 1267.64 299.622 1268.76 299.622 1270.75C299.622 1272.73 300.27 1273.84 301.41 1273.84C302.37 1273.84 302.958 1273.06 303.006 1271.82H301.302V1270.61H304.374V1275H303.294L303.258 1273.99C302.886 1274.7 302.238 1275.19 301.278 1275.19ZM306.985 1275V1266.48H312.265V1267.85H308.473V1270.07H312.121V1271.39H308.473V1273.63H312.361V1275H306.985Z" fill="#283C70"/>
+            <rect data-node="5" x="238.358" y="2409.67" width="112" height="112" rx="56" transform="rotate(1.37332 238.358 2409.67)" fill="#5CDCFF"/>
+            <path d="M292.84 2472.54C287.741 2472.42 284.721 2469.32 284.476 2465.33L289.445 2465.18C289.704 2467.16 290.869 2468.21 292.943 2468.26C295.186 2468.31 296.614 2466.92 296.68 2464.16C296.744 2461.48 295.354 2459.88 293.179 2459.83C291.683 2459.79 290.404 2460.65 289.899 2461.86L284.908 2461.5L286.668 2447.7L300.909 2448.04L300.805 2452.39L290.54 2452.15L289.804 2457.33C290.948 2456.41 292.457 2455.9 294.088 2455.94C298.881 2456.06 301.755 2459.59 301.642 2464.32C301.522 2469.31 298.041 2472.67 292.84 2472.54Z" fill="#283C70"/>
+            <path d="M276.009 2488.79C274.125 2488.75 273.002 2487.55 272.902 2485.69L274.416 2485.64C274.544 2486.81 275.141 2487.43 276.113 2487.45C277.013 2487.47 277.549 2487.11 277.566 2486.43C277.583 2485.72 277.185 2485.3 275.6 2484.82C273.883 2484.32 273.13 2483.72 273.162 2482.35C273.199 2480.82 274.303 2479.84 276.126 2479.89C277.926 2479.93 278.932 2481.03 279.046 2482.77L277.521 2482.8C277.423 2481.86 276.934 2481.25 276.034 2481.23C275.23 2481.21 274.692 2481.64 274.676 2482.3C274.66 2482.98 275.061 2483.28 276.479 2483.69C278.446 2484.26 279.111 2485.06 279.078 2486.43C279.043 2487.9 277.856 2488.83 276.009 2488.79ZM283.459 2488.78L283.63 2481.63L281.255 2481.57L281.287 2480.2L287.526 2480.35L287.493 2481.72L285.118 2481.66L284.946 2488.81L283.459 2488.78ZM289.128 2488.91L291.756 2480.45L293.603 2480.5L295.822 2489.07L294.299 2489.04L293.807 2487.01L291.24 2486.95L290.652 2488.95L289.128 2488.91ZM292.639 2482.15L291.62 2485.62L293.491 2485.67L292.639 2482.15ZM300.744 2489.38C298.86 2489.34 297.59 2487.72 297.659 2484.87C297.725 2482.12 298.966 2480.43 300.993 2480.48C302.637 2480.52 303.666 2481.64 303.995 2483.46L302.457 2483.52C302.277 2482.48 301.776 2481.86 300.972 2481.84C299.881 2481.81 299.242 2482.91 299.194 2484.9C299.147 2486.88 299.768 2488 300.908 2488.03C301.868 2488.05 302.474 2487.29 302.552 2486.05L300.848 2486.01L300.877 2484.8L303.949 2484.87L303.843 2489.27L302.764 2489.24L302.752 2488.23C302.363 2488.93 301.703 2489.41 300.744 2489.38ZM306.454 2489.33L306.658 2480.81L311.937 2480.94L311.904 2482.3L308.113 2482.21L308.06 2484.43L311.707 2484.52L311.675 2485.84L308.028 2485.75L307.974 2488L311.861 2488.09L311.828 2489.46L306.454 2489.33Z" fill="#283C70"/>
+            <rect data-node="2" x="234" y="620" width="112" height="112" rx="56" fill="#4B80E0"/>
+            <path d="M281.303 681C281.303 675.118 283.275 671.684 290.007 668.216C292.489 666.924 293.713 665.972 293.713 663.762C293.713 661.824 292.591 660.6 290.449 660.6C288.001 660.6 286.811 662.028 286.403 664.612L281.405 664.306C281.881 659.376 284.975 656.316 290.517 656.316C295.923 656.316 298.711 659.206 298.711 663.49C298.711 667.366 297.045 669.27 292.285 671.854C288.375 673.962 286.981 675.424 286.845 676.648H298.711V681H281.303Z" fill="white"/>
+            <path d="M273.536 698.192C271.652 698.192 270.5 697.028 270.356 695.168L271.868 695.084C272.024 696.248 272.636 696.848 273.608 696.848C274.508 696.848 275.036 696.476 275.036 695.792C275.036 695.084 274.628 694.676 273.032 694.232C271.304 693.776 270.536 693.188 270.536 691.82C270.536 690.296 271.616 689.288 273.44 689.288C275.24 689.288 276.272 690.368 276.428 692.096L274.904 692.168C274.784 691.232 274.28 690.632 273.38 690.632C272.576 690.632 272.048 691.076 272.048 691.736C272.048 692.42 272.456 692.708 273.884 693.08C275.864 693.608 276.548 694.388 276.548 695.756C276.548 697.232 275.384 698.192 273.536 698.192ZM280.983 698V690.848H278.607V689.48H284.847V690.848H282.471V698H280.983ZM286.654 698L289.078 689.48H290.926L293.35 698H291.826L291.286 695.984H288.718L288.178 698H286.654ZM290.002 691.16L289.066 694.652H290.938L290.002 691.16ZM298.278 698.192C296.394 698.192 295.086 696.608 295.086 693.752C295.086 691.004 296.286 689.288 298.314 689.288C299.958 689.288 301.014 690.38 301.386 692.192L299.85 692.288C299.646 691.256 299.13 690.644 298.326 690.644C297.234 690.644 296.622 691.76 296.622 693.752C296.622 695.732 297.27 696.836 298.41 696.836C299.37 696.836 299.958 696.056 300.006 694.82H298.302V693.608H301.374V698H300.294L300.258 696.992C299.886 697.7 299.238 698.192 298.278 698.192ZM303.985 698V689.48H309.265V690.848H305.473V693.068H309.121V694.388H305.473V696.632H309.361V698H303.985Z" fill="white"/>
+            <rect data-node="4" x="234" y="1794" width="112" height="112" rx="56" fill="#31FFB1"/>
+            <path d="M291.537 1855V1850.17H280.759V1846.19L290.891 1830.86H296.399V1845.96H299.255V1850.17H296.399V1855H291.537ZM285.315 1845.96H291.537V1836.95L285.315 1845.96Z" fill="#283C70"/>
+            <path d="M273.536 1872.19C271.652 1872.19 270.5 1871.03 270.356 1869.17L271.868 1869.08C272.024 1870.25 272.636 1870.85 273.608 1870.85C274.508 1870.85 275.036 1870.48 275.036 1869.79C275.036 1869.08 274.628 1868.68 273.032 1868.23C271.304 1867.78 270.536 1867.19 270.536 1865.82C270.536 1864.3 271.616 1863.29 273.44 1863.29C275.24 1863.29 276.272 1864.37 276.428 1866.1L274.904 1866.17C274.784 1865.23 274.28 1864.63 273.38 1864.63C272.576 1864.63 272.048 1865.08 272.048 1865.74C272.048 1866.42 272.456 1866.71 273.884 1867.08C275.864 1867.61 276.548 1868.39 276.548 1869.76C276.548 1871.23 275.384 1872.19 273.536 1872.19ZM280.983 1872V1864.85H278.607V1863.48H284.847V1864.85H282.471V1872H280.983ZM286.654 1872L289.078 1863.48H290.926L293.35 1872H291.826L291.286 1869.98H288.718L288.178 1872H286.654ZM290.002 1865.16L289.066 1868.65H290.938L290.002 1865.16ZM298.278 1872.19C296.394 1872.19 295.086 1870.61 295.086 1867.75C295.086 1865 296.286 1863.29 298.314 1863.29C299.958 1863.29 301.014 1864.38 301.386 1866.19L299.85 1866.29C299.646 1865.26 299.13 1864.64 298.326 1864.64C297.234 1864.64 296.622 1865.76 296.622 1867.75C296.622 1869.73 297.27 1870.84 298.41 1870.84C299.37 1870.84 299.958 1870.06 300.006 1868.82H298.302V1867.61H301.374V1872H300.294L300.258 1870.99C299.886 1871.7 299.238 1872.19 298.278 1872.19ZM303.985 1872V1863.48H309.265V1864.85H305.473V1867.07H309.121V1868.39H305.473V1870.63H309.361V1872H303.985Z" fill="#283C70"/>
+            <path class="tl-stroke" d="M296 1303L296 1466.56C296 1505.22 264.66 1536.56 226 1536.56L47.2524 1536.56C23.3648 1536.56 3.99999 1555.92 3.99999 1579.81C3.99999 1603.7 23.3648 1623.06 47.2524 1623.06L83.3607 1623.06C98.3613 1623.06 110.522 1635.22 110.522 1650.22C110.522 1665.22 122.682 1677.38 137.683 1677.38L161.789 1677.38L219.18 1677.38C257.84 1677.38 289.18 1708.72 289.18 1747.38L289.18 1790" stroke="#FFE53C" stroke-width="8"/>
+            <path class="tl-stroke" d="M155 1677L219 1677C257.66 1677 289 1708.34 289 1747L289 1801" stroke="#31FFB1" stroke-width="8"/>
+          </svg>
+        </div>
+
+        <div class="tl-content" data-reveal data-tl="1" data-side="right" style="--c:#5CDCFF">
+          <p class="tl-date">Sept – Oct 2026</p>
+          <h3>Selection</h3>
+          <ul class="tl-lines">
+            <li>Submit your exceptional early-stage venture idea</li>
+            <li>Advance through the Pears Challenge Selection Process</li>
+            <li>Join the most promising ventures and secure your enrollment in the bootcamp phase</li>
+          </ul>
+        </div>
+
+        <div class="tl-content" data-reveal data-tl="2" data-side="left" style="--c:#4B80E0">
+          <p class="tl-date">Nov – Dec 2026</p>
+          <h3>Bootcamp</h3>
+          <ul class="tl-lines">
+            <li>Learn the East African market from market leaders and experts</li>
+            <li>Understand the real needs on the ground</li>
+            <li>Adjust your venture idea to the local context</li>
+          </ul>
+          <div class="tl-tags"><span>5 Weeks</span><span>2 Full Days/Wk</span><span>Tel Aviv Israel</span></div>
+        </div>
+        <div class="tl-photo" data-reveal data-tl-photo="2" data-side="right">
+          <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=800&q=80" alt="Bootcamp collaboration" />
+        </div>
+
+        <div class="tl-content" data-reveal data-tl="3" data-side="right" style="--c:#FFE53C">
+          <p class="tl-date">Dec 2026 – Feb 2027</p>
+          <h3>Field Prep &amp; Remote Validation</h3>
+          <ul class="tl-lines">
+            <li>Map and develop strategic partnerships with leading East African companies, investors, and ecosystem players.</li>
+            <li>Refine the venture's business model based on real-world market analysis.</li>
+            <li>Prepare for on-the-ground market validation and field visit.</li>
+          </ul>
+          <div class="tl-tags"><span>10 Weeks</span><span>Hybrid Format</span><span>Tel Aviv Israel &amp; Remote</span></div>
+        </div>
+        <div class="tl-photo" data-reveal data-tl-photo="3" data-side="left">
+          <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800&q=80" alt="Pears Challenge cohort" />
+        </div>
+
+        <div class="tl-content" data-reveal data-tl="4" data-side="left" style="--c:#31FFB1">
+          <p class="tl-date">Feb – March 2027</p>
+          <h3>Field Validation Trip</h3>
+          <ul class="tl-lines">
+            <li>Gain direct field access to local markets, target users, and distribution channels in East Africa.</li>
+            <li>Validate the market need and refine your product features based on live, on-ground feedback.</li>
+            <li>Pitch and connect with pan-African investors and partners at the Sankalp Africa Summit.</li>
+          </ul>
+          <div class="tl-tags"><span>2 Weeks</span><span>Kenya or East Africa</span></div>
+        </div>
+        <div class="tl-photo" data-reveal data-tl-photo="4" data-side="right">
+          <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80" alt="Field validation visit" />
+        </div>
+
+        <div class="tl-content" data-reveal data-tl="5" data-side="right" style="--c:#5CDCFF">
+          <p class="tl-date">Apr 2027 – Apr 2028</p>
+          <h3>Navigation</h3>
+          <ul class="tl-lines">
+            <li>Access a 25K NIS mini-grant to scale and strategically advance your venture.</li>
+            <li>Benefit from continuous, specialized mentorship.</li>
+            <li>Receive active guidance, warm introductions, and strategic support through fundraising and capital-raising processes.</li>
+            <li>Join Nura's active global alumni community.</li>
+          </ul>
+          <div class="tl-tags"><span>1 Year</span><span>Remote</span></div>
+        </div>
+        <div class="tl-photo" data-reveal data-tl-photo="5" data-side="left">
+          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80" alt="Demo day presentation" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS / ALUMNI -->
+  <section class="stats-section" id="alumni">
+    <div class="stats-inner">
+      <span class="stats-eyebrow" data-cms="stats_eyebrow">Our alumni in numbers</span>
+      <h2 data-cms="stats_title">Pears Challenge Alumni</h2>
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-item"><div class="number">7</div><div class="label">Cohorts completed</div></div>
+        <div class="stat-item"><div class="number">20+</div><div class="label">Companies created</div></div>
+        <div class="stat-item"><div class="number">$27M</div><div class="label">Funding raised</div></div>
+        <div class="stat-item"><div class="number">30</div><div class="label">Countries reached</div></div>
+      </div>
+      <div class="stats-actions">
+        <a href="#" class="stats-link" data-cms="stats_link1_label" data-cms-href="stats_link1_url">Meet the Alumni</a>
+        <a href="#" class="stats-cta" data-cms="stats_cta_label" data-cms-href="stats_cta_url">See our 2025 Cohort in the field</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- READY -->
+  <section class="ready-section">
+    <div class="ready-grid">
+      <div class="ready-photo">
+        <span class="ready-frame"></span>
+        <img data-cms-img="ready_image" src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=1000&q=80" alt="East African market" />
+      </div>
+      <div class="ready-card">
+        <h2 data-cms="ready_title">Ready for the journey?</h2>
+        <p class="ready-sub" data-cms="ready_sub">Solve the most urgent environmental and economic challenges in East Africa.</p>
+        <ul class="ready-steps" id="checklist">
+          <li class="ready-step"><span class="step-icon"></span><p><strong>Discover</strong> the East African markets</p></li>
+          <li class="ready-step"><span class="step-icon"></span><p><strong>Build</strong> a viable solution</p></li>
+          <li class="ready-step"><span class="step-icon"></span><p><strong>Validate</strong> on ground in Kenya, Tanzania or Uganda</p></li>
+          <li class="ready-step"><span class="step-icon"></span><p><strong>Partner</strong> with the leading ecosystem players</p></li>
+          <li class="ready-step"><span class="step-icon"></span><p><strong>Fundraise</strong> and scale your venture in East Africa</p></li>
+        </ul>
+        <a href="#apply" class="ready-apply" data-cms="ready_cta">Apply Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section" id="faq">
+    <div class="faq-inner">
+      <span class="faq-eyebrow" data-cms="faq_eyebrow">Who we’re looking for</span>
+      <h2 data-cms="faq_title">Frequently Asked Questions</h2>
+
+      <div id="faq-list">
+        <div class="faq-item open">
+          <div class="faq-q"><span class="faq-question">Who is the program for?</span><span class="faq-toggle" aria-hidden="true"></span></div>
+          <div class="faq-answer"><p>The program is for early-stage ventures and startup ideas looking to validate their concept in East Africa. Ideal applicants have an existing venture idea ranging from theoretical concept to early-product that targets emerging markets and has a strong impact mission. We look for open-minded, impact-oriented, and experienced professionals/teams who are ready to validate their idea and take it to the next level.</p><p>We seek out equal gender representation and diversity in our cohorts and encourage applications from people of all ages, ethnicities, and religious backgrounds.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-question">When does the program run?</span><span class="faq-toggle" aria-hidden="true"></span></div>
+          <div class="faq-answer"><p>The 2026 cohort runs from the selection phase in September–October 2026 through bootcamp, remote validation, and an on-the-ground field validation trip in early 2027, followed by a navigation and scale phase.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-question">Are you ready to immerse?</span><span class="faq-toggle" aria-hidden="true"></span></div>
+          <div class="faq-answer"><p>We look for founders who are open-minded and eager to dive deep into the East African context — ready to spend time on the ground, listen to local partners and users, and adapt their idea for emerging markets.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-question">Is there a program fee associated with Pears Challenge?</span><span class="faq-toggle" aria-hidden="true"></span></div>
+          <div class="faq-answer"><p>No. There is no fee to participate in the Pears Challenge. The program is fully funded, and selected ventures also access a mini-grant to help them scale.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-question">Can I still work while participating in Pears Challenge: Validate?</span><span class="faq-toggle" aria-hidden="true"></span></div>
+          <div class="faq-answer"><p>Yes. The program is designed to run alongside your existing commitments, with a hybrid format and roughly part-time weekly involvement — though the in-person bootcamp and field validation trip require dedicated time.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-question">Does the Pears Challenge take any equity in my venture?</span><span class="faq-toggle" aria-hidden="true"></span></div>
+          <div class="faq-answer"><p>No. The Pears Challenge is equity-free. We take no ownership in participating ventures — all mentorship, funding, and support is non-dilutive.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-question">If I already have a venture idea or a working product, is the program right for me?</span><span class="faq-toggle" aria-hidden="true"></span></div>
+          <div class="faq-answer"><p>Yes. We welcome ventures from early concept through to an early product with initial traction. Whether you are validating a new idea or refining an existing product for East African markets, the program meets you where you are.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section class="bottom-cta" id="apply">
+    <div class="cta-squiggle cta-sq-tr" aria-hidden="true">
+      <svg width="260" height="230" viewBox="0 0 260 230" fill="none">
+        <path d="M250 0 V70 Q250 100 220 100 H150 Q120 100 120 130 V230" stroke="#fdff9e" stroke-width="10" stroke-linecap="round"/>
+        <path d="M120 150 V230" stroke="#232e63" stroke-width="10" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="cta-squiggle cta-sq-l" aria-hidden="true">
+      <svg width="150" height="320" viewBox="0 0 150 320" fill="none">
+        <path d="M10 0 V120 Q10 150 40 150 H90 Q120 150 120 180 V320" stroke="#3fe3a3" stroke-width="10" stroke-linecap="round"/>
+        <path d="M120 210 V320" stroke="#fdff9e" stroke-width="10" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="cta-squiggle cta-sq-b" aria-hidden="true">
+      <svg width="320" height="150" viewBox="0 0 320 150" fill="none">
+        <path d="M0 40 H120 Q150 40 150 70 V120 Q150 150 180 150 H320" stroke="#fdff9e" stroke-width="10" stroke-linecap="round"/>
+        <path d="M210 150 H320" stroke="#232e63" stroke-width="10" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="cta-inner">
+      <p class="cta-write" data-cms="cta_write">Do you have any questions before embarking on your impact journey? Write to us</p>
+      <form id="contact-form" class="contact-form" novalidate>
+        <div class="contact-fields" id="contact-fields">
+          <input name="full_name" type="text" placeholder="Full Name*" required />
+          <input name="email" type="email" placeholder="Email*" required />
+          <input name="question" type="text" placeholder="Question" />
+        </div>
+        <button type="submit" class="contact-submit" aria-label="Send">&#8594;</button>
+        <div class="contact-status" id="contact-status"></div>
+      </form>
+      <p class="cta-email"><span data-cms="cta_email_prefix">Or email to Amit Kalisker at</span> <a href="mailto:amit@nuraglobal.org" data-cms="cta_email_addr" data-cms-mailto="cta_email_addr">amit@nuraglobal.org</a></p>
+      <h2 data-cms="cta_title">Ready to create your next impact tech venture?</h2>
+      <a href="#apply" class="cta-apply" data-cms="cta_primary">Apply Now</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-banner-band">
+      <div class="footer-banner">
+        <div class="funder-box">
+          <img data-cms-img="footer_funder_logo" alt="Pears Foundation" style="display:none" onload="this.style.display='block';this.nextElementSibling&&(this.nextElementSibling.style.display='none')" />
+          <span class="pears-mark" data-fallback><b>Pears</b><span>Foundation</span></span>
+        </div>
+        <p class="funder-text" data-cms="footer_attr"><strong>Pears Challenge</strong> is an initiative of <strong>Nura: Global Innovation Lab</strong>, generously funded by the <strong>Pears Foundation.</strong></p>
+      </div>
+    </div>
+
+    <div class="footer-main-wrap">
+      <div class="footer-main">
+        <div class="footer-brandcol">
+          <img class="footer-logo" data-cms-img="nav_logo" src="https://static.wixstatic.com/media/3efa7e_8f2eaad210244caaa1d1c00f1af60914~mv2.png" alt="Nura — Global Innovation Lab" />
+          <p class="footer-tagline" data-cms="footer_nura_tagline">Connecting between Israeli Innovation &amp; Global Development Challenges</p>
+          <div class="footer-social">
+            <a href="#" data-cms-href="footer_facebook_url" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5H14z"/></svg></a>
+            <a href="#" data-cms-href="footer_instagram_url" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .4 1.4.9.5.4.7.8.9 1.4.1.4.3 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.4 1-.9 1.4-.4.5-.8.7-1.4.9-.4.1-1 .3-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.4-1.4-.9-.5-.4-.7-.8-.9-1.4-.1-.4-.3-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.4-1 .9-1.4.4-.5.8-.7 1.4-.9.4-.1 1-.3 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3zm6.8-11.2a1.5 1.5 0 1 0 1.5 1.5 1.5 1.5 0 0 0-1.5-1.5z"/></svg></a>
+            <a href="#" data-cms-href="footer_linkedin_url" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M6.9 8.2H3.6V20h3.3zM5.2 3.5A1.9 1.9 0 1 0 5.2 7.3a1.9 1.9 0 0 0 0-3.8zM20.4 20v-6.5c0-3.2-.7-5.6-4.4-5.6a3.9 3.9 0 0 0-3.5 1.9V8.2H9.2V20h3.3v-5.8c0-1.5.3-3 2.2-3s1.9 1.8 1.9 3.1V20z"/></svg></a>
+          </div>
+          <p class="footer-fine"><span data-cms="footer_fineprint1">A Public Benefit Company (Non-Profit Organization)</span><br><span data-cms="footer_fineprint2">Registered in Israel (registration number- 517005658)</span></p>
+        </div>
+        <div class="footer-links" id="footer-links">
+          <div class="footer-linkcol">
+            <div class="footer-group"><h4>Menu</h4><ul>
+              <li><a href="#">Home</a></li><li><a href="#about">About</a></li><li><a href="#focus">Pears Challenge</a></li><li><a href="#timeline">Market Entry</a></li><li><a href="#alumni">Global Partners</a></li><li><a href="#faq">Community</a></li><li><a href="#">Blog</a></li><li><a href="#apply">Contact</a></li>
+            </ul></div>
+          </div>
+          <div class="footer-linkcol">
+            <div class="footer-group"><h4>Quick Access</h4><ul>
+              <li><a href="#">Quick Access</a></li><li><a href="#">Pears Challenge 2025</a></li><li><a href="#">Events</a></li><li><a href="#">Resources</a></li>
+            </ul></div>
+            <div class="footer-group"><h4>Social</h4><ul>
+              <li><a href="#" class="fl-bold">Join Israel</a></li><li><a href="#" class="fl-bold">Dev Community</a></li>
+            </ul></div>
+          </div>
+          <div class="footer-linkcol">
+            <div class="footer-group"><h4>Offices</h4><ul>
+              <li><span class="fl-bold">Tel Aviv</span></li><li><span>2B Hub</span></li><li><span>32 Shoken Street</span></li><li><span>+972-3-771-8884</span></li>
+            </ul></div>
+            <div class="footer-group"><h4>Legal Info</h4><ul>
+              <li><a href="#" class="fl-bold">Privacy Policy</a></li>
+            </ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- APPLICATION MODAL (powered by Wix Forms) -->
+  <div class="modal-overlay" id="apply-modal" role="dialog" aria-modal="true" aria-labelledby="apply-modal-title">
+    <div class="modal">
+      <button class="modal-close" id="apply-modal-close" aria-label="Close">&times;</button>
+      <div id="apply-modal-body">
+        <p class="eyebrow" data-cms="apply_eyebrow">Pears Challenge · East Africa</p>
+        <h2 id="apply-modal-title" data-cms="apply_title">Apply to the Pears Challenge</h2>
+        <p class="modal-sub" data-cms="apply_sub">Tell us about you and your venture. Applications are reviewed on a rolling basis.</p>
+        <form id="apply-form" class="form-grid" novalidate>
+          <div class="form-status" id="apply-loading">Loading application form…</div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient, OAuthStrategy, media } from 'https://esm.sh/@wix/sdk@1';
+    import { items } from 'https://esm.sh/@wix/data?deps=@wix/sdk@1';
+    import { forms, submissions } from 'https://esm.sh/@wix/forms?deps=@wix/sdk@1';
+
+    // Public OAuth client id (== the OAuth app id in wix.config.json). Not a secret.
+    const CLIENT_ID = '2d0c50dd-a5d6-47f2-ac05-0e190ea93ca1';
+    const FORM_ID = '5423544f-9fbd-4834-aa39-48e9a8989cac';
+
+    const client = createClient({
+      modules: { items, forms, submissions },
+      auth: OAuthStrategy({ clientId: CLIENT_ID }),
+    });
+
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const byOrder = (a, b) => (a.order ?? 0) - (b.order ?? 0);
+    // Prefer a proper URL/link field (e.g. `url1`, `link`) over the plain text `url`
+    // (URL fields can't hold in-page anchors like #focus, so text is the fallback).
+    const linkOf = (r) => String(r.url1 || r.link || r.url || '').trim();
+
+    // Resolve a CMS image value (wix:image:// via SDK, or a plain https URL passthrough).
+    function imgSrc(v, w = 1000, h = 750) {
+      if (!v) return '';
+      if (typeof v === 'object') v = v.src || v.url || v.image || '';
+      if (typeof v !== 'string') return '';
+      if (v.startsWith('wix:image://')) { try { return media.getScaledToFillImageUrl(v, w, h, {}); } catch (e) { return ''; } }
+      return v;
+    }
+
+    /* ---------- Site Content: all one-off text + singleton images ---------- */
+    function setColumn(id, text, tight) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const paras = String(text).split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+      el.innerHTML = paras.map((p, i) => `<p${tight && i > 0 ? ' class="gap"' : ''}>${esc(p)}</p>`).join('');
+    }
+    async function applySiteContent() {
+      try {
+        const { items: rows } = await client.items.query('site-content').limit(200).find();
+        if (!rows.length) return;
+        const map = {};
+        rows.forEach((r) => { if (r.key) map[r.key] = r; });
+        document.querySelectorAll('[data-cms]').forEach((el) => {
+          const r = map[el.getAttribute('data-cms')];
+          if (r && r.text != null && r.text !== '') el.textContent = r.text;
+        });
+        document.querySelectorAll('[data-cms-img]').forEach((el) => {
+          const r = map[el.getAttribute('data-cms-img')];
+          const src = imgSrc(r && r.image, 1200, 900);
+          if (src) el.src = src;
+        });
+        document.querySelectorAll('[data-cms-href]').forEach((el) => {
+          const r = map[el.getAttribute('data-cms-href')];
+          if (r && r.text) el.setAttribute('href', r.text);
+        });
+        document.querySelectorAll('[data-cms-mailto]').forEach((el) => {
+          const r = map[el.getAttribute('data-cms-mailto')];
+          if (r && r.text) el.setAttribute('href', 'mailto:' + r.text);
+        });
+        const bgMap = { hero_bg: '--hero-bg-img', challenge_image: '--challenge-bg-img', cta_bg: '--cta-bg-img', ready_image: '--ready-bg-img' };
+        Object.entries(bgMap).forEach(([key, varName]) => {
+          const src = imgSrc(map[key] && map[key].image, 1600, 1000);
+          if (src) document.documentElement.style.setProperty(varName, `url("${src}")`);
+        });
+        if (map.challenge_col1 && map.challenge_col1.text) setColumn('challenge-col1', map.challenge_col1.text);
+        if (map.challenge_col2 && map.challenge_col2.text) setColumn('challenge-col2', map.challenge_col2.text, true);
+      } catch (e) { console.warn('site-content load failed:', e); }
+    }
+
+    /* ---------- Generic list renderers (all keep static markup as fallback) ---------- */
+    async function renderList(collection, containerId, build) {
+      try {
+        const { items: rows } = await client.items.query(collection).limit(100).find();
+        if (!rows.length) return;
+        rows.sort(byOrder);
+        const el = document.getElementById(containerId);
+        if (!el) return;
+        el.innerHTML = rows.map(build).join('');
+      } catch (e) { console.warn(collection + ' load failed:', e); }
+    }
+    async function renderNav() {
+      try {
+        const { items: rows } = await client.items.query('nav-links').limit(50).find();
+        if (!rows.length) return;
+        rows.sort(byOrder);
+        const html = rows.map((r) => `<li><a href="${esc(linkOf(r) || '#')}">${esc(r.label || '')}</a></li>`).join('');
+        ['nav-links', 'mobile-nav-links'].forEach((id) => { const el = document.getElementById(id); if (el) el.innerHTML = html; });
+      } catch (e) { console.warn('nav load failed:', e); }
+    }
+    function initMobileMenu() {
+      const burger = document.getElementById('nav-burger');
+      const menu = document.getElementById('mobile-menu');
+      const close = document.getElementById('mobile-close');
+      if (!burger || !menu) return;
+      const open = () => { menu.classList.add('open'); burger.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; };
+      const shut = () => { menu.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; };
+      burger.addEventListener('click', open);
+      if (close) close.addEventListener('click', shut);
+      menu.addEventListener('click', (ev) => { if (ev.target.closest('a')) shut(); });
+      document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') shut(); });
+    }
+    const renderPartners = () => renderList('partners', 'partners', (r) => {
+      const logo = imgSrc(r.logo, 320, 130);
+      return logo
+        ? `<span class="partner"><img src="${logo}" alt="${esc(r.name || '')}" style="height:42px;width:auto;object-fit:contain"></span>`
+        : `<span class="partner">${esc(r.name || '')}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`;
+    });
+    const renderFunders = () => renderList('funders', 'funders', (r) => {
+      const logo = imgSrc(r.logo, 220, 80);
+      return logo ? `<img src="${logo}" alt="${esc(r.name || '')}">` : `<span class="partner-placeholder">${esc(r.name || '')}</span>`;
+    });
+    const renderWhoCards = () => renderList('who-cards', 'who-cards', (r) =>
+      `<div class="who-card"><span class="num">${esc(r.num || '')}</span><h3>${esc(r.title || '')}</h3><p>${esc(r.body || '')}</p></div>`);
+    const renderStats = () => renderList('stats', 'stats-grid', (r) =>
+      `<div class="stat-item"><div class="number">${esc(r.number || '')}</div><div class="label">${esc(r.label || '')}</div></div>`);
+
+    /* ---------- Stats count-up on scroll into view ---------- */
+    function animateCount(el, target) {
+      const m = String(target).match(/^(\D*)([\d,]+)(.*)$/);
+      if (!m) { el.textContent = target; return; }
+      const prefix = m[1], suffix = m[3];
+      const value = parseInt(m[2].replace(/,/g, ''), 10);
+      const dur = 1400, start = performance.now();
+      const ease = (t) => 1 - Math.pow(1 - t, 3);
+      function frame(now) {
+        const p = Math.min(1, (now - start) / dur);
+        el.textContent = prefix + Math.round(value * ease(p)).toLocaleString() + suffix;
+        if (p < 1) requestAnimationFrame(frame); else el.textContent = target;
+      }
+      requestAnimationFrame(frame);
+    }
+    function initStatsCountUp() {
+      const grid = document.getElementById('stats-grid');
+      if (!grid) return;
+      const nums = [...grid.querySelectorAll('.number')];
+      if (!nums.length) return;
+      nums.forEach((el) => { el.dataset.target = el.textContent.trim(); el.textContent = (el.dataset.target.match(/\D*/) || [''])[0] + '0' + (el.dataset.target.match(/[\d,]+(.*)$/) ? el.dataset.target.match(/[\d,]+(.*)$/)[1] : ''); });
+      let done = false;
+      const run = () => {
+        if (done) return;
+        const r = grid.getBoundingClientRect();
+        if (r.top < innerHeight * 0.88 && r.bottom > 0) {
+          done = true;
+          nums.forEach((el) => animateCount(el, el.dataset.target));
+          window.removeEventListener('scroll', run);
+        }
+      };
+      window.addEventListener('scroll', run, { passive: true });
+      run();
+    }
+    const STEP_ICONS = {
+      globe: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>',
+      bulb: '<svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.4c.7.7 1 1.3 1 2.6h6c0-1.3.3-1.9 1-2.6A6 6 0 0 0 12 3z"/></svg>',
+      leaf: '<svg viewBox="0 0 24 24"><path d="M12 20V9"/><path d="M12 12c-3 0-6-2-6-6 3 0 6 2 6 6z"/><path d="M12 10c3 0 6-2 6-5-3 0-6 2-6 5z"/></svg>',
+      people: '<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.2"/><path d="M4 20c0-3 2.2-5 5-5s5 2 5 5"/><path d="M15 20c0-2.2 1-4 3.5-4"/></svg>',
+      dollar: '<svg viewBox="0 0 24 24"><path d="M3 15c2-1.5 5-1.5 8 0 3 1.5 6 1.5 8 0"/><path d="M12 4v7M10 6.5c0-1 1-1.5 2-1.5s2 .5 2 1.5-1 1.3-2 1.5-2 .5-2 1.5 1 1.5 2 1.5 2-.5 2-1.5"/></svg>',
+    };
+    const renderChecklist = () => renderList('checklist', 'checklist', (r) => {
+      const icon = STEP_ICONS[String(r.icon || '').trim()] || STEP_ICONS.globe;
+      return `<li class="ready-step"><span class="step-icon">${icon}</span><p><strong>${esc(r.lead || '')}</strong> ${esc(r.rest || '')}</p></li>`;
+    });
+
+    const FOOTER_LAYOUT = [['Menu'], ['Quick Access', 'Social'], ['Offices', 'Legal Info']];
+    async function renderFooter() {
+      try {
+        const { items: rows } = await client.items.query('footer-links').limit(100).find();
+        if (!rows.length) return;
+        rows.sort(byOrder);
+        const container = document.getElementById('footer-links');
+        if (!container) return;
+        const groups = {};
+        rows.forEach((r) => { (groups[r.colTitle] = groups[r.colTitle] || []).push(r); });
+        const buildItem = (r) => {
+          const cls = r.bold ? ' class="fl-bold"' : '';
+          const u = linkOf(r);
+          return u
+            ? `<li><a href="${esc(u)}"${cls}>${esc(r.label)}</a></li>`
+            : `<li><span${cls}>${esc(r.label)}</span></li>`;
+        };
+        container.innerHTML = FOOTER_LAYOUT.map((titles) =>
+          `<div class="footer-linkcol">${titles.filter((t) => groups[t]).map((t) =>
+            `<div class="footer-group"><h4>${esc(t)}</h4><ul>${groups[t].map(buildItem).join('')}</ul></div>`
+          ).join('')}</div>`
+        ).join('');
+      } catch (e) { console.warn('footer-links load failed:', e); }
+    }
+
+    async function renderTimelineContent() {
+      try {
+        const { items: rows } = await client.items.query('timeline').limit(50).find();
+        if (!rows.length || !rows.some((r) => r.title)) return;
+        rows.sort(byOrder);
+        rows.forEach((r, idx) => {
+          const n = r.order || (idx + 1);
+          const c = document.querySelector(`[data-tl="${n}"]`);
+          if (c) {
+            const dateEl = c.querySelector('.tl-date'); if (dateEl) dateEl.textContent = r.dateLabel || '';
+            const h3 = c.querySelector('h3'); if (h3) h3.textContent = r.title || '';
+            const linesEl = c.querySelector('.tl-lines');
+            if (linesEl) {
+              const lines = String(r.lines || '').split('\n').map((l) => l.trim()).filter(Boolean);
+              if (lines.length) linesEl.innerHTML = lines.map((l) => `<li>${esc(l)}</li>`).join('');
+            }
+            const tags = String(r.tags || '').split(',').map((t) => t.trim()).filter(Boolean);
+            let tagsEl = c.querySelector('.tl-tags');
+            if (tags.length) {
+              if (!tagsEl) { tagsEl = document.createElement('div'); tagsEl.className = 'tl-tags'; c.appendChild(tagsEl); }
+              tagsEl.innerHTML = tags.map((t) => `<span>${esc(t)}</span>`).join('');
+            } else if (tagsEl) { tagsEl.innerHTML = ''; }
+          }
+          const ph = document.querySelector(`[data-tl-photo="${n}"] img`);
+          const src = imgSrc(r.photo, 800, 560);
+          if (ph && src) ph.src = src;
+        });
+        if (typeof drawTimeline === 'function') drawTimeline();
+      } catch (e) { console.warn('timeline load failed:', e); }
+    }
+
+    /* ---------- CMS-backed content (progressive enhancement) ---------- */
+    // Each renderer only replaces the section's static markup once Wix returns
+    // data — a failed/blocked call leaves the built-in fallback content intact.
+
+    async function renderFAQ() {
+      try {
+        const { items: rows } = await client.items.query('faq').limit(50).find();
+        if (!rows.length) return;
+        rows.sort(byOrder);
+        const list = document.getElementById('faq-list');
+        list.innerHTML = rows.map((r, i) => {
+          const paras = String(r.answer || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+          return `
+          <div class="faq-item${i === 0 ? ' open' : ''}">
+            <div class="faq-q"><span class="faq-question">${esc(r.question)}</span><span class="faq-toggle" aria-hidden="true"></span></div>
+            <div class="faq-answer">${paras.map((p) => `<p>${esc(p)}</p>`).join('')}</div>
+          </div>`;
+        }).join('');
+      } catch (e) { console.warn('FAQ load failed, using fallback:', e); }
+    }
+
+    const FOCUS_COLORS = ['#3fe3a3', '#45c3f2', '#ecec78'];
+    async function renderFocus() {
+      try {
+        const { items: rows } = await client.items.query('focus-areas').limit(50).find();
+        if (!rows.length) return;
+        // Only take over the static markup if the collection carries the new schema.
+        if (!rows.some((r) => r.accent)) return;
+        rows.sort(byOrder);
+        const el = document.getElementById('focus-cards');
+        el.innerHTML = rows.map((r, i) => {
+          const accent = FOCUS_COLORS[i % FOCUS_COLORS.length];
+          const tags = String(r.tags || '').split(',').map((t) => t.trim()).filter(Boolean);
+          return `
+          <div class="focus-card" style="--accent:${accent}">
+            <span class="fc-frame"></span>
+            <h3>${esc(r.lead || 'Resilient')} <span class="accent">${esc(r.accent || '')}</span></h3>
+            <p class="goal"><strong>Goal:</strong> ${esc(r.goal || '')}</p>
+            <div class="fc-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>
+          </div>`;
+        }).join('');
+      } catch (e) { console.warn('Focus areas load failed, using fallback:', e); }
+    }
+
+    async function renderTimeline() {
+      try {
+        const { items: rows } = await client.items.query('timeline').limit(50).find();
+        if (!rows.length) return;
+        rows.sort(byOrder);
+        const el = document.getElementById('timeline-list');
+        el.innerHTML = rows.map((r) => `
+          <div class="timeline-item">
+            <p class="date">${esc(r.phase)}</p>
+            <h3>${esc(r.title)}</h3>
+            <p>${esc(r.description)}</p>
+          </div>`).join('');
+      } catch (e) { console.warn('Timeline load failed, using fallback:', e); }
+    }
+
+    /* ---------- FAQ accordion (delegated — works for rendered items) ---------- */
+    document.addEventListener('click', (ev) => {
+      const q = ev.target.closest('.faq-q');
+      if (!q) return;
+      const item = q.closest('.faq-item');
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach((i) => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+
+    /* ---------- Application form (Wix Forms, schema-driven) ---------- */
+    const overlay = document.getElementById('apply-modal');
+    const formEl = document.getElementById('apply-form');
+    let schemaFields = null;
+
+    function projectFields(form) {
+      const raw = (form.fields ?? []);
+      return raw
+        .filter((f) => f.target && !f.hidden)
+        .map((f) => ({
+          target: f.target,
+          label: f.view?.label ?? f.target,
+          placeholder: f.view?.placeholder ?? '',
+          required: f.validation?.required ?? false,
+          format: f.validation?.string?.format,
+          minLength: f.validation?.string?.minLength,
+          maxLength: f.validation?.string?.maxLength,
+          pattern: f.validation?.string?.pattern,
+          viewFieldType: f.view?.fieldType,
+          options: f.view?.options?.map((o) => ({ value: o.value ?? o.label ?? '', label: o.label ?? o.value ?? '' })),
+        }));
+    }
+
+    function fieldHtml(f) {
+      const full = f.options?.length || f.viewFieldType === 'TEXT_AREA' || f.target === 'message' ? ' full' : '';
+      const reqMark = f.required ? ' <span class="req">*</span>' : '';
+      let control;
+      if (f.options?.length) {
+        control = `<select name="${esc(f.target)}" ${f.required ? 'required' : ''}>
+          <option value="" ${f.required ? 'disabled' : ''} selected>${esc(f.placeholder || 'Select…')}</option>
+          ${f.options.map((o) => `<option value="${esc(o.value)}">${esc(o.label)}</option>`).join('')}
+        </select>`;
+      } else if (f.viewFieldType === 'TEXT_AREA' || f.target === 'message') {
+        control = `<textarea name="${esc(f.target)}" ${f.required ? 'required' : ''}
+          ${f.minLength ? `minlength="${f.minLength}"` : ''} ${f.maxLength ? `maxlength="${f.maxLength}"` : ''}
+          placeholder="${esc(f.placeholder)}"></textarea>`;
+      } else {
+        const type = f.format === 'EMAIL' ? 'email' : f.format === 'PHONE' ? 'tel' : f.format === 'URL' ? 'url' : 'text';
+        control = `<input name="${esc(f.target)}" type="${type}" ${f.required ? 'required' : ''}
+          ${f.minLength ? `minlength="${f.minLength}"` : ''} ${f.maxLength ? `maxlength="${f.maxLength}"` : ''}
+          ${f.pattern ? `pattern="${esc(f.pattern)}"` : ''} placeholder="${esc(f.placeholder)}" />`;
+      }
+      return `<div class="form-field${full}">
+        <label>${esc(f.label)}${reqMark}</label>
+        ${control}
+        <span class="field-error" data-error-for="${esc(f.target)}"></span>
+      </div>`;
+    }
+
+    function fieldError(f, raw) {
+      const v = (raw ?? '').trim();
+      if (f.required && !v) return `${f.label} is required.`;
+      if (!v) return '';
+      if (f.minLength && v.length < f.minLength) return `${f.label} must be at least ${f.minLength} characters.`;
+      if (f.maxLength && v.length > f.maxLength) return `${f.label} must be at most ${f.maxLength} characters.`;
+      if (f.format === 'EMAIL' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return 'Please enter a valid email address.';
+      if (f.format === 'URL' && !/^https?:\/\/.+/.test(v)) return 'Please enter a valid URL.';
+      if (f.format === 'PHONE' && !/^[+()\-\s\d]{7,}$/.test(v)) return 'Please enter a valid phone number.';
+      if (f.pattern && !new RegExp(f.pattern).test(v)) return `${f.label} is not in the expected format.`;
+      return '';
+    }
+
+    async function buildForm() {
+      try {
+        const form = await client.forms.getForm(FORM_ID);
+        schemaFields = projectFields(form);
+        formEl.innerHTML =
+          schemaFields.map(fieldHtml).join('') +
+          `<div class="form-actions"><button type="submit">Submit application</button></div>
+           <div class="form-status" id="apply-error" style="display:none"></div>`;
+      } catch (e) {
+        console.error('Could not load form schema:', e);
+        formEl.innerHTML = `<div class="form-status error">Sorry — the application form could not be loaded right now. Please email us at hello@pearschallenge.org.</div>`;
+      }
+    }
+
+    function clearErrors() {
+      formEl.querySelectorAll('.field-error').forEach((el) => (el.textContent = ''));
+      const g = document.getElementById('apply-error');
+      if (g) { g.style.display = 'none'; g.textContent = ''; }
+    }
+
+    formEl.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      if (!schemaFields) return;
+      clearErrors();
+      const data = Object.fromEntries(new FormData(formEl));
+      let hasError = false;
+      for (const f of schemaFields) {
+        const msg = fieldError(f, data[f.target]);
+        if (msg) {
+          hasError = true;
+          const slot = formEl.querySelector(`[data-error-for="${f.target}"]`);
+          if (slot) slot.textContent = msg;
+        }
+      }
+      if (hasError) return;
+
+      const btn = formEl.querySelector('button[type="submit"]');
+      btn.disabled = true; btn.textContent = 'Submitting…';
+      try {
+        await client.submissions.createSubmission({ formId: FORM_ID, submissions: data });
+        document.getElementById('apply-modal-body').innerHTML = `
+          <div class="modal-success">
+            <div class="check">&#10003;</div>
+            <h2>Application received!</h2>
+            <p>Thanks for applying to the Pears Challenge. Our team reviews applications within two weeks — we'll be in touch by email.</p>
+          </div>`;
+      } catch (err) {
+        const violations = err?.details?.validationError?.fieldViolations ?? [];
+        let mapped = false;
+        for (const v of violations)
+          for (const fe of (v?.data?.errors ?? []))
+            if (fe.errorPath) {
+              mapped = true;
+              const slot = formEl.querySelector(`[data-error-for="${fe.errorPath}"]`);
+              if (slot) slot.textContent = fe.errorMessage ?? 'Invalid value';
+            }
+        const g = document.getElementById('apply-error');
+        if (g && !mapped) { g.style.display = 'block'; g.className = 'form-status error'; g.textContent = 'Something went wrong submitting your application. Please try again.'; }
+        btn.disabled = false; btn.textContent = 'Submit application';
+        console.error('Submission failed:', err);
+      }
+    });
+
+    /* ---------- Modal open/close wiring ---------- */
+    let formBuilt = false;
+    function openModal(ev) {
+      if (ev) ev.preventDefault();
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (!formBuilt) { formBuilt = true; buildForm(); }
+    }
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('apply-modal-close').addEventListener('click', closeModal);
+    overlay.addEventListener('click', (ev) => { if (ev.target === overlay) closeModal(); });
+    document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
+
+    // Every "Apply" / "Start your application" CTA opens the modal.
+    document.querySelectorAll('a[href="#apply"], .nav-cta, .bottom-cta .btn-primary').forEach((a) => {
+      a.addEventListener('click', openModal);
+    });
+
+    /* ---------- "The Challenge" read-more modal ---------- */
+    const chOverlay = document.getElementById('challenge-modal');
+    const chOpen = document.getElementById('challenge-open');
+    const chClose = document.getElementById('challenge-close');
+    if (chOverlay && chOpen) {
+      const openCh = () => { chOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; };
+      const closeCh = () => { chOverlay.classList.remove('open'); document.body.style.overflow = ''; };
+      chOpen.addEventListener('click', openCh);
+      chClose && chClose.addEventListener('click', closeCh);
+      chOverlay.addEventListener('click', (ev) => { if (ev.target === chOverlay) closeCh(); });
+      document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeCh(); });
+    }
+
+    /* ---------- Timeline: brand serpentine rail + scroll draw ---------- */
+    let TL_STROKES = [];
+    function positionItems() {
+      const brand = document.getElementById('tl-brand');
+      const rail = document.getElementById('tl-rail');
+      if (!brand || !rail) return;
+      const blocks = document.querySelectorAll('#tl-brand .tl-content, #tl-brand .tl-photo');
+      if (getComputedStyle(rail).display === 'none') { // mobile: stacked, no absolute top
+        blocks.forEach((el) => { el.style.top = ''; el.style.transform = ''; });
+        return;
+      }
+      const bb = brand.getBoundingClientRect();
+      [1, 2, 3, 4, 5].forEach((n) => {
+        const node = rail.querySelector('[data-node="' + n + '"]');
+        if (!node) return;
+        const nb = node.getBoundingClientRect();
+        const cy = nb.top - bb.top + nb.height / 2;
+        document.querySelectorAll('[data-tl="' + n + '"], [data-tl-photo="' + n + '"]').forEach((el) => {
+          el.style.top = cy + 'px';
+          el.style.transform = 'translateY(-50%)';
+        });
+      });
+    }
+    function updateTimelineScroll() {
+      const brand = document.getElementById('tl-brand');
+      const media = document.getElementById('tl-media');
+      if (!brand) return;
+      const r = brand.getBoundingClientRect();
+      const vh = window.innerHeight;
+      if (TL_STROKES.length) {
+        const start = vh * 0.9, end = vh * 0.1;
+        const p = Math.max(0, Math.min(1, (start - r.top) / (r.height + (start - end))));
+        const p2 = Math.min(1, p / 0.82);   // finish the whole draw a bit before the section fully exits
+        const N = TL_STROKES.length;
+        TL_STROKES.forEach((s, i) => {
+          const lp = Math.max(0, Math.min(1, p2 * N - i));   // sequence top-to-bottom
+          s.el.style.strokeDashoffset = s.len * (1 - lp);
+        });
+      }
+      if (media) {
+        const sec = document.querySelector('.timeline2').getBoundingClientRect();
+        media.style.transform = `translateY(${sec.top * -0.12}px)`;
+      }
+      document.querySelectorAll('#tl-brand [data-reveal]:not(.in)').forEach((el) => {
+        if (el.getBoundingClientRect().top < vh * 0.92) el.classList.add('in');
+      });
+    }
+    function initTimeline() {
+      const brand = document.getElementById('tl-brand');
+      const rail = document.getElementById('tl-rail');
+      if (!brand || !rail) return;
+      brand.classList.add('reveal-ready');
+      TL_STROKES = [...rail.querySelectorAll('.tl-stroke')].map((el) => {
+        let len = 0, y = 0;
+        try { len = el.getTotalLength(); } catch (e) {}
+        try { y = el.getBBox().y; } catch (e) {}
+        el.style.strokeDasharray = len;
+        el.style.strokeDashoffset = len;
+        return { el, len, y };
+      }).sort((a, b) => a.y - b.y);
+      const relayout = () => { positionItems(); updateTimelineScroll(); };
+      relayout();
+      window.addEventListener('load', relayout);
+      setTimeout(relayout, 500);
+      window.addEventListener('resize', relayout, { passive: true });
+      window.addEventListener('scroll', updateTimelineScroll, { passive: true });
+    }
+
+    /* ---------- Contact form (Wix Forms, inline) ---------- */
+    const CONTACT_FORM_ID = '4b4c1eb8-8981-465d-8e50-45eac4a5530a';
+    async function initContactForm() {
+      const form = document.getElementById('contact-form');
+      const fieldsEl = document.getElementById('contact-fields');
+      const statusEl = document.getElementById('contact-status');
+      if (!form || !fieldsEl) return;
+      let schema = [
+        { target: 'full_name', label: 'Full Name', required: true },
+        { target: 'email', label: 'Email', required: true, format: 'EMAIL' },
+        { target: 'question', label: 'Question', required: false },
+      ];
+      try {
+        const f = await client.forms.getForm(CONTACT_FORM_ID);
+        const proj = projectFields(f);
+        if (proj.length) {
+          schema = proj;
+          fieldsEl.innerHTML = proj.map((fd) => {
+            const ph = (fd.label || fd.target) + (fd.required ? '*' : '');
+            const type = fd.format === 'EMAIL' ? 'email' : fd.format === 'PHONE' ? 'tel' : 'text';
+            return `<input name="${esc(fd.target)}" type="${type}" placeholder="${esc(ph)}" ${fd.required ? 'required' : ''} />`;
+          }).join('');
+        }
+      } catch (e) { console.warn('contact form schema load failed, using static inputs', e); }
+
+      form.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        statusEl.textContent = ''; statusEl.className = 'contact-status';
+        const data = Object.fromEntries(new FormData(form));
+        for (const fd of schema) {
+          const msg = fieldError(fd, data[fd.target]);
+          if (msg) { statusEl.textContent = msg; statusEl.className = 'contact-status error'; return; }
+        }
+        const btn = form.querySelector('.contact-submit');
+        btn.disabled = true;
+        try {
+          await client.submissions.createSubmission({ formId: CONTACT_FORM_ID, submissions: data });
+          form.innerHTML = '<p class="contact-thanks">Thanks — we\'ll be in touch soon.</p>';
+        } catch (err) {
+          statusEl.textContent = 'Something went wrong. Please try again.';
+          statusEl.className = 'contact-status error';
+          btn.disabled = false;
+          console.error('Contact submit failed:', err);
+        }
+      });
+    }
+
+    /* ---------- Kick off ---------- */
+    applySiteContent();
+    initContactForm();
+    initMobileMenu();
+    renderNav();
+    renderPartners();
+    renderWhoCards();
+    renderStats().then(initStatsCountUp);
+    renderChecklist();
+    renderFooter();
+    renderFAQ();
+    renderFocus();
+    initTimeline();
+    renderTimelineContent();
+  </script>
+
+</body>
+</html>

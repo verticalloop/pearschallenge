@@ -13,10 +13,10 @@
     :root {
       --navy: #0a1628;
       --pc-yellow: #fdff9e;
-      --hero-bg-img: url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1800&q=80');
-      --challenge-bg-img: url('https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=1600&q=80');
-      --cta-bg-img: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1400&q=80');
-      --ready-bg-img: url('https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=1600&q=80');
+      --hero-bg-img: none;
+      --challenge-bg-img: none;
+      --cta-bg-img: none;
+      --ready-bg-img: none;
       --font-body: 'Urbanist', 'Helvetica Neue', Arial, sans-serif;
       --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
       --teal: #1a4a4a;
@@ -158,7 +158,11 @@
       justify-content: center;
       padding: 120px 40px 64px;
       overflow: hidden;
-      background: var(--hero-bg-img) center/cover no-repeat;
+      background-color: var(--navy);
+      background-image: var(--hero-bg-img);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
     }
     .hero-card {
       position: relative;
@@ -487,7 +491,11 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: var(--challenge-bg-img) center/cover no-repeat;
+      background-color: var(--navy);
+      background-image: var(--challenge-bg-img);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
       filter: blur(8px) brightness(0.92) saturate(1.1);
       transform: scale(1.05);
       z-index: -1;
@@ -899,7 +907,11 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: var(--ready-bg-img) center/cover no-repeat;
+      background-color: var(--navy);
+      background-image: var(--ready-bg-img);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
       filter: blur(28px) brightness(0.9) saturate(1.05);
       transform: scale(1.18);
       z-index: -1;
@@ -1364,7 +1376,7 @@
         <button type="button" class="challenge-readmore" id="challenge-open" data-cms="challenge_readmore">Read More</button>
       </div>
       <div class="challenge-image">
-        <img data-cms-img="challenge_image" src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=1000&q=80" alt="East African market" />
+        <img data-cms-img="challenge_image" alt="East African market" style="display:none" onload="this.style.display='block'" />
       </div>
     </div>
   </section>
@@ -1484,7 +1496,7 @@
           </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="2" data-side="right">
-          <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=800&q=80" alt="Bootcamp collaboration" />
+          <img alt="Bootcamp collaboration" style="display:none" onload="this.style.display='block'" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="3" data-side="right" style="--c:#FFE53C">
@@ -1501,7 +1513,7 @@
           </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="3" data-side="left">
-          <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800&q=80" alt="Pears Challenge cohort" />
+          <img alt="Pears Challenge cohort" style="display:none" onload="this.style.display='block'" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="4" data-side="left" style="--c:#31FFB1">
@@ -1518,7 +1530,7 @@
           </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="4" data-side="right">
-          <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80" alt="Field validation visit" />
+          <img alt="Field validation visit" style="display:none" onload="this.style.display='block'" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="5" data-side="right" style="--c:#5CDCFF">
@@ -1536,7 +1548,7 @@
           </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="5" data-side="left">
-          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80" alt="Demo day presentation" />
+          <img alt="Demo day presentation" style="display:none" onload="this.style.display='block'" />
         </div>
       </div>
     </div>

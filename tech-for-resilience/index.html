@@ -361,8 +361,12 @@
     @media (max-width: 900px) {
       .partners { padding: 40px 20px 16px; gap: 20px 28px; justify-content: center; }
       .who-section { padding: 44px 20px 64px; }
+      .who-section > h2 { font-size: 34px; }
+      .who-sub { font-size: 17px; }
       .who-cards { grid-template-columns: 1fr; }
       .who-card .num { margin-bottom: 24px; }
+      .who-card h3 { font-size: 24px; }
+      .who-card p { font-size: 16px; }
     }
 
     /* ── YELLOW BANNER ── */
@@ -631,6 +635,8 @@
       .challenge-card { grid-template-columns: 1fr; }
       .challenge-image { min-height: 280px; order: -1; }
       .challenge-content { padding: 40px 28px; }
+      .challenge-content h2 { font-size: 34px; }
+      .challenge-content > p { font-size: 16px; }
       .challenge-modal { padding: 52px 24px 40px; }
       .challenge-modal-close { top: 16px; right: 18px; }
       .challenge-modal-cols { grid-template-columns: 1fr; gap: 8px; }
@@ -737,6 +743,8 @@
     }
     @media (max-width: 900px) {
       .focus-areas { padding: 64px 20px 72px; }
+      .focus-areas h2 { font-size: 34px; }
+      .focus-areas .subtitle { font-size: 17px; }
       .focus-cards { grid-template-columns: 1fr; gap: 30px; }
     }
 
@@ -791,6 +799,8 @@
 
     @media (max-width: 900px) {
       .timeline2 { padding: 56px 18px 64px; }
+      .tl-head h2 { font-size: 32px; }
+      .tl-sub { font-size: 17px; }
       .tl-brand { padding: 0; }
       .tl-rail { display: none; }
       .tl-content, .tl-photo { position: static !important; width: auto !important; top: auto !important; transform: none !important; opacity: 1 !important; margin: 0 0 26px; }
@@ -857,6 +867,15 @@
     }
     .stats-cta::before { content: '\25B7'; color: #45c3f2; font-size: 1.1rem; }
     .stats-cta:hover { background: rgba(255,255,255,0.08); }
+    @media (max-width: 900px) {
+      .stats-section { padding: 64px 20px 72px; }
+      .stats-section h2 { font-size: 34px; margin-bottom: 36px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+      .stat-item { padding: 26px 22px 24px; }
+      .stat-item .number { font-size: 44px; margin-bottom: 12px; }
+      .stat-item .label { font-size: 0.95rem; }
+      .stats-actions { flex-direction: column; align-items: flex-start; }
+    }
 
     /* ── FUNDING & COLLABORATIONS (auto-scrolling logo marquee) ── */
     .funding-section { background: #fff; padding: 88px 0; overflow: hidden; }
@@ -892,6 +911,8 @@
     @media (max-width: 900px) {
       .funding-section { padding: 56px 0; }
       .funding-head { padding: 0 20px; margin-bottom: 32px; }
+      .funding-head h2 { font-size: 32px; }
+      .funding-sub { font-size: 17px; }
       .marquee-track { gap: 56px; }
       .funder-logo { font-size: 1.1rem; }
     }
@@ -932,11 +953,11 @@
     }
     .ready-frame { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
     .ready-frame::before, .ready-frame::after {
-      content: ''; position: absolute; width: 130px; height: 150px;
-      border: 3px solid var(--pc-yellow);
+      content: ''; position: absolute; width: 40px; top: 0; bottom: 0;
+      border: 12px solid var(--pc-yellow);
     }
-    .ready-frame::before { top: -12px; left: -14px; border-right: none; border-bottom: none; border-top-left-radius: 34px; }
-    .ready-frame::after { bottom: -12px; right: -14px; border-left: none; border-top: none; border-bottom-right-radius: 34px; }
+    .ready-frame::before { left: 0; border-right: none; border-top-left-radius: 34px; border-bottom-left-radius: 34px; }
+    .ready-frame::after { right: 0; border-left: none; border-top-right-radius: 34px; border-bottom-right-radius: 34px; }
     .ready-card {
       background: var(--white);
       border-radius: 30px;
@@ -984,7 +1005,7 @@
       .ready-grid { grid-template-columns: 1fr; }
       .ready-photo img, .ready-photo video { min-height: 320px; }
       .ready-card { padding: 40px 28px; }
-      .ready-frame::before, .ready-frame::after { width: 90px; height: 100px; }
+      .ready-frame::before, .ready-frame::after { width: 32px; }
     }
 
     /* ── FAQ ── */
@@ -1016,6 +1037,8 @@
     .faq-answer p { font-family: var(--font-body); color: var(--text-mid); font-size: 1.02rem; line-height: 1.6; margin-bottom: 14px; }
     .faq-answer p:last-child { margin-bottom: 0; }
     @media (max-width: 900px) {
+      .faq-section { padding: 56px 20px 64px; }
+      .faq-section h2 { font-size: 32px; margin-bottom: 28px; }
       .faq-item { padding: 22px 22px; }
       .faq-question { font-size: 1.1rem; }
     }
@@ -1083,6 +1106,7 @@
     .cta-sq-b { bottom: -10px; left: 8%; }
     @media (max-width: 700px) {
       .bottom-cta { padding: 72px 20px 84px; }
+      .bottom-cta h2 { font-size: 32px; margin-top: 56px; }
       .contact-fields input { flex-basis: 100%; }
       .cta-squiggle { display: none; }
     }
@@ -1276,7 +1300,7 @@
       .nav-burger { display: flex; }
       .hero { padding: 100px 18px 48px; min-height: 90vh; }
       .hero-card { padding: 52px 24px 56px; border-radius: 28px; min-height: 0; }
-      .hero-card::before, .hero-card::after { width: 90px; height: 90px; }
+      .hero-card::before, .hero-card::after { width: 28px; border-width: 8px; }
       .hero-eyebrow { letter-spacing: 0.35em; font-size: 0.8rem; }
       .intro-split, .tech-section, .ready-section { grid-template-columns: 1fr; padding: 48px 20px; }
       .intro-split h2 { grid-column: 1; }

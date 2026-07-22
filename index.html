@@ -179,6 +179,7 @@
       background: rgba(24,20,8,0.28);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
+      overflow: hidden;
     }
     /* yellow corner brackets */
     .hero-card::before,
@@ -186,7 +187,8 @@
       content: '';
       position: absolute;
       width: 56px;
-      top: 0; bottom: 0;
+      top: 0;
+      height: 3000px;
       border: 12px solid var(--pc-yellow);
       pointer-events: none;
     }
@@ -691,13 +693,15 @@
       border-radius: 26px;
       padding: 46px 42px 42px;
       background: rgba(255,255,255,0.03);
+      overflow: hidden;
     }
     .focus-card::before,
     .focus-card::after {
       content: '';
       position: absolute;
       width: 40px;
-      top: 0; bottom: 0;
+      top: 0;
+      height: 3000px;
       border: 12px solid var(--accent, #3fe3a3);
       pointer-events: none;
     }
@@ -946,14 +950,14 @@
       gap: 40px;
       align-items: stretch;
     }
-    .ready-photo { position: relative; }
+    .ready-photo { position: relative; overflow: hidden; border-radius: 30px; }
     .ready-photo img, .ready-photo video {
       width: 100%; height: 100%; min-height: 520px;
       object-fit: cover; border-radius: 30px; display: block;
     }
     .ready-frame { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
     .ready-frame::before, .ready-frame::after {
-      content: ''; position: absolute; width: 40px; top: 0; bottom: 0;
+      content: ''; position: absolute; width: 40px; top: 0; height: 3000px;
       border: 12px solid var(--pc-yellow);
     }
     .ready-frame::before { left: 0; border-right: none; border-top-left-radius: 34px; border-bottom-left-radius: 34px; }

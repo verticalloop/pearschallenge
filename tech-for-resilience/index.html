@@ -182,18 +182,20 @@
       content: '';
       position: absolute;
       width: 56px;
-      height: 85%;
+      top: 6%; bottom: 6%;
       border: 3px solid var(--pc-yellow);
       pointer-events: none;
     }
     .hero-card::before {
-      top: -14px; left: -14px;
-      border-right: none; border-bottom: none;
+      left: -14px;
+      border-right: none;
       border-top-left-radius: 44px;
+      border-bottom-left-radius: 44px;
     }
     .hero-card::after {
-      bottom: -14px; right: -14px;
-      border-left: none; border-top: none;
+      right: -14px;
+      border-left: none;
+      border-top-right-radius: 44px;
       border-bottom-right-radius: 44px;
     }
     .hero-eyebrow {

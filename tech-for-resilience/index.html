@@ -1029,18 +1029,18 @@
     }
     .ready-steps { list-style: none; }
     .ready-step {
-      display: flex; align-items: center; gap: 20px;
-      padding: 20px 0; border-top: 1px solid var(--gray-mid);
+      display: flex; align-items: center; gap: 16px;
+      padding: 11px 0; border-top: 1px solid var(--gray-mid);
     }
     .ready-step:last-child { border-bottom: 1px solid var(--gray-mid); }
     .step-icon {
-      width: 52px; height: 52px; border-radius: 50%;
+      width: 46px; height: 46px; border-radius: 50%;
       border: 1.5px dashed #c7ccd3;
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .step-icon svg { width: 24px; height: 24px; stroke: #16283a; fill: none; stroke-width: 1.6; }
+    .step-icon svg { width: 22px; height: 22px; stroke: #16283a; fill: none; stroke-width: 1.6; }
     .ready-step p {
-      font-family: var(--font-body); font-size: 1.1rem; color: var(--text-mid); line-height: 1.35;
+      font-family: var(--font-body); font-size: 1.05rem; color: var(--text-mid); line-height: 1.35;
     }
     .ready-step p strong { color: var(--navy); font-weight: 700; }
     .ready-apply {
@@ -1922,10 +1922,83 @@
     }
     async function applySiteContent() {
       try {
-        const rows = await queryCollection('site-content', 200);
-        if (!rows.length) return;
         const map = {};
-        rows.forEach((r) => { if (r.key) map[r.key] = r; });
+        const setMap = (key, text, image) => { map[key] = { text: text ?? '', image: image ?? '' }; };
+
+        const [nav, hero, who, challenge, focus, timeline, alumni, funding, ready, faq, contact, applyForm, footer, footerSocial] = await Promise.all([
+          queryCollection('nav-content', 1),
+          queryCollection('hero-content', 1),
+          queryCollection('who-content', 1),
+          queryCollection('challenge-content', 1),
+          queryCollection('focus-content', 1),
+          queryCollection('timeline-content', 1),
+          queryCollection('alumni-content', 1),
+          queryCollection('funding-content', 1),
+          queryCollection('ready-content', 1),
+          queryCollection('faq-content', 1),
+          queryCollection('contact-content', 1),
+          queryCollection('apply-form-content', 1),
+          queryCollection('footer-content', 1),
+          queryCollection('footer-social-links', 10),
+        ]);
+
+        const n = nav[0] || {};
+        setMap('nav_cta', n.ctaText); setMap('nav_logo', '', n.logo);
+
+        const h = hero[0] || {};
+        setMap('hero_eyebrow', h.eyebrow); setMap('hero_title_accent', h.titleAccent);
+        setMap('hero_title_rest', h.titleRest); setMap('hero_sub', h.subtitle);
+        setMap('hero_cta', h.ctaText); setMap('hero_bg', '', h.backgroundImage);
+
+        const w = who[0] || {};
+        setMap('who_eyebrow', w.eyebrow); setMap('who_title', w.heading); setMap('who_sub', w.subtitle);
+
+        const c = challenge[0] || {};
+        setMap('challenge_eyebrow', c.eyebrow); setMap('challenge_title', c.heading);
+        setMap('challenge_intro', c.introLine); setMap('challenge_readmore', c.readMoreText);
+        setMap('challenge_image', '', c.photo);
+        setMap('challenge_col1', c.modalLeftColumn); setMap('challenge_col2', c.modalRightColumn);
+
+        const f = focus[0] || {};
+        setMap('focus_eyebrow', f.eyebrow); setMap('focus_title', f.heading); setMap('focus_sub', f.subtitle);
+
+        const t = timeline[0] || {};
+        setMap('tl_eyebrow', t.eyebrow); setMap('tl_title', t.heading);
+        setMap('tl_sub', t.subtitle); setMap('tl_range', t.dateRange);
+
+        const a = alumni[0] || {};
+        setMap('stats_eyebrow', a.eyebrow); setMap('stats_title', a.heading);
+        setMap('stats_link1_label', a.leftLinkText); setMap('stats_link1_url', a.leftLinkUrl);
+        setMap('stats_cta_label', a.rightButtonText); setMap('stats_cta_url', a.rightButtonUrl);
+
+        const fd = funding[0] || {};
+        setMap('funding_title', fd.heading); setMap('funding_sub', fd.subtitle);
+
+        const r = ready[0] || {};
+        setMap('ready_title', r.heading); setMap('ready_sub', r.subtitle); setMap('ready_cta', r.ctaText);
+        setMap('ready_image', '', r.photo); setMap('ready_video', r.backgroundVideo);
+
+        const fq = faq[0] || {};
+        setMap('faq_eyebrow', fq.eyebrow); setMap('faq_title', fq.heading);
+
+        const ct = contact[0] || {};
+        setMap('cta_title', ct.heading); setMap('cta_write', ct.writeLine);
+        setMap('cta_email_prefix', ct.emailPrefix); setMap('cta_email_addr', ct.contactEmail);
+
+        const af = applyForm[0] || {};
+        setMap('apply_eyebrow', af.eyebrow); setMap('apply_title', af.heading); setMap('apply_sub', af.subtitle);
+
+        const ft = footer[0] || {};
+        setMap('footer_nura_tagline', ft.tagline); setMap('footer_attr', ft.attribution);
+        setMap('footer_fineprint1', ft.finePrint1); setMap('footer_fineprint2', ft.finePrint2);
+        setMap('footer_funder_logo', '', ft.funderLogo);
+
+        const socialKeyOf = { facebook: 'footer_facebook_url', instagram: 'footer_instagram_url', linkedin: 'footer_linkedin_url', youtube: 'footer_youtube_url' };
+        (footerSocial || []).forEach((row) => {
+          const key = socialKeyOf[String(row.platform || '').toLowerCase()];
+          if (key) setMap(key, row.link, row.icon);
+        });
+
         document.querySelectorAll('[data-cms]').forEach((el) => {
           const r = map[el.getAttribute('data-cms')];
           if (r && r.text != null && r.text !== '') el.textContent = r.text;

@@ -677,7 +677,27 @@
       border-radius: 26px;
       padding: 46px 42px 42px;
       background: rgba(255,255,255,0.03);
-      border: 2.5px solid var(--accent, #3fe3a3);
+    }
+    .focus-card::before,
+    .focus-card::after {
+      content: '';
+      position: absolute;
+      width: 40px;
+      top: 0; bottom: 0;
+      border: 12px solid var(--accent, #3fe3a3);
+      pointer-events: none;
+    }
+    .focus-card::before {
+      left: 0;
+      border-right: none;
+      border-top-left-radius: 26px;
+      border-bottom-left-radius: 26px;
+    }
+    .focus-card::after {
+      right: 0;
+      border-left: none;
+      border-top-right-radius: 26px;
+      border-bottom-right-radius: 26px;
     }
     .focus-card h3 {
       font-family: var(--font-body);

@@ -218,6 +218,8 @@
       margin-bottom: 26px;
     }
     .hero-title .accent { color: var(--pc-yellow); }
+    .hero-word { display: inline-block; transition: opacity 0.45s ease, transform 0.45s ease; }
+    .hero-word.swap { opacity: 0; transform: translateY(8px); }
     .hero-sub {
       font-family: var(--font-body);
       color: rgba(255,255,255,0.92);
@@ -1290,7 +1292,7 @@
 
     <div class="hero-card">
       <p class="hero-eyebrow" data-cms="hero_eyebrow">Pears Challenge 2026</p>
-      <h1 class="hero-title"><span class="accent" data-cms="hero_title_accent">Food-Tech for Resilience</span><br><span data-cms="hero_title_rest">In East Africa</span></h1>
+      <h1 class="hero-title"><span class="accent"><span id="hero-word" class="hero-word">Food</span>-Tech for Resilience</span><br><span data-cms="hero_title_rest">In East Africa</span></h1>
       <p class="hero-sub" data-cms="hero_sub">A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets</p>
       <a href="#apply" class="hero-cta" data-cms="hero_cta">Apply Now</a>
     </div>
@@ -1883,6 +1885,20 @@
       menu.addEventListener('click', (ev) => { if (ev.target.closest('a')) shut(); });
       document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') shut(); });
     }
+    function initHeroWordCycle() {
+      const el = document.getElementById('hero-word');
+      if (!el) return;
+      const words = ['Food', 'Climate', 'Energy', 'Water', 'Log', 'Fin', 'Agri'];
+      let i = 0;
+      setInterval(() => {
+        el.classList.add('swap');
+        setTimeout(() => {
+          i = (i + 1) % words.length;
+          el.textContent = words[i];
+          el.classList.remove('swap');
+        }, 450);
+      }, 2600);
+    }
     const renderPartners = () => renderList('partners', 'partners', (r) => {
       const logo = imgSrc(r.logo, 320, 130);
       return logo
@@ -2357,6 +2373,7 @@
     applySiteContent();
     initContactForm();
     initMobileMenu();
+    initHeroWordCycle();
     renderNav();
     renderPartners();
     renderFunders();

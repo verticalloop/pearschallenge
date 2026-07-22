@@ -675,23 +675,8 @@
       border-radius: 26px;
       padding: 46px 42px 42px;
       background: rgba(255,255,255,0.03);
-    }
-    .focus-card .fc-frame { position: absolute; inset: 0; pointer-events: none; }
-    .focus-card::before,
-    .focus-card::after,
-    .focus-card .fc-frame::before,
-    .focus-card .fc-frame::after {
-      content: '';
-      position: absolute;
-      width: 46%;
-      height: 45%;
       border: 2.5px solid var(--accent, #3fe3a3);
-      pointer-events: none;
     }
-    .focus-card::before { top: 0; left: 0; border-right: none; border-bottom: none; border-top-left-radius: 26px; }
-    .focus-card::after { bottom: 0; right: 0; border-left: none; border-top: none; border-bottom-right-radius: 26px; }
-    .focus-card .fc-frame::before { top: 0; right: 0; border-left: none; border-bottom: none; border-top-right-radius: 26px; }
-    .focus-card .fc-frame::after { bottom: 0; left: 0; border-right: none; border-top: none; border-bottom-left-radius: 26px; }
     .focus-card h3 {
       font-family: var(--font-body);
       font-size: clamp(1.3rem, 1.8vw, 1.7rem);
@@ -1391,19 +1376,16 @@
     <p class="subtitle" data-cms="focus_sub">We are seeking startups and venture ideas that tackle specific, real-world challenges in one of these focus areas:</p>
     <div class="focus-cards" id="focus-cards">
       <div class="focus-card" style="--accent:#3fe3a3">
-        <span class="fc-frame"></span>
         <h3>Resilient <span class="accent">food systems &amp; climate adaptation</span></h3>
         <p class="goal"><strong>Goal:</strong> Empowering farming communities, strengthening domestic food production and export capabilities, and improving supply chains from production to markets, while strengthening systems to withstand climate change shocks and supporting environmental and regenerative agriculture practices.</p>
         <div class="fc-tags"><span>Agri-Tech</span><span>Food-Tech</span><span>Climate-Tech</span><span>Aquacul-Tech</span></div>
       </div>
       <div class="focus-card" style="--accent:#45c3f2">
-        <span class="fc-frame"></span>
         <h3>Resilient <span class="accent">infrastructure &amp; supply chains</span></h3>
         <p class="goal"><strong>Goal:</strong> Ensuring quality and uninterrupted access to clean water, safely managed sanitation, reliable energy, transportation, and essential services for both rapidly growing urban centers and rural communities.</p>
         <div class="fc-tags"><span>WaterTech</span><span>EnergyTech</span><span>LogiTech</span><span>InfraTech &amp; Smart Cities</span></div>
       </div>
       <div class="focus-card" style="--accent:#ecec78">
-        <span class="fc-frame"></span>
         <h3>Resilient <span class="accent">finance &amp; business continuity</span></h3>
         <p class="goal"><strong>Goal:</strong> Improving economic stability and household incomes of small and medium farmers, market traders, and local MSMEs against climate and economic shocks.</p>
         <div class="fc-tags"><span>FinTech</span><span>InsurTech</span><span>Applied AI</span><span>Web3</span></div>
@@ -2064,8 +2046,7 @@
           const tags = String(r.tags || '').split(',').map((t) => t.trim()).filter(Boolean);
           return `
           <div class="focus-card" style="--accent:${accent}">
-            <span class="fc-frame"></span>
-            <h3>${esc(r.lead || 'Resilient')} <span class="accent">${esc(r.accent || '')}</span></h3>
+                <h3>${esc(r.lead || 'Resilient')} <span class="accent">${esc(r.accent || '')}</span></h3>
             <p class="goal"><strong>Goal:</strong> ${esc(r.goal || '')}</p>
             <div class="fc-tags">${tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>
           </div>`;

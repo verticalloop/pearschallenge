@@ -644,6 +644,53 @@
       .challenge-modal-cols { grid-template-columns: 1fr; gap: 8px; }
     }
 
+    /* Cohort video lightbox */
+    .video-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      background: rgba(10, 14, 40, 0.82);
+    }
+    .video-modal-overlay.open { display: flex; }
+    .video-modal {
+      position: relative;
+      width: 100%;
+      max-width: 960px;
+    }
+    .video-modal video {
+      display: block;
+      width: 100%;
+      max-height: 82vh;
+      border-radius: 16px;
+      background: #000;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+    }
+    .video-modal-close {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--white);
+      border: none;
+      font-size: 1.6rem;
+      line-height: 1;
+      color: var(--navy);
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (max-width: 640px) {
+      .video-modal-close { top: -10px; right: -6px; width: 38px; height: 38px; font-size: 1.4rem; }
+    }
+
     /* ── FOCUS AREAS (bracketed cards) ── */
     .focus-areas {
       background: #222d5e;
@@ -1428,6 +1475,14 @@
           <p class="gap">The 2026 Pears Challenge is where you build it.</p>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- COHORT VIDEO — lightbox -->
+  <div class="video-modal-overlay" id="cohort-video-modal" role="dialog" aria-modal="true" aria-label="2025 Cohort video">
+    <div class="video-modal">
+      <button type="button" class="video-modal-close" id="cohort-video-close" aria-label="Close">&times;</button>
+      <video id="cohort-video-player" controls playsinline preload="none"></video>
     </div>
   </div>
 
@@ -2312,6 +2367,34 @@
       chClose && chClose.addEventListener('click', closeCh);
       chOverlay.addEventListener('click', (ev) => { if (ev.target === chOverlay) closeCh(); });
       document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeCh(); });
+    }
+
+    /* ---------- Cohort video lightbox ---------- */
+    const vidOverlay = document.getElementById('cohort-video-modal');
+    const vidPlayer = document.getElementById('cohort-video-player');
+    const vidClose = document.getElementById('cohort-video-close');
+    const vidTrigger = document.querySelector('.stats-cta');
+    if (vidOverlay && vidPlayer && vidTrigger) {
+      const openVid = (src) => {
+        if (vidPlayer.getAttribute('src') !== src) vidPlayer.setAttribute('src', src);
+        vidOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        vidPlayer.play().catch(() => {});
+      };
+      const closeVid = () => {
+        vidOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+        vidPlayer.pause();
+      };
+      vidTrigger.addEventListener('click', (ev) => {
+        const src = vidTrigger.getAttribute('href');
+        if (!src || src === '#') return;
+        ev.preventDefault();
+        openVid(src);
+      });
+      vidClose.addEventListener('click', closeVid);
+      vidOverlay.addEventListener('click', (ev) => { if (ev.target === vidOverlay) closeVid(); });
+      document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && vidOverlay.classList.contains('open')) closeVid(); });
     }
 
     /* ---------- Timeline: brand serpentine rail + scroll draw ---------- */

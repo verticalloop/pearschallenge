@@ -188,7 +188,7 @@
       position: absolute;
       width: 56px;
       top: 0;
-      height: 3000px;
+      bottom: 0;
       border: 12px solid var(--pc-yellow);
       pointer-events: none;
     }
@@ -748,7 +748,7 @@
       position: absolute;
       width: 40px;
       top: 0;
-      height: 3000px;
+      bottom: 0;
       border: 12px solid var(--accent, #3fe3a3);
       pointer-events: none;
     }
@@ -1004,7 +1004,7 @@
     }
     .ready-frame { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
     .ready-frame::before, .ready-frame::after {
-      content: ''; position: absolute; width: 40px; top: 0; height: 3000px;
+      content: ''; position: absolute; width: 40px; top: 0; bottom: 0;
       border: 12px solid var(--pc-yellow);
     }
     .ready-frame::before { left: 0; border-right: none; border-top-left-radius: 34px; border-bottom-left-radius: 34px; }

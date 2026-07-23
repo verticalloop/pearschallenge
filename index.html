@@ -940,7 +940,7 @@
     }
     .funding-sub { font-family: var(--font-body); font-size: 20px; color: var(--text-mid); font-weight: 500; }
     .marquee {
-      height: 386px;
+      height: 120px;
       overflow: hidden;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
       mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
@@ -954,7 +954,7 @@
       flex-shrink: 0; white-space: nowrap;
       font-family: var(--font-body); font-weight: 700; font-size: 1.3rem; color: var(--navy);
     }
-    .marquee-track img { max-height: 100%; width: auto; object-fit: contain; flex-shrink: 0; }
+    .marquee-track img { max-height: 64px; max-width: 180px; width: auto; height: auto; object-fit: contain; flex-shrink: 0; }
     @keyframes funding-scroll {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }

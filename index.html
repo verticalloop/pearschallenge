@@ -1039,6 +1039,7 @@
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
     .step-icon svg { width: 22px; height: 22px; stroke: #16283a; fill: none; stroke-width: 1.6; }
+    .step-icon img { width: 24px; height: 24px; object-fit: contain; }
     .ready-step p {
       font-family: var(--font-body); font-size: 1.05rem; color: var(--text-mid); line-height: 1.35;
     }
@@ -1107,7 +1108,7 @@
       font-family: var(--font-body);
       font-size: 60px;
       font-weight: 600; color: #0c1420; line-height: 1.05; letter-spacing: -0.02em;
-      margin-top: 96px; margin-bottom: 34px;
+      margin-top: 0; margin-bottom: 34px;
     }
     .cta-apply {
       display: inline-block; font-family: var(--font-mono);
@@ -1120,7 +1121,7 @@
     .cta-write {
       font-family: var(--font-body);
       font-size: clamp(1.05rem, 1.5vw, 1.35rem); font-weight: 700; color: #0c1420;
-      max-width: 620px; margin: 0 auto 30px; line-height: 1.35;
+      max-width: 620px; margin: 72px auto 30px; line-height: 1.35;
     }
     .cta-email {
       font-family: var(--font-body); font-size: 1rem; font-weight: 500;
@@ -1157,7 +1158,7 @@
     .cta-sq-b { bottom: -10px; left: 8%; }
     @media (max-width: 700px) {
       .bottom-cta { padding: 72px 20px 84px; }
-      .bottom-cta h2 { font-size: 32px; margin-top: 56px; }
+      .bottom-cta h2 { font-size: 32px; margin-top: 0; }
       .contact-fields input { flex-basis: 100%; }
       .cta-squiggle { display: none; }
     }
@@ -1746,25 +1747,30 @@
 
   <!-- BOTTOM CTA -->
   <section class="bottom-cta" id="apply">
+    <!-- top-right line: yellow down, navy corner out (PNG 2) -->
     <div class="cta-squiggle cta-sq-tr" aria-hidden="true">
-      <svg width="260" height="230" viewBox="0 0 260 230" fill="none">
-        <path d="M250 0 V70 Q250 100 220 100 H150 Q120 100 120 130 V230" stroke="#fdff9e" stroke-width="10" stroke-linecap="round"/>
-        <path d="M120 150 V230" stroke="#232e63" stroke-width="10" stroke-linecap="round"/>
+      <svg width="250" height="250" viewBox="0 0 250 250" fill="none">
+        <path d="M70 0 V90 Q70 150 130 150 H165" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
+        <path d="M165 150 H190 Q225 150 225 185 V250" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
       </svg>
     </div>
+    <!-- left line: green down, curving into yellow (PNG 1, upper) -->
     <div class="cta-squiggle cta-sq-l" aria-hidden="true">
-      <svg width="150" height="320" viewBox="0 0 150 320" fill="none">
-        <path d="M10 0 V120 Q10 150 40 150 H90 Q120 150 120 180 V320" stroke="#3fe3a3" stroke-width="10" stroke-linecap="round"/>
-        <path d="M120 210 V320" stroke="#fdff9e" stroke-width="10" stroke-linecap="round"/>
+      <svg width="200" height="360" viewBox="0 0 200 360" fill="none">
+        <path d="M25 0 V150 Q25 210 85 210 H120" stroke="#3fe3a3" stroke-width="11" stroke-linecap="round"/>
+        <path d="M120 210 H150 Q180 210 180 245 V360" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
       </svg>
     </div>
+    <!-- bottom line: yellow serpentine dipping into navy (PNG 1, lower) -->
     <div class="cta-squiggle cta-sq-b" aria-hidden="true">
-      <svg width="320" height="150" viewBox="0 0 320 150" fill="none">
-        <path d="M0 40 H120 Q150 40 150 70 V120 Q150 150 180 150 H320" stroke="#fdff9e" stroke-width="10" stroke-linecap="round"/>
-        <path d="M210 150 H320" stroke="#232e63" stroke-width="10" stroke-linecap="round"/>
+      <svg width="380" height="180" viewBox="0 0 380 180" fill="none">
+        <path d="M0 55 H85 Q145 55 145 110 Q145 165 205 165 H255" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
+        <path d="M255 165 H295 Q355 165 355 105 V60" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
       </svg>
     </div>
     <div class="cta-inner">
+      <h2 data-cms="cta_title">Ready to create your next impact tech venture?</h2>
+      <a href="#apply" class="cta-apply" data-cms="cta_primary">Apply Now</a>
       <p class="cta-write" data-cms="cta_write">Do you have any questions before embarking on your impact journey? Write to us</p>
       <form id="contact-form" class="contact-form" novalidate>
         <div class="contact-fields" id="contact-fields">
@@ -1776,8 +1782,6 @@
         <div class="contact-status" id="contact-status"></div>
       </form>
       <p class="cta-email"><span data-cms="cta_email_prefix">Or email to Amit Kalisker at</span> <a href="mailto:amit@nuraglobal.org" data-cms="cta_email_addr" data-cms-mailto="cta_email_addr">amit@nuraglobal.org</a></p>
-      <h2 data-cms="cta_title">Ready to create your next impact tech venture?</h2>
-      <a href="#apply" class="cta-apply" data-cms="cta_primary">Apply Now</a>
     </div>
   </section>
 
@@ -1925,22 +1929,23 @@
         const map = {};
         const setMap = (key, text, image) => { map[key] = { text: text ?? '', image: image ?? '' }; };
 
-        const [nav, hero, who, challenge, focus, timeline, alumni, funding, ready, faq, contact, applyForm, footer, footerSocial] = await Promise.all([
-          queryCollection('nav-content', 1),
-          queryCollection('hero-content', 1),
-          queryCollection('who-content', 1),
-          queryCollection('challenge-content', 1),
-          queryCollection('focus-content', 1),
-          queryCollection('timeline-content', 1),
-          queryCollection('alumni-content', 1),
-          queryCollection('funding-content', 1),
-          queryCollection('ready-content', 1),
-          queryCollection('faq-content', 1),
-          queryCollection('contact-content', 1),
-          queryCollection('apply-form-content', 1),
-          queryCollection('footer-content', 1),
-          queryCollection('footer-social-links', 10),
-        ]);
+        // Sequential (not Promise.all) so we don't fire a burst of concurrent
+        // visitor-auth token requests — Wix's OAuth token endpoint has been
+        // observed to intermittently 500 under that kind of concurrency spike.
+        const nav = await queryCollection('nav-content', 1);
+        const hero = await queryCollection('hero-content', 1);
+        const who = await queryCollection('who-content', 1);
+        const challenge = await queryCollection('challenge-content', 1);
+        const focus = await queryCollection('focus-content', 1);
+        const timeline = await queryCollection('timeline-content', 1);
+        const alumni = await queryCollection('alumni-content', 1);
+        const funding = await queryCollection('funding-content', 1);
+        const ready = await queryCollection('ready-content', 1);
+        const faq = await queryCollection('faq-content', 1);
+        const contact = await queryCollection('contact-content', 1);
+        const applyForm = await queryCollection('apply-form-content', 1);
+        const footer = await queryCollection('footer-content', 1);
+        const footerSocial = await queryCollection('footer-social-links', 10);
 
         const n = nav[0] || {};
         setMap('nav_cta', n.ctaText); setMap('nav_logo', '', n.logo);
@@ -2155,7 +2160,12 @@
       dollar: '<svg viewBox="0 0 24 24"><path d="M3 15c2-1.5 5-1.5 8 0 3 1.5 6 1.5 8 0"/><path d="M12 4v7M10 6.5c0-1 1-1.5 2-1.5s2 .5 2 1.5-1 1.3-2 1.5-2 .5-2 1.5 1 1.5 2 1.5 2-.5 2-1.5"/></svg>',
     };
     const renderChecklist = () => renderList('checklist', 'checklist', (r) => {
-      const icon = STEP_ICONS[String(r.icon || '').trim()] || STEP_ICONS.globe;
+      // Prefer an uploaded icon image from the CMS; fall back to the preset
+      // SVG named by the `icon` keyword field, then to the globe default.
+      const imgUrl = imgSrc(r.iconImage, 88, 88);
+      const icon = imgUrl
+        ? `<img src="${imgUrl}" alt="">`
+        : (STEP_ICONS[String(r.icon || '').trim()] || STEP_ICONS.globe);
       return `<li class="ready-step"><span class="step-icon">${icon}</span><p><strong>${esc(r.lead || '')}</strong> ${esc(r.rest || '')}</p></li>`;
     });
 

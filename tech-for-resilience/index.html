@@ -297,7 +297,7 @@
       opacity: 0.8;
     }
     .partner-logo-box {
-      width: 386px; height: 386px;
+      width: 180px; height: 180px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
@@ -946,7 +946,7 @@
     }
     .funding-sub { font-family: var(--font-body); font-size: 20px; color: var(--text-mid); font-weight: 500; }
     .marquee {
-      height: 386px;
+      height: 180px;
       overflow: hidden;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
       mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
@@ -961,7 +961,7 @@
       font-family: var(--font-body); font-weight: 700; font-size: 1.3rem; color: var(--navy);
     }
     .funder-logo-box {
-      width: 386px; height: 386px;
+      width: 180px; height: 180px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
@@ -2123,7 +2123,7 @@
       }, 2600);
     }
     const renderPartners = () => renderList('partners', 'partners', (r) => {
-      const logo = logoSrc(r.logo, 386, 386);
+      const logo = logoSrc(r.logo, 180, 180);
       return logo
         ? `<span class="partner-logo-box"><img src="${logo}" alt="${esc(r.name || '')}"></span>`
         : `<span class="partner">${esc(r.name || '')}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`;
@@ -2136,7 +2136,7 @@
         const el = document.getElementById('funders-track');
         if (!el) return;
         const html = rows.map((r) => {
-          const logo = logoSrc(r.logo, 386, 386);
+          const logo = logoSrc(r.logo, 180, 180);
           return logo ? `<span class="funder-logo-box"><img src="${logo}" alt="${esc(r.name || '')}"></span>` : `<span class="funder-logo">${esc(r.name || '')}</span>`;
         }).join('');
         // Duplicated so the marquee can loop seamlessly at -50% translation.

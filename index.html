@@ -296,7 +296,12 @@
       text-transform: uppercase;
       opacity: 0.8;
     }
-    .partners img { height: 42px; width: auto; max-width: 150px; object-fit: contain; }
+    .partner-logo-box {
+      width: 386px; height: 386px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .partner-logo-box img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
 
     /* ── WHO WE'RE LOOKING FOR ── */
     .who-section { max-width: 1500px; margin: 0 auto; padding: 64px 48px 96px; }
@@ -941,7 +946,7 @@
     }
     .funding-sub { font-family: var(--font-body); font-size: 20px; color: var(--text-mid); font-weight: 500; }
     .marquee {
-      height: 120px;
+      height: 386px;
       overflow: hidden;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
       mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
@@ -955,7 +960,12 @@
       flex-shrink: 0; white-space: nowrap;
       font-family: var(--font-body); font-weight: 700; font-size: 1.3rem; color: var(--navy);
     }
-    .marquee-track img { max-height: 64px; max-width: 180px; width: auto; height: auto; object-fit: contain; flex-shrink: 0; }
+    .funder-logo-box {
+      width: 386px; height: 386px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .funder-logo-box img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
     @keyframes funding-scroll {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -970,6 +980,9 @@
       .funding-sub { font-size: 17px; }
       .marquee-track { gap: 56px; }
       .funder-logo { font-size: 1.1rem; }
+      .marquee { height: 130px; }
+      .funder-logo-box { width: 130px; height: 130px; }
+      .partner-logo-box { width: 130px; height: 130px; }
     }
 
     /* ── READY SECTION (split card + steps) ── */
@@ -2110,9 +2123,9 @@
       }, 2600);
     }
     const renderPartners = () => renderList('partners', 'partners', (r) => {
-      const logo = logoSrc(r.logo, 320, 130);
+      const logo = logoSrc(r.logo, 386, 386);
       return logo
-        ? `<span class="partner"><img src="${logo}" alt="${esc(r.name || '')}" style="height:42px;width:auto;max-width:150px;object-fit:contain"></span>`
+        ? `<span class="partner-logo-box"><img src="${logo}" alt="${esc(r.name || '')}"></span>`
         : `<span class="partner">${esc(r.name || '')}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`;
     });
     async function renderFunders() {
@@ -2123,8 +2136,8 @@
         const el = document.getElementById('funders-track');
         if (!el) return;
         const html = rows.map((r) => {
-          const logo = logoSrc(r.logo, 400, 200);
-          return logo ? `<img src="${logo}" alt="${esc(r.name || '')}">` : `<span class="funder-logo">${esc(r.name || '')}</span>`;
+          const logo = logoSrc(r.logo, 386, 386);
+          return logo ? `<span class="funder-logo-box"><img src="${logo}" alt="${esc(r.name || '')}"></span>` : `<span class="funder-logo">${esc(r.name || '')}</span>`;
         }).join('');
         // Duplicated so the marquee can loop seamlessly at -50% translation.
         el.innerHTML = html + html;

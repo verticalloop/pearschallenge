@@ -164,10 +164,16 @@
       background-size: cover;
       background-repeat: no-repeat;
     }
-    .hero-card {
-      position: relative;
+    .hero-card-frame {
       width: 100%;
       max-width: 1140px;
+      display: flex;
+      align-items: stretch;
+    }
+    .hero-card {
+      position: relative;
+      flex: 1;
+      min-width: 0;
       min-height: 500px;
       padding: 72px 56px 76px;
       display: flex;
@@ -179,30 +185,27 @@
       background: rgba(24,20,8,0.28);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      overflow: hidden;
     }
-    /* yellow corner brackets */
-    .hero-card::before,
-    .hero-card::after {
-      content: '';
-      position: absolute;
+    /* yellow corner brackets — real flex-stretch siblings so height always
+       matches the card exactly, avoiding the Safari abspos top/bottom bug */
+    .hero-bracket {
+      flex: 0 0 56px;
       width: 56px;
-      top: 0;
-      bottom: 0;
       border: 12px solid var(--pc-yellow);
       pointer-events: none;
+      z-index: 2;
     }
-    .hero-card::before {
-      left: 0;
+    .hero-bracket-l {
       border-right: none;
       border-top-left-radius: 44px;
       border-bottom-left-radius: 44px;
+      margin-right: -56px;
     }
-    .hero-card::after {
-      right: 0;
+    .hero-bracket-r {
       border-left: none;
       border-top-right-radius: 44px;
       border-bottom-right-radius: 44px;
+      margin-left: -56px;
     }
     .hero-eyebrow {
       font-family: var(--font-mono);
@@ -747,8 +750,7 @@
       content: '';
       position: absolute;
       width: 40px;
-      top: 0;
-      bottom: 0;
+      top: 0; bottom: 0;
       border: 12px solid var(--accent, #3fe3a3);
       pointer-events: none;
     }
@@ -938,12 +940,13 @@
     }
     .funding-sub { font-family: var(--font-body); font-size: 20px; color: var(--text-mid); font-weight: 500; }
     .marquee {
+      height: 386px;
       overflow: hidden;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
       mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
     }
     .marquee-track {
-      display: flex; align-items: center; gap: 88px; width: max-content;
+      display: flex; align-items: center; gap: 88px; width: max-content; height: 100%;
       animation: funding-scroll 38s linear infinite;
     }
     .marquee:hover .marquee-track { animation-play-state: paused; }
@@ -951,7 +954,7 @@
       flex-shrink: 0; white-space: nowrap;
       font-family: var(--font-body); font-weight: 700; font-size: 1.3rem; color: var(--navy);
     }
-    .marquee-track img { height: 38px; width: auto; object-fit: contain; flex-shrink: 0; }
+    .marquee-track img { max-height: 100%; width: auto; object-fit: contain; flex-shrink: 0; }
     @keyframes funding-scroll {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -1352,7 +1355,9 @@
       .nav-burger { display: flex; }
       .hero { padding: 100px 18px 48px; min-height: 90vh; }
       .hero-card { padding: 52px 24px 56px; border-radius: 28px; min-height: 0; }
-      .hero-card::before, .hero-card::after { width: 28px; border-width: 8px; }
+      .hero-bracket { flex-basis: 28px; width: 28px; border-width: 8px; }
+      .hero-bracket-l { margin-right: -28px; }
+      .hero-bracket-r { margin-left: -28px; }
       .hero-eyebrow { letter-spacing: 0.35em; font-size: 0.8rem; }
       .intro-split, .tech-section, .ready-section { grid-template-columns: 1fr; padding: 48px 20px; }
       .intro-split h2 { grid-column: 1; }
@@ -1398,11 +1403,15 @@
       <a href="#apply" class="mobile-apply" data-cms="nav_cta">Apply Now</a>
     </div>
 
-    <div class="hero-card">
-      <p class="hero-eyebrow" data-cms="hero_eyebrow">Pears Challenge 2026</p>
-      <h1 class="hero-title"><span class="accent"><span id="hero-word" class="hero-word">Food</span>-Tech for Resilience</span><br><span data-cms="hero_title_rest">In East Africa</span></h1>
-      <p class="hero-sub" data-cms="hero_sub">A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets</p>
-      <a href="#apply" class="hero-cta" data-cms="hero_cta">Apply Now</a>
+    <div class="hero-card-frame">
+      <span class="hero-bracket hero-bracket-l" aria-hidden="true"></span>
+      <div class="hero-card">
+        <p class="hero-eyebrow" data-cms="hero_eyebrow">Pears Challenge 2026</p>
+        <h1 class="hero-title"><span class="accent"><span id="hero-word" class="hero-word">Food</span>-Tech for Resilience</span><br><span data-cms="hero_title_rest">In East Africa</span></h1>
+        <p class="hero-sub" data-cms="hero_sub">A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets</p>
+        <a href="#apply" class="hero-cta" data-cms="hero_cta">Apply Now</a>
+      </div>
+      <span class="hero-bracket hero-bracket-r" aria-hidden="true"></span>
     </div>
   </header>
 

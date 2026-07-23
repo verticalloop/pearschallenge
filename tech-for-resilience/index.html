@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://static.wixstatic.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1019,7 +1019,7 @@
       gap: 40px;
       align-items: stretch;
     }
-    .ready-photo { position: relative; overflow: hidden; border-radius: 30px; }
+    .ready-photo { position: relative; overflow: hidden; border-radius: 30px; min-height: 520px; background: var(--navy); }
     .ready-photo img, .ready-photo video {
       width: 100%; height: 100%; min-height: 520px;
       object-fit: cover; border-radius: 30px; display: block;
@@ -1489,7 +1489,7 @@
         <button type="button" class="challenge-readmore" id="challenge-open" data-cms="challenge_readmore">Read More</button>
       </div>
       <div class="challenge-image">
-        <img data-cms-img="challenge_image" alt="East African market" style="display:none" onload="this.style.display='block'" />
+        <img data-cms-img="challenge_image" alt="East African market" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
@@ -1617,7 +1617,7 @@
           </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="2" data-side="right">
-          <img alt="Bootcamp collaboration" style="display:none" onload="this.style.display='block'" />
+          <img alt="Bootcamp collaboration" loading="lazy" decoding="async" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="3" data-side="right" style="--c:#FFE53C">
@@ -1634,7 +1634,7 @@
           </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="3" data-side="left">
-          <img alt="Pears Challenge cohort" style="display:none" onload="this.style.display='block'" />
+          <img alt="Pears Challenge cohort" loading="lazy" decoding="async" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="4" data-side="left" style="--c:#31FFB1">
@@ -1651,7 +1651,7 @@
           </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="4" data-side="right">
-          <img alt="Field validation visit" style="display:none" onload="this.style.display='block'" />
+          <img alt="Field validation visit" loading="lazy" decoding="async" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="5" data-side="right" style="--c:#5CDCFF">
@@ -1669,7 +1669,7 @@
           </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="5" data-side="left">
-          <img alt="Demo day presentation" style="display:none" onload="this.style.display='block'" />
+          <img alt="Demo day presentation" loading="lazy" decoding="async" />
         </div>
       </div>
     </div>
@@ -1724,9 +1724,7 @@
     <div class="ready-grid">
       <div class="ready-photo">
         <span class="ready-frame"></span>
-        <video autoplay muted loop playsinline preload="metadata" aria-label="East African market">
-          <source data-cms-video="ready_video" src="https://video.wixstatic.com/video/3efa7e_1c3f39d16e0b4f84a281c06c000ac692/1080p/mp4/file.mp4" type="video/mp4" />
-        </video>
+        <img data-cms-img="ready_image" alt="East African market" loading="lazy" decoding="async" />
       </div>
       <div class="ready-card">
         <h2 data-cms="ready_title">Ready for the journey?</h2>
@@ -1821,7 +1819,7 @@
     <div class="footer-banner-band">
       <div class="footer-banner">
         <div class="funder-box">
-          <img data-cms-img="footer_funder_logo" alt="Pears Foundation" style="display:none" onload="this.style.display='block';this.nextElementSibling&&(this.nextElementSibling.style.display='none')" />
+          <img data-cms-img="footer_funder_logo" alt="Pears Foundation" decoding="async" style="display:none" onload="this.style.display='block';this.nextElementSibling&&(this.nextElementSibling.style.display='none')" />
           <span class="pears-mark" data-fallback><b>Pears</b><span>Foundation</span></span>
         </div>
         <p class="funder-text" data-cms="footer_attr"><strong>Pears Challenge</strong> is an initiative of <strong>Nura: Global Innovation Lab</strong>, generously funded by the <strong>Pears Foundation.</strong></p>

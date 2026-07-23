@@ -6,6 +6,7 @@
   <title>Nura · Pears Challenge 2026 — Food-Tech for Resilience</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://static.wixstatic.com" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -295,7 +296,7 @@
       text-transform: uppercase;
       opacity: 0.8;
     }
-    .partners img { height: 42px; width: auto; object-fit: contain; }
+    .partners img { height: 42px; width: auto; max-width: 150px; object-fit: contain; }
 
     /* ── WHO WE'RE LOOKING FOR ── */
     .who-section { max-width: 1500px; margin: 0 auto; padding: 64px 48px 96px; }
@@ -1171,11 +1172,11 @@
       padding: 0;
       color: #fff;
     }
-    .footer-banner-band { background: #ffffff; padding: 44px 48px; border-bottom: 1px solid #e6e6ec; }
+    .footer-banner-band { background: #ffffff; padding: 44px 0; border-bottom: 1px solid #e6e6ec; }
     .footer-main-wrap { max-width: 1500px; margin: 0 auto; padding: 48px 48px 64px; }
     .footer-inner { max-width: 1500px; margin: 0 auto; }
     .footer-banner {
-      max-width: 1500px; margin: 0 auto;
+      max-width: 1500px; margin: 0 auto; padding: 0 48px;
       display: flex; align-items: center; gap: 48px; flex-wrap: wrap;
     }
     .funder-box {
@@ -1218,10 +1219,10 @@
     .footer-group a:hover { color: #fff; }
     .footer-group .fl-bold { font-weight: 700; color: #fff; }
     @media (max-width: 900px) {
-      .footer-banner-band { padding: 28px 20px; }
+      .footer-banner-band { padding: 28px 0; }
       .footer-main-wrap { padding: 32px 20px 48px; }
+      .footer-banner { padding: 0 20px; gap: 24px; }
       .funder-box { padding: 24px 36px; min-width: 0; }
-      .footer-banner { gap: 24px; }
       .footer-main { grid-template-columns: 1fr; gap: 36px; }
       .footer-links { grid-template-columns: 1fr 1fr; }
     }
@@ -1918,6 +1919,15 @@
       if (v.startsWith('wix:image://')) { try { return media.getScaledToFillImageUrl(v, w, h, {}); } catch (e) { return ''; } }
       return v;
     }
+    // For logos: scale-to-FIT (not fill/crop) so the whole mark is preserved,
+    // no matter its native aspect ratio.
+    function logoSrc(v, w = 400, h = 200) {
+      if (!v) return '';
+      if (typeof v === 'object') v = v.src || v.url || v.image || '';
+      if (typeof v !== 'string') return '';
+      if (v.startsWith('wix:image://')) { try { return media.getScaledToFitImageUrl(v, w, h, {}); } catch (e) { return ''; } }
+      return v;
+    }
 
     /* ---------- Site Content: all one-off text + singleton images ---------- */
     function setColumn(id, text, tight) {
@@ -1936,6 +1946,11 @@
         // observed to intermittently 500 under that kind of concurrency spike.
         const nav = await queryCollection('nav-content', 1);
         const hero = await queryCollection('hero-content', 1);
+        // Apply the hero background as soon as we have it, instead of waiting
+        // for the other 12 collections below to finish loading — it's the
+        // first thing visitors see and was the slowest-perceived image on the page.
+        const heroBgSrc = imgSrc((hero[0] || {}).backgroundImage, 1600, 1000);
+        if (heroBgSrc) document.documentElement.style.setProperty('--hero-bg-img', `url("${heroBgSrc}")`);
         const who = await queryCollection('who-content', 1);
         const challenge = await queryCollection('challenge-content', 1);
         const focus = await queryCollection('focus-content', 1);
@@ -2038,7 +2053,7 @@
           const r = map[el.getAttribute('data-cms-video')];
           if (r && r.text) { el.src = r.text; el.closest('video')?.load(); }
         });
-        const bgMap = { hero_bg: '--hero-bg-img', challenge_image: '--challenge-bg-img', cta_bg: '--cta-bg-img', ready_image: '--ready-bg-img' };
+        const bgMap = { challenge_image: '--challenge-bg-img', cta_bg: '--cta-bg-img', ready_image: '--ready-bg-img' };
         Object.entries(bgMap).forEach(([key, varName]) => {
           const src = imgSrc(map[key] && map[key].image, 1600, 1000);
           if (src) document.documentElement.style.setProperty(varName, `url("${src}")`);
@@ -2095,9 +2110,9 @@
       }, 2600);
     }
     const renderPartners = () => renderList('partners', 'partners', (r) => {
-      const logo = imgSrc(r.logo, 320, 130);
+      const logo = logoSrc(r.logo, 320, 130);
       return logo
-        ? `<span class="partner"><img src="${logo}" alt="${esc(r.name || '')}" style="height:42px;width:auto;object-fit:contain"></span>`
+        ? `<span class="partner"><img src="${logo}" alt="${esc(r.name || '')}" style="height:42px;width:auto;max-width:150px;object-fit:contain"></span>`
         : `<span class="partner">${esc(r.name || '')}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`;
     });
     async function renderFunders() {
@@ -2108,7 +2123,7 @@
         const el = document.getElementById('funders-track');
         if (!el) return;
         const html = rows.map((r) => {
-          const logo = imgSrc(r.logo, 220, 80);
+          const logo = logoSrc(r.logo, 400, 200);
           return logo ? `<img src="${logo}" alt="${esc(r.name || '')}">` : `<span class="funder-logo">${esc(r.name || '')}</span>`;
         }).join('');
         // Duplicated so the marquee can loop seamlessly at -50% translation.

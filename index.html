@@ -1157,8 +1157,7 @@
     .cta-squiggle { position: absolute; z-index: 1; pointer-events: none; }
     .cta-squiggle svg { display: block; }
     .cta-sq-tr { top: -10px; right: 0; }
-    .cta-sq-l { top: 44%; left: -20px; }
-    .cta-sq-b { bottom: -10px; left: 8%; }
+    .cta-sq-bl { bottom: -10px; left: -30px; }
     @media (max-width: 700px) {
       .bottom-cta { padding: 72px 20px 84px; }
       .bottom-cta h2 { font-size: 32px; margin-top: 0; }
@@ -1758,23 +1757,17 @@
   <section class="bottom-cta" id="apply">
     <!-- top-right line: yellow down, navy corner out (PNG 2) -->
     <div class="cta-squiggle cta-sq-tr" aria-hidden="true">
-      <svg width="250" height="250" viewBox="0 0 250 250" fill="none">
-        <path d="M70 0 V90 Q70 150 130 150 H165" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
-        <path d="M165 150 H190 Q225 150 225 185 V250" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
+      <svg width="250" height="300" viewBox="0 0 250 300" fill="none">
+        <path d="M75 0 V95 Q75 150 130 150 H165" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
+        <path d="M165 150 H195 Q230 150 230 190 V255 Q230 300 250 300" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
       </svg>
     </div>
-    <!-- left line: green down, curving into yellow (PNG 1, upper) -->
-    <div class="cta-squiggle cta-sq-l" aria-hidden="true">
-      <svg width="200" height="360" viewBox="0 0 200 360" fill="none">
-        <path d="M25 0 V150 Q25 210 85 210 H120" stroke="#3fe3a3" stroke-width="11" stroke-linecap="round"/>
-        <path d="M120 210 H150 Q180 210 180 245 V360" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <!-- bottom line: yellow serpentine dipping into navy (PNG 1, lower) -->
-    <div class="cta-squiggle cta-sq-b" aria-hidden="true">
-      <svg width="380" height="180" viewBox="0 0 380 180" fill="none">
-        <path d="M0 55 H85 Q145 55 145 110 Q145 165 205 165 H255" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
-        <path d="M255 165 H295 Q355 165 355 105 V60" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
+    <!-- left + bottom: one continuous green -> yellow serpentine -> navy (PNG 1) -->
+    <div class="cta-squiggle cta-sq-bl" aria-hidden="true">
+      <svg width="640" height="470" viewBox="0 0 640 470" fill="none">
+        <path d="M40 0 V300 Q40 360 105 360 H150" stroke="#3fe3a3" stroke-width="11" stroke-linecap="round"/>
+        <path d="M150 360 H220 Q285 360 285 405 Q285 450 350 450 H400 Q465 450 465 405 V395" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
+        <path d="M465 395 Q465 360 525 360 H620" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
       </svg>
     </div>
     <div class="cta-inner">

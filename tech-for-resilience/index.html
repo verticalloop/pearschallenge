@@ -266,18 +266,22 @@
     }
     .btn-primary:hover { opacity: 0.88; }
 
-    /* ── PARTNERS / BACKERS STRIP ── */
-    .partners {
+    /* ── PARTNERS / BACKERS STRIP (auto-scrolling marquee) ── */
+    .partners-marquee {
       max-width: 1500px;
       margin: 0 auto;
       padding: 56px 48px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 28px 40px;
-      flex-wrap: wrap;
+      height: 180px;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
     }
-    .partners .partner {
+    .partners-track {
+      display: flex; align-items: center; gap: 88px; width: max-content; height: 100%;
+      animation: funding-scroll 38s linear infinite;
+    }
+    .partners-marquee:hover .partners-track { animation-play-state: paused; }
+    .partners-track .partner {
       font-family: var(--font-body);
       font-weight: 700;
       font-size: 0.98rem;
@@ -289,7 +293,7 @@
       flex-direction: column;
       line-height: 1.15;
     }
-    .partners .partner small {
+    .partners-track .partner small {
       font-size: 0.56rem;
       font-weight: 600;
       letter-spacing: 0.06em;
@@ -370,7 +374,8 @@
       line-height: 1.62;
     }
     @media (max-width: 900px) {
-      .partners { padding: 40px 20px 16px; gap: 20px 28px; justify-content: center; }
+      .partners-marquee { padding: 40px 20px 16px; height: 130px; }
+      .partners-track { gap: 56px; }
       .who-section { padding: 44px 20px 64px; }
       .who-section > h2 { font-size: 34px; }
       .who-sub { font-size: 17px; }
@@ -1428,16 +1433,26 @@
     </div>
   </header>
 
-  <!-- PARTNERS / BACKERS STRIP -->
-  <div class="partners" id="partners">
-    <span class="partner">TradeIL<small>Israel Trade &amp; Invest</small></span>
-    <span class="partner">2B.Friendly</span>
-    <span class="partner">Herzog<small>Fox &amp; Neeman</small></span>
-    <span class="partner">British Embassy<small>Israel</small></span>
-    <span class="partner">Embassy of Israel<small>in Kenya</small></span>
-    <span class="partner">Kenya Climate Ventures<small>KCV</small></span>
-    <span class="partner">Pears Foundation</span>
-    <span class="partner">Quercus Group</span>
+  <!-- PARTNERS / BACKERS STRIP (auto-scrolling marquee, same behavior as funders) -->
+  <div class="partners-marquee">
+    <div class="partners-track" id="partners">
+      <span class="partner">TradeIL<small>Israel Trade &amp; Invest</small></span>
+      <span class="partner">2B.Friendly</span>
+      <span class="partner">Herzog<small>Fox &amp; Neeman</small></span>
+      <span class="partner">British Embassy<small>Israel</small></span>
+      <span class="partner">Embassy of Israel<small>in Kenya</small></span>
+      <span class="partner">Kenya Climate Ventures<small>KCV</small></span>
+      <span class="partner">Pears Foundation</span>
+      <span class="partner">Quercus Group</span>
+      <span class="partner">TradeIL<small>Israel Trade &amp; Invest</small></span>
+      <span class="partner">2B.Friendly</span>
+      <span class="partner">Herzog<small>Fox &amp; Neeman</small></span>
+      <span class="partner">British Embassy<small>Israel</small></span>
+      <span class="partner">Embassy of Israel<small>in Kenya</small></span>
+      <span class="partner">Kenya Climate Ventures<small>KCV</small></span>
+      <span class="partner">Pears Foundation</span>
+      <span class="partner">Quercus Group</span>
+    </div>
   </div>
 
   <!-- WHO WE'RE LOOKING FOR -->
@@ -2122,12 +2137,23 @@
         }, 450);
       }, 2600);
     }
-    const renderPartners = () => renderList('partners', 'partners', (r) => {
-      const logo = logoSrc(r.logo, 180, 180);
-      return logo
-        ? `<span class="partner-logo-box"><img src="${logo}" alt="${esc(r.name || '')}"></span>`
-        : `<span class="partner">${esc(r.name || '')}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`;
-    });
+    async function renderPartners() {
+      try {
+        const rows = await queryCollection('partners', 100);
+        if (!rows.length) return;
+        rows.sort(byOrder);
+        const el = document.getElementById('partners');
+        if (!el) return;
+        const html = rows.map((r) => {
+          const logo = logoSrc(r.logo, 180, 180);
+          return logo
+            ? `<span class="partner-logo-box"><img src="${logo}" alt="${esc(r.name || '')}"></span>`
+            : `<span class="partner">${esc(r.name || '')}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`;
+        }).join('');
+        // Duplicated so the marquee can loop seamlessly at -50% translation.
+        el.innerHTML = html + html;
+      } catch (e) { console.warn('partners load failed:', e); }
+    }
     async function renderFunders() {
       try {
         const rows = await queryCollection('funders', 100);

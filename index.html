@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://static.wixstatic.com" />
+  <link rel="preconnect" href="https://esm.sh" crossorigin />
+  <link rel="modulepreload" href="https://esm.sh/@wix/sdk@1?bundle" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1918,7 +1920,7 @@
   </div>
 
   <script type="module">
-    import { createClient, OAuthStrategy, media } from 'https://esm.sh/@wix/sdk@1';
+    import { createClient, OAuthStrategy, media } from 'https://esm.sh/@wix/sdk@1?bundle';
 
     // Public OAuth client id (== the OAuth app id in wix.config.json). Not a secret.
     const CLIENT_ID = '2d0c50dd-a5d6-47f2-ac05-0e190ea93ca1';

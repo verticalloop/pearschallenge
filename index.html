@@ -1111,6 +1111,19 @@
     .faq-item.open .faq-answer { display: block; }
     .faq-answer p { font-family: var(--font-body); color: var(--text-mid); font-size: 1.02rem; line-height: 1.6; margin-bottom: 14px; }
     .faq-answer p:last-child { margin-bottom: 0; }
+    .faq-load-more {
+      display: block; margin: 32px auto 0;
+      font-family: var(--font-mono);
+      background: #fff; color: #0c1420;
+      border: 1.5px solid var(--gray-mid);
+      padding: 16px 38px;
+      border-radius: 999px;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s, color 0.2s;
+    }
+    .faq-load-more:hover { transform: translateY(-2px); background: #0c1420; color: #fff; }
     @media (max-width: 900px) {
       .faq-section { padding: 56px 20px 64px; }
       .faq-section h2 { font-size: 32px; margin-bottom: 28px; }
@@ -1197,7 +1210,6 @@
     .cta-squiggle { position: absolute; z-index: 1; pointer-events: none; }
     .cta-squiggle svg { display: block; }
     .cta-sq-tr { top: -10px; right: 0; }
-    .cta-sq-bl { bottom: -10px; left: -30px; }
     @media (max-width: 700px) {
       .bottom-cta { padding: 72px 20px 84px; }
       .bottom-cta h2 { font-size: 32px; margin-top: 0; }
@@ -1798,6 +1810,7 @@
           <div class="faq-answer"><p>Yes. We welcome ventures from early concept through to an early product with initial traction. Whether you are validating a new idea or refining an existing product for East African markets, the program meets you where you are.</p></div>
         </div>
       </div>
+      <button type="button" id="faq-load-more" class="faq-load-more" hidden>Load More</button>
     </div>
   </section>
 
@@ -1808,14 +1821,6 @@
       <svg width="250" height="300" viewBox="0 0 250 300" fill="none">
         <path d="M75 0 V95 Q75 150 130 150 H165" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
         <path d="M165 150 H195 Q230 150 230 190 V255 Q230 300 250 300" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <!-- left + bottom: one continuous green -> yellow serpentine -> navy rising tail (PNG 1) -->
-    <div class="cta-squiggle cta-sq-bl" aria-hidden="true">
-      <svg width="270" height="470" viewBox="0 0 270 470" fill="none">
-        <path d="M17 0 V300 Q17 360 44 360 H63" stroke="#3fe3a3" stroke-width="11" stroke-linecap="round"/>
-        <path d="M63 360 H92 Q120 360 120 405 Q120 450 147 450 H168 Q195 450 195 405 V395" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
-        <path d="M195 395 Q195 340 218 340 H235 Q256 340 256 290 V52" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
       </svg>
     </div>
     <div class="cta-inner">
@@ -2342,6 +2347,37 @@
           </div>`;
         }).join('');
       } catch (e) { console.warn('FAQ load failed, using fallback:', e); }
+      setupFaqPaging();
+    }
+
+    /* ---------- FAQ "Load More" paging ---------- */
+    const FAQ_PAGE_SIZE = 6;
+    function setupFaqPaging() {
+      const list = document.getElementById('faq-list');
+      const btn = document.getElementById('faq-load-more');
+      const items = Array.from(list.querySelectorAll('.faq-item'));
+      const total = items.length;
+      if (total <= FAQ_PAGE_SIZE) {
+        items.forEach((it) => { it.hidden = false; });
+        btn.hidden = true;
+        return;
+      }
+      let visibleCount = FAQ_PAGE_SIZE;
+      function render() {
+        items.forEach((it, i) => { it.hidden = i >= visibleCount; });
+        btn.textContent = visibleCount >= total ? 'Show Less' : 'Load More';
+      }
+      btn.hidden = false;
+      btn.onclick = () => {
+        if (visibleCount >= total) {
+          visibleCount = FAQ_PAGE_SIZE;
+          document.getElementById('faq').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          visibleCount = Math.min(total, visibleCount + FAQ_PAGE_SIZE);
+        }
+        render();
+      };
+      render();
     }
 
     const FOCUS_COLORS = ['#3fe3a3', '#45c3f2', '#ecec78'];
@@ -2751,6 +2787,7 @@
     renderStats().then(initStatsCountUp);
     renderChecklist();
     renderFooter();
+    setupFaqPaging();
     renderFAQ();
     renderFocus();
     initTimeline();

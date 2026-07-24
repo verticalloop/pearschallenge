@@ -1140,27 +1140,32 @@
       text-decoration: none; transition: transform 0.2s;
     }
     .cta-apply:hover { transform: translateY(-2px); }
-    .cta-write {
+    .cta-sub {
       font-family: var(--font-body);
-      font-size: clamp(1.05rem, 1.5vw, 1.35rem); font-weight: 700; color: #0c1420;
-      max-width: 620px; margin: 72px auto 30px; line-height: 1.35;
+      font-size: clamp(1.05rem, 1.5vw, 1.35rem); font-weight: 600; color: #0c1420;
+      max-width: 620px; margin: 0 auto 34px; line-height: 1.35;
     }
-    .cta-email {
-      font-family: var(--font-body); font-size: 1rem; font-weight: 500;
-      color: #0c1420; margin-top: 20px;
+    .cta-note {
+      font-family: var(--font-body); font-size: 1.05rem; font-weight: 500;
+      color: #0c1420; margin-top: 60px;
     }
-    .cta-email a { color: #0c1420; text-decoration: none; font-weight: 700; }
-    .cta-email a:hover { text-decoration: underline; }
+    .cta-note a, .cta-ask-link {
+      color: #0c1420; font-weight: 700; text-decoration: underline; text-underline-offset: 2px;
+    }
+    .cta-ask-link {
+      background: none; border: none; padding: 0; font: inherit; cursor: pointer;
+    }
+    .cta-note a:hover, .cta-ask-link:hover { opacity: 0.75; }
     .contact-form { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
     .contact-fields { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; flex: 1 1 auto; max-width: 860px; }
     .contact-fields input {
       font-family: var(--font-body); font-size: 1rem;
       flex: 1 1 200px; min-width: 0;
-      background: #fff; border: none; border-radius: 999px;
-      padding: 18px 26px; color: var(--text-dark);
+      background: #fff; border: 1px solid var(--gray-mid); border-radius: 999px;
+      padding: 17px 25px; color: var(--text-dark);
     }
     .contact-fields input::placeholder { color: #8a9099; }
-    .contact-fields input:focus { outline: none; box-shadow: 0 0 0 3px rgba(12,20,32,0.18); }
+    .contact-fields input:focus { outline: none; border-color: var(--blue-accent); box-shadow: 0 0 0 3px rgba(30,111,168,0.14); }
     .contact-submit {
       flex-shrink: 0; width: 58px; height: 58px; border-radius: 50%;
       background: #0c1420; color: #fff; border: none; cursor: pointer;
@@ -1172,6 +1177,19 @@
     .contact-status { flex-basis: 100%; margin-top: 14px; font-family: var(--font-body); font-size: 0.9rem; color: #0c1420; }
     .contact-status.error { color: #7a1f1f; font-weight: 600; }
     .contact-thanks { font-family: var(--font-body); font-size: 1.15rem; font-weight: 700; color: #0c1420; }
+    #ask-modal .modal { max-width: 560px; }
+    #ask-modal .contact-status { color: var(--text-mid); }
+    /* copy-to-clipboard toast */
+    .copy-toast {
+      position: fixed; left: 50%; bottom: 36px; transform: translateX(-50%) translateY(12px);
+      background: #0c1420; color: #fff; font-family: var(--font-body); font-size: 0.9rem; font-weight: 600;
+      padding: 13px 22px; border-radius: 999px; box-shadow: 0 12px 32px rgba(0,0,0,0.28);
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 2000;
+    }
+    .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .copy-toast svg { width: 16px; height: 16px; flex-shrink: 0; }
     /* decorative squiggles */
     .cta-squiggle { position: absolute; z-index: 1; pointer-events: none; }
     .cta-squiggle svg { display: block; }
@@ -1799,18 +1817,12 @@
     </div>
     <div class="cta-inner">
       <h2 data-cms="cta_title">Ready to create your next impact tech venture?</h2>
+      <p class="cta-sub" data-cms="cta_write">Applications for the 2026 cohort are open</p>
       <a href="#apply" class="cta-apply" data-cms="cta_primary">Apply Now</a>
-      <p class="cta-write" data-cms="cta_write">Do you have any questions before embarking on your impact journey? Write to us</p>
-      <form id="contact-form" class="contact-form" novalidate>
-        <div class="contact-fields" id="contact-fields">
-          <input name="full_name" type="text" placeholder="Full Name*" required />
-          <input name="email" type="email" placeholder="Email*" required />
-          <input name="question" type="text" placeholder="Question" />
-        </div>
-        <button type="submit" class="contact-submit" aria-label="Send">&#8594;</button>
-        <div class="contact-status" id="contact-status"></div>
-      </form>
-      <p class="cta-email"><span data-cms="cta_email_prefix">Or email to Amit Kalisker at</span> <a href="mailto:amit@nuraglobal.org" data-cms="cta_email_addr" data-cms-mailto="cta_email_addr">amit@nuraglobal.org</a></p>
+      <p class="cta-note">
+        Not sure yet? <button type="button" class="cta-ask-link" id="cta-ask-open">Ask us a question</button>
+        or email Amit Kalisker · <a href="mailto:amit@nuraglobal.org" class="cta-email-copy" id="cta-email-copy" data-cms="cta_email_addr" data-cms-mailto="cta_email_addr">amit@nuraglobal.org</a>
+      </p>
     </div>
   </section>
 
@@ -1865,6 +1877,30 @@
       </div>
     </div>
   </footer>
+
+  <!-- ASK A QUESTION MODAL (powered by Wix Forms) -->
+  <div class="modal-overlay" id="ask-modal" role="dialog" aria-modal="true" aria-labelledby="ask-modal-title">
+    <div class="modal">
+      <button class="modal-close" id="ask-modal-close" aria-label="Close">&times;</button>
+      <h2 id="ask-modal-title">Ask us a question</h2>
+      <p class="modal-sub">Not sure the Pears Challenge is right for you yet? Send us a note and we'll follow up.</p>
+      <form id="contact-form" class="contact-form" novalidate>
+        <div class="contact-fields" id="contact-fields">
+          <input name="full_name" type="text" placeholder="Full Name*" required />
+          <input name="email" type="email" placeholder="Email*" required />
+          <input name="question" type="text" placeholder="Question" />
+        </div>
+        <button type="submit" class="contact-submit" aria-label="Send">&#8594;</button>
+        <div class="contact-status" id="contact-status"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- copy-to-clipboard toast -->
+  <div class="copy-toast" id="copy-toast" role="status" aria-live="polite">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    <span>Email copied to clipboard</span>
+  </div>
 
   <!-- APPLICATION MODAL (powered by Wix Forms) -->
   <div class="modal-overlay" id="apply-modal" role="dialog" aria-modal="true" aria-labelledby="apply-modal-title">
@@ -2509,6 +2545,52 @@
       chClose && chClose.addEventListener('click', closeCh);
       chOverlay.addEventListener('click', (ev) => { if (ev.target === chOverlay) closeCh(); });
       document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeCh(); });
+    }
+
+    /* ---------- "Ask us a question" modal ---------- */
+    const askOverlay = document.getElementById('ask-modal');
+    const askOpen = document.getElementById('cta-ask-open');
+    const askClose = document.getElementById('ask-modal-close');
+    if (askOverlay && askOpen) {
+      const openAsk = () => { askOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; };
+      const closeAsk = () => { askOverlay.classList.remove('open'); document.body.style.overflow = ''; };
+      askOpen.addEventListener('click', openAsk);
+      askClose && askClose.addEventListener('click', closeAsk);
+      askOverlay.addEventListener('click', (ev) => { if (ev.target === askOverlay) closeAsk(); });
+      document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && askOverlay.classList.contains('open')) closeAsk(); });
+    }
+
+    /* ---------- Copy email to clipboard ---------- */
+    const emailCopyLink = document.getElementById('cta-email-copy');
+    const copyToast = document.getElementById('copy-toast');
+    if (emailCopyLink) {
+      emailCopyLink.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const email = emailCopyLink.textContent.trim();
+        const showToast = () => {
+          if (!copyToast) return;
+          copyToast.classList.add('show');
+          clearTimeout(showToast._t);
+          showToast._t = setTimeout(() => copyToast.classList.remove('show'), 2200);
+        };
+        if (navigator.clipboard?.writeText) {
+          navigator.clipboard.writeText(email).then(showToast).catch(() => {
+            const ta = document.createElement('textarea');
+            ta.value = email; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(ta);
+            showToast();
+          });
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = email; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); } catch (e) {}
+          document.body.removeChild(ta);
+          showToast();
+        }
+      });
     }
 
     /* ---------- Cohort video lightbox ---------- */

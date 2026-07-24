@@ -1967,28 +1967,33 @@
         const map = {};
         const setMap = (key, text, image) => { map[key] = { text: text ?? '', image: image ?? '' }; };
 
-        // Sequential (not Promise.all) so we don't fire a burst of concurrent
-        // visitor-auth token requests — Wix's OAuth token endpoint has been
-        // observed to intermittently 500 under that kind of concurrency spike.
+        // Fetch nav+hero first (sequentially) so the very first request warms
+        // the cached visitor-auth token before anything else fires — Wix's
+        // OAuth token endpoint has been observed to intermittently 500 under
+        // a burst of *simultaneous first-ever* token requests. Everything
+        // after that reuses the now-cached token, so the remaining 10
+        // collections can safely load in parallel instead of one-by-one.
         const nav = await queryCollection('nav-content', 1);
         const hero = await queryCollection('hero-content', 1);
         // Apply the hero background as soon as we have it, instead of waiting
-        // for the other 12 collections below to finish loading — it's the
+        // for the other collections below to finish loading — it's the
         // first thing visitors see and was the slowest-perceived image on the page.
         const heroBgSrc = imgSrc((hero[0] || {}).backgroundImage, 1600, 1000);
         if (heroBgSrc) document.documentElement.style.setProperty('--hero-bg-img', `url("${heroBgSrc}")`);
-        const who = await queryCollection('who-content', 1);
-        const challenge = await queryCollection('challenge-content', 1);
-        const focus = await queryCollection('focus-content', 1);
-        const timeline = await queryCollection('timeline-content', 1);
-        const alumni = await queryCollection('alumni-content', 1);
-        const funding = await queryCollection('funding-content', 1);
-        const ready = await queryCollection('ready-content', 1);
-        const faq = await queryCollection('faq-content', 1);
-        const contact = await queryCollection('contact-content', 1);
-        const applyForm = await queryCollection('apply-form-content', 1);
-        const footer = await queryCollection('footer-content', 1);
-        const footerSocial = await queryCollection('footer-social-links', 10);
+        const [who, challenge, focus, timeline, alumni, funding, ready, faq, contact, applyForm, footer, footerSocial] = await Promise.all([
+          queryCollection('who-content', 1),
+          queryCollection('challenge-content', 1),
+          queryCollection('focus-content', 1),
+          queryCollection('timeline-content', 1),
+          queryCollection('alumni-content', 1),
+          queryCollection('funding-content', 1),
+          queryCollection('ready-content', 1),
+          queryCollection('faq-content', 1),
+          queryCollection('contact-content', 1),
+          queryCollection('apply-form-content', 1),
+          queryCollection('footer-content', 1),
+          queryCollection('footer-social-links', 10),
+        ]);
 
         const n = nav[0] || {};
         setMap('nav_cta', n.ctaText); setMap('nav_logo', '', n.logo);

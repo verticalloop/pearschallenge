@@ -185,9 +185,8 @@
       justify-content: center;
       text-align: center;
       border-radius: 40px;
-      background: rgba(24,20,8,0.28);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
     }
     /* yellow corner brackets — real flex-stretch siblings so height always
        matches the card exactly, avoiding the Safari abspos top/bottom bug */
@@ -273,7 +272,7 @@
       max-width: 1500px;
       margin: 0 auto;
       padding: 56px 48px 24px;
-      height: 180px;
+      height: 90px;
       overflow: hidden;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
       mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
@@ -303,7 +302,7 @@
       opacity: 0.8;
     }
     .partner-logo-box {
-      width: 180px; height: 180px;
+      width: 90px; height: 90px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
@@ -376,7 +375,7 @@
       line-height: 1.62;
     }
     @media (max-width: 900px) {
-      .partners-marquee { padding: 40px 20px 16px; height: 130px; }
+      .partners-marquee { padding: 40px 20px 16px; height: 70px; }
       .partners-track { gap: 56px; }
       .who-section { padding: 44px 20px 64px; }
       .who-section > h2 { font-size: 34px; }
@@ -518,7 +517,7 @@
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      filter: blur(8px) brightness(0.92) saturate(1.1);
+      filter: blur(4px) brightness(0.92) saturate(1.1);
       transform: scale(1.05);
       z-index: -1;
     }
@@ -610,7 +609,7 @@
       position: absolute;
       inset: 0;
       background: var(--challenge-bg-img) center/cover no-repeat;
-      filter: blur(24px) brightness(0.5);
+      filter: blur(12px) brightness(0.5);
       transform: scale(1.18);
     }
     .challenge-modal {
@@ -953,7 +952,7 @@
     }
     .funding-sub { font-family: var(--font-body); font-size: 20px; color: var(--text-mid); font-weight: 500; }
     .marquee {
-      height: 180px;
+      height: 90px;
       overflow: hidden;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
       mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
@@ -968,7 +967,7 @@
       font-family: var(--font-body); font-weight: 700; font-size: 1.3rem; color: var(--navy);
     }
     .funder-logo-box {
-      width: 180px; height: 180px;
+      width: 90px; height: 90px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
@@ -987,9 +986,9 @@
       .funding-sub { font-size: 17px; }
       .marquee-track { gap: 56px; }
       .funder-logo { font-size: 1.1rem; }
-      .marquee { height: 130px; }
-      .funder-logo-box { width: 130px; height: 130px; }
-      .partner-logo-box { width: 130px; height: 130px; }
+      .marquee { height: 70px; }
+      .funder-logo-box { width: 70px; height: 70px; }
+      .partner-logo-box { width: 70px; height: 70px; }
     }
 
     /* ── READY SECTION (split card + steps) ── */
@@ -1008,7 +1007,7 @@
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      filter: blur(28px) brightness(0.9) saturate(1.05);
+      filter: blur(7px) brightness(0.9) saturate(1.05);
       transform: scale(1.18);
       z-index: -1;
     }
@@ -1121,7 +1120,7 @@
 
     /* ── BOTTOM CTA (cyan + inline contact form) ── */
     .bottom-cta {
-      background: #45c3f2;
+      background: #5CDCFF;
       padding: 110px 48px 120px;
       text-align: center;
       position: relative;
@@ -1169,12 +1168,14 @@
     .contact-fields input::placeholder { color: #8a9099; }
     .contact-fields input:focus { outline: none; border-color: var(--blue-accent); box-shadow: 0 0 0 3px rgba(30,111,168,0.14); }
     .contact-submit {
-      flex-shrink: 0; width: 58px; height: 58px; border-radius: 50%;
+      flex-shrink: 0; height: 58px; border-radius: 999px; padding: 0 34px;
       background: #0c1420; color: #fff; border: none; cursor: pointer;
-      font-size: 1.4rem; line-height: 1; display: flex; align-items: center; justify-content: center;
-      transition: transform 0.2s;
+      font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      line-height: 1; display: flex; align-items: center; justify-content: center;
+      transition: transform 0.2s, background 0.2s;
     }
-    .contact-submit:hover { transform: scale(1.06); }
+    .contact-submit:hover { transform: translateY(-2px); background: #16283a; }
     .contact-submit:disabled { opacity: 0.55; cursor: default; }
     .contact-status { flex-basis: 100%; margin-top: 14px; font-family: var(--font-body); font-size: 0.9rem; color: #0c1420; }
     .contact-status.error { color: #7a1f1f; font-weight: 600; }
@@ -1892,7 +1893,7 @@
           <input name="email" type="email" placeholder="Email*" required />
           <input name="question" type="text" placeholder="Question" />
         </div>
-        <button type="submit" class="contact-submit" aria-label="Send">&#8594;</button>
+        <button type="submit" class="contact-submit">Send Question</button>
         <div class="contact-status" id="contact-status"></div>
       </form>
     </div>

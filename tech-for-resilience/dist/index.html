@@ -6,6 +6,7 @@
   <title>Nura · Pears Challenge 2026 — Food-Tech for Resilience</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://static.wixstatic.com" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -164,10 +165,16 @@
       background-size: cover;
       background-repeat: no-repeat;
     }
-    .hero-card {
-      position: relative;
+    .hero-card-frame {
       width: 100%;
       max-width: 1140px;
+      display: flex;
+      align-items: stretch;
+    }
+    .hero-card {
+      position: relative;
+      flex: 1;
+      min-width: 0;
       min-height: 500px;
       padding: 72px 56px 76px;
       display: flex;
@@ -179,30 +186,27 @@
       background: rgba(24,20,8,0.28);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      overflow: hidden;
     }
-    /* yellow corner brackets */
-    .hero-card::before,
-    .hero-card::after {
-      content: '';
-      position: absolute;
+    /* yellow corner brackets — real flex-stretch siblings so height always
+       matches the card exactly, avoiding the Safari abspos top/bottom bug */
+    .hero-bracket {
+      flex: 0 0 56px;
       width: 56px;
-      top: 0;
-      bottom: 0;
       border: 12px solid var(--pc-yellow);
       pointer-events: none;
+      z-index: 2;
     }
-    .hero-card::before {
-      left: 0;
+    .hero-bracket-l {
       border-right: none;
       border-top-left-radius: 44px;
       border-bottom-left-radius: 44px;
+      margin-right: -56px;
     }
-    .hero-card::after {
-      right: 0;
+    .hero-bracket-r {
       border-left: none;
       border-top-right-radius: 44px;
       border-bottom-right-radius: 44px;
+      margin-left: -56px;
     }
     .hero-eyebrow {
       font-family: var(--font-mono);
@@ -747,8 +751,7 @@
       content: '';
       position: absolute;
       width: 40px;
-      top: 0;
-      bottom: 0;
+      top: 0; bottom: 0;
       border: 12px solid var(--accent, #3fe3a3);
       pointer-events: none;
     }
@@ -825,12 +828,12 @@
     .tl-range { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #9aa4b0; }
 
     /* brand serpentine rail */
-    .tl-brand { position: relative; padding: 40px 0 130px; }
-    .tl-rail { width: 340px; max-width: 62vw; margin: 0 auto; }
+    .tl-brand { position: relative; padding: 40px 0 150px; }
+    .tl-rail { width: 400px; max-width: 66vw; margin: 0 auto; }
     .tl-rail svg { width: 100%; height: auto; display: block; overflow: visible; }
     .tl-stroke { transition: stroke-dashoffset 0.08s linear; }
 
-    .tl-content, .tl-photo { position: absolute; width: 33%; }
+    .tl-content, .tl-photo { position: absolute; width: 31%; }
     .reveal-ready .tl-content, .reveal-ready .tl-photo { opacity: 0; transition: opacity .7s ease; }
     .tl-content.in, .tl-photo.in { opacity: 1; }
     .tl-content[data-side="left"], .tl-photo[data-side="left"] { left: 0; }
@@ -938,12 +941,13 @@
     }
     .funding-sub { font-family: var(--font-body); font-size: 20px; color: var(--text-mid); font-weight: 500; }
     .marquee {
+      height: 120px;
       overflow: hidden;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
       mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
     }
     .marquee-track {
-      display: flex; align-items: center; gap: 88px; width: max-content;
+      display: flex; align-items: center; gap: 88px; width: max-content; height: 100%;
       animation: funding-scroll 38s linear infinite;
     }
     .marquee:hover .marquee-track { animation-play-state: paused; }
@@ -951,7 +955,7 @@
       flex-shrink: 0; white-space: nowrap;
       font-family: var(--font-body); font-weight: 700; font-size: 1.3rem; color: var(--navy);
     }
-    .marquee-track img { height: 38px; width: auto; object-fit: contain; flex-shrink: 0; }
+    .marquee-track img { max-height: 64px; max-width: 180px; width: auto; height: auto; object-fit: contain; flex-shrink: 0; }
     @keyframes funding-scroll {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -1154,8 +1158,7 @@
     .cta-squiggle { position: absolute; z-index: 1; pointer-events: none; }
     .cta-squiggle svg { display: block; }
     .cta-sq-tr { top: -10px; right: 0; }
-    .cta-sq-l { top: 44%; left: -20px; }
-    .cta-sq-b { bottom: -10px; left: 8%; }
+    .cta-sq-bl { bottom: -10px; left: -30px; }
     @media (max-width: 700px) {
       .bottom-cta { padding: 72px 20px 84px; }
       .bottom-cta h2 { font-size: 32px; margin-top: 0; }
@@ -1169,11 +1172,11 @@
       padding: 0;
       color: #fff;
     }
-    .footer-banner-band { background: #ffffff; padding: 44px 48px; border-bottom: 1px solid #e6e6ec; }
+    .footer-banner-band { background: #ffffff; padding: 44px 0; border-bottom: 1px solid #e6e6ec; }
     .footer-main-wrap { max-width: 1500px; margin: 0 auto; padding: 48px 48px 64px; }
     .footer-inner { max-width: 1500px; margin: 0 auto; }
     .footer-banner {
-      max-width: 1500px; margin: 0 auto;
+      max-width: 1500px; margin: 0 auto; padding: 0 48px;
       display: flex; align-items: center; gap: 48px; flex-wrap: wrap;
     }
     .funder-box {
@@ -1216,10 +1219,10 @@
     .footer-group a:hover { color: #fff; }
     .footer-group .fl-bold { font-weight: 700; color: #fff; }
     @media (max-width: 900px) {
-      .footer-banner-band { padding: 28px 20px; }
+      .footer-banner-band { padding: 28px 0; }
       .footer-main-wrap { padding: 32px 20px 48px; }
+      .footer-banner { padding: 0 20px; gap: 24px; }
       .funder-box { padding: 24px 36px; min-width: 0; }
-      .footer-banner { gap: 24px; }
       .footer-main { grid-template-columns: 1fr; gap: 36px; }
       .footer-links { grid-template-columns: 1fr 1fr; }
     }
@@ -1352,7 +1355,9 @@
       .nav-burger { display: flex; }
       .hero { padding: 100px 18px 48px; min-height: 90vh; }
       .hero-card { padding: 52px 24px 56px; border-radius: 28px; min-height: 0; }
-      .hero-card::before, .hero-card::after { width: 28px; border-width: 8px; }
+      .hero-bracket { flex-basis: 28px; width: 28px; border-width: 8px; }
+      .hero-bracket-l { margin-right: -28px; }
+      .hero-bracket-r { margin-left: -28px; }
       .hero-eyebrow { letter-spacing: 0.35em; font-size: 0.8rem; }
       .intro-split, .tech-section, .ready-section { grid-template-columns: 1fr; padding: 48px 20px; }
       .intro-split h2 { grid-column: 1; }
@@ -1398,11 +1403,15 @@
       <a href="#apply" class="mobile-apply" data-cms="nav_cta">Apply Now</a>
     </div>
 
-    <div class="hero-card">
-      <p class="hero-eyebrow" data-cms="hero_eyebrow">Pears Challenge 2026</p>
-      <h1 class="hero-title"><span class="accent"><span id="hero-word" class="hero-word">Food</span>-Tech for Resilience</span><br><span data-cms="hero_title_rest">In East Africa</span></h1>
-      <p class="hero-sub" data-cms="hero_sub">A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets</p>
-      <a href="#apply" class="hero-cta" data-cms="hero_cta">Apply Now</a>
+    <div class="hero-card-frame">
+      <span class="hero-bracket hero-bracket-l" aria-hidden="true"></span>
+      <div class="hero-card">
+        <p class="hero-eyebrow" data-cms="hero_eyebrow">Pears Challenge 2026</p>
+        <h1 class="hero-title"><span class="accent"><span id="hero-word" class="hero-word">Food</span>-Tech for Resilience</span><br><span data-cms="hero_title_rest">In East Africa</span></h1>
+        <p class="hero-sub" data-cms="hero_sub">A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets</p>
+        <a href="#apply" class="hero-cta" data-cms="hero_cta">Apply Now</a>
+      </div>
+      <span class="hero-bracket hero-bracket-r" aria-hidden="true"></span>
     </div>
   </header>
 
@@ -1749,23 +1758,17 @@
   <section class="bottom-cta" id="apply">
     <!-- top-right line: yellow down, navy corner out (PNG 2) -->
     <div class="cta-squiggle cta-sq-tr" aria-hidden="true">
-      <svg width="250" height="250" viewBox="0 0 250 250" fill="none">
-        <path d="M70 0 V90 Q70 150 130 150 H165" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
-        <path d="M165 150 H190 Q225 150 225 185 V250" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
+      <svg width="250" height="300" viewBox="0 0 250 300" fill="none">
+        <path d="M75 0 V95 Q75 150 130 150 H165" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
+        <path d="M165 150 H195 Q230 150 230 190 V255 Q230 300 250 300" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
       </svg>
     </div>
-    <!-- left line: green down, curving into yellow (PNG 1, upper) -->
-    <div class="cta-squiggle cta-sq-l" aria-hidden="true">
-      <svg width="200" height="360" viewBox="0 0 200 360" fill="none">
-        <path d="M25 0 V150 Q25 210 85 210 H120" stroke="#3fe3a3" stroke-width="11" stroke-linecap="round"/>
-        <path d="M120 210 H150 Q180 210 180 245 V360" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <!-- bottom line: yellow serpentine dipping into navy (PNG 1, lower) -->
-    <div class="cta-squiggle cta-sq-b" aria-hidden="true">
-      <svg width="380" height="180" viewBox="0 0 380 180" fill="none">
-        <path d="M0 55 H85 Q145 55 145 110 Q145 165 205 165 H255" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
-        <path d="M255 165 H295 Q355 165 355 105 V60" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
+    <!-- left + bottom: one continuous green -> yellow serpentine -> navy (PNG 1) -->
+    <div class="cta-squiggle cta-sq-bl" aria-hidden="true">
+      <svg width="640" height="470" viewBox="0 0 640 470" fill="none">
+        <path d="M40 0 V300 Q40 360 105 360 H150" stroke="#3fe3a3" stroke-width="11" stroke-linecap="round"/>
+        <path d="M150 360 H220 Q285 360 285 405 Q285 450 350 450 H400 Q465 450 465 405 V395" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
+        <path d="M465 395 Q465 360 525 360 H620" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
       </svg>
     </div>
     <div class="cta-inner">
@@ -1934,6 +1937,11 @@
         // observed to intermittently 500 under that kind of concurrency spike.
         const nav = await queryCollection('nav-content', 1);
         const hero = await queryCollection('hero-content', 1);
+        // Apply the hero background as soon as we have it, instead of waiting
+        // for the other 12 collections below to finish loading — it's the
+        // first thing visitors see and was the slowest-perceived image on the page.
+        const heroBgSrc = imgSrc((hero[0] || {}).backgroundImage, 1600, 1000);
+        if (heroBgSrc) document.documentElement.style.setProperty('--hero-bg-img', `url("${heroBgSrc}")`);
         const who = await queryCollection('who-content', 1);
         const challenge = await queryCollection('challenge-content', 1);
         const focus = await queryCollection('focus-content', 1);
@@ -2036,7 +2044,7 @@
           const r = map[el.getAttribute('data-cms-video')];
           if (r && r.text) { el.src = r.text; el.closest('video')?.load(); }
         });
-        const bgMap = { hero_bg: '--hero-bg-img', challenge_image: '--challenge-bg-img', cta_bg: '--cta-bg-img', ready_image: '--ready-bg-img' };
+        const bgMap = { challenge_image: '--challenge-bg-img', cta_bg: '--cta-bg-img', ready_image: '--ready-bg-img' };
         Object.entries(bgMap).forEach(([key, varName]) => {
           const src = imgSrc(map[key] && map[key].image, 1600, 1000);
           if (src) document.documentElement.style.setProperty(varName, `url("${src}")`);

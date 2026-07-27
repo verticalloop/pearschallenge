@@ -1,62 +1,238 @@
 # Handover Instructions — Pears Challenge / Tech for Resilience Website
 
-You don't need any technical knowledge to use this. Open **Claude Code** in this
-project folder, paste the message at the bottom of this file, and Claude will do
-the rest — it will ask you to do only the two things a human must do (approve a
-Wix login in your browser, and confirm before publishing).
+Welcome — this website is now yours. This file is the only thing you need. It
+walks you through everything, in order, from a completely empty computer to
+being able to make changes to your site yourself, using **Claude Code** (an
+AI coding assistant you'll install below) instead of writing code by hand.
 
-## Before you start — one prerequisite
+You do not need any technical background. Just follow the sections in order,
+top to bottom, and don't skip ahead. Each step tells you exactly what
+"it worked" looks like before you move to the next one.
 
-**The Wix site itself must already be transferred to your Wix account** (this is
-a separate step from this code handover — ask whoever built the site to do it via
-their Wix dashboard: Site Settings → Transfer Site). If you're not sure this has
-happened yet, ask Claude Code to check (see the message below) — it will tell you
-if something's wrong rather than guessing.
+**What this project actually is:** this is the code for your website. It
+talks to your Wix site (which holds your content, forms, and hosting) behind
+the scenes. Most day-to-day changes don't need this file at all — see
+[Everyday content changes](#everyday-content-changes--no-code-needed-at-all)
+below. This file is for the less-common cases: changing the design/layout, or
+the one-time setup to make this all yours.
 
-## What to tell Claude Code
-
-Copy and paste this into Claude Code, in this folder:
+**What you'll need before starting:**
+- A Mac or Windows computer
+- Your **GitHub** login (Verticalloop will send you this separately — never
+  written down in this file)
+- Your **Wix** account (the one you already use)
+- A **claude.ai** account (free to create if you don't have one)
 
 ---
 
-> I'm the new owner of this Wix site (not a developer). Please help me connect
-> this project to my Wix account and confirm it's set up correctly. Steps:
+## Section 1 — Get your computer ready (one-time)
+
+Do this once. After this section, your computer is permanently set up and you
+never need to repeat it.
+
+### 1a. Install Node.js
+
+Node.js is a program Claude Code needs in order to run.
+
+1. Go to [nodejs.org](https://nodejs.org)
+2. Click the button labeled **LTS** (it will say something like "20.x.x LTS")
+3. Open the downloaded file and click "Next" through the installer, accepting
+   the defaults, until it finishes.
+
+**How you know it worked:** you'll do a check for this in step 1b, together
+with Terminal.
+
+### 1b. Open a Terminal window
+
+A Terminal is just a plain window where you type commands instead of
+clicking buttons. That's all it is — nothing to be afraid of.
+
+- **On a Mac:** press `Cmd + Space`, type `Terminal`, press Enter.
+- **On Windows:** click the Start menu, type `Command Prompt`, press Enter.
+
+A plain window with text should open. Type this and press Enter:
+
+```
+node --version
+```
+
+**How you know it worked:** you see something like `v20.11.0` printed. If you
+see an error like "command not found," go back to step 1a — Node.js didn't
+install correctly.
+
+### 1c. Install Claude Code
+
+In the same Terminal window, type:
+
+```
+npm install -g @anthropic-ai/claude-code
+```
+
+Press Enter and wait for it to finish (this can take a minute).
+
+**How you know it worked:** type `claude --version` and press Enter — you
+should see a version number printed, not an error.
+
+### 1d. Sign in to Claude Code
+
+Still in the Terminal, type `claude` and press Enter. The first time you run
+it, it will ask you to sign in — it opens your browser to claude.ai. Sign in
+(or create a free account if you don't have one) and approve the connection.
+
+**How you know it worked:** you're back in the Terminal and it shows a
+Claude Code prompt instead of an error.
+
+### 1e. Download your website's code onto your computer
+
+Before this step, make sure you've completed **Section 2** below (accepting
+the GitHub transfer) — you need your GitHub account ready first.
+
+In the Terminal, type this, replacing `YOUR-GITHUB-USERNAME` with the GitHub
+username Verticalloop gave you:
+
+```
+git clone https://github.com/YOUR-GITHUB-USERNAME/pearschallenge.git
+cd pearschallenge/tech-for-resilience
+```
+
+**How you know it worked:** the Terminal shows a "Cloning into..." message
+and finishes without a red error. Typing `ls` (Mac) or `dir` (Windows)
+afterward should show files like `index.html` and this `HANDOVER.md`.
+
+---
+
+## Section 2 — Accept the accounts Verticalloop set up for you
+
+Do these in any order, but finish all three before Section 3.
+
+1. **GitHub email:** check your inbox for an email from GitHub about a
+   "repository transfer" or "invitation" — click to accept it.
+2. **First GitHub login:** go to [github.com](https://github.com) and log in
+   using the username and temporary password Verticalloop gave you
+   separately (not in this file). GitHub will ask you to set your own new
+   password — do that now and save it somewhere safe.
+3. **Wix email:** check your inbox for an email from Wix about a "site
+   transfer" — click to accept it. This makes the website officially yours
+   inside your existing Wix account.
+
+**How you know it worked:** you can log into github.com and see a repository
+called `pearschallenge` under your own account, and you can log into your
+Wix dashboard and see this site listed there.
+
+---
+
+## Section 3 — Connect your GitHub account to Claude Code
+
+This is the one step that feels the most "technical" — but it's really just
+one screen you click through, done once.
+
+1. In the Terminal, inside the `pearschallenge/tech-for-resilience` folder
+   (from step 1e), type `claude` and press Enter to start Claude Code.
+2. The first time you ask Claude Code to do something involving GitHub (for
+   example, pasting the message in Section 4 below), it will open your
+   browser and ask you to **Connect GitHub** / **Authorize**.
+3. This is a GitHub screen asking for permission to read and edit
+   repositories on your behalf — this is expected and safe.
+4. **Look carefully at the account name shown at the top of that screen.**
+   It must be *your* GitHub account (the one from Section 2), not any other
+   GitHub account you or someone else may have used on this browser before.
+   Picking the wrong account here is the single most common mistake — if
+   you're not sure, log out of GitHub in your browser first and log back in
+   as yourself before clicking Authorize.
+5. When asked which repositories to allow access to, choose "Only select
+   repositories" and pick `pearschallenge` (or "All repositories" if you'd
+   rather not think about this again in the future).
+6. Click **Authorize**.
+
+**How you know it worked:** back in the Terminal, Claude Code confirms it can
+see your repository and continues with whatever you asked it to do. You only
+do this once — every future Claude Code session in this folder just works.
+
+---
+
+## Section 4 — Confirm everything is connected correctly
+
+With Claude Code running (Section 3), copy and paste this whole message:
+
+---
+
+> I'm the new owner of this Wix site and this GitHub repository (not a
+> developer). Please help me confirm everything is set up correctly. Steps:
 >
-> 1. Check that `wix.config.json` exists in this folder and read the `siteId` in it.
-> 2. Run `npx @wix/cli@latest login` and tell me exactly what to do in the browser
->    (I'll need to log in with my own Wix account).
-> 3. Once I've logged in, run `npx @wix/cli@latest whoami` and show me which
+> 1. Check that `wix.config.json` exists in this folder and tell me the
+>    `siteId` in it.
+> 2. Check this folder's GitHub remote/origin and confirm it points to my own
+>    GitHub account, not anyone else's.
+> 3. Run `npx @wix/cli@latest login` and tell me exactly what to do in the
+>    browser (I'll need to log in with my own Wix account).
+> 4. Once I've logged in, run `npx @wix/cli@latest whoami` and show me which
 >    account is now connected — I need to confirm it's really me.
-> 4. Check that the `siteId` in `wix.config.json` matches a site I actually own in
->    my Wix dashboard (I'll give you my dashboard URL or site name to compare).
-> 5. Do NOT publish/release anything yet — just confirm the connection is correct
->    and tell me in plain language what you found.
+> 5. Check that the `siteId` from step 1 matches a site I actually own in my
+>    Wix dashboard (I'll give you my dashboard URL or site name to compare).
+> 6. Tell me whether my custom domain shows as connected to this site in my
+>    Wix dashboard.
+> 7. Do NOT publish/release anything yet — just confirm everything above and
+>    tell me in plain language what you found.
 >
-> If anything looks wrong (I don't own the site yet, the login didn't work, the
-> site ID doesn't match), stop and explain what's missing in simple terms — don't
-> try to fix it by guessing.
+> If anything looks wrong (wrong GitHub account, I don't own the Wix site
+> yet, the login didn't work, the site ID doesn't match, the domain isn't
+> connected), stop and explain what's missing in simple terms — don't try to
+> fix it by guessing.
 
 ---
 
-## Later, whenever you want to publish a change
+Only move on once Claude Code confirms all of the above look correct.
 
-Once the connection above is confirmed working, and any time you've asked Claude
-Code to make a change to the site's design or code (not the content — see below),
-tell it:
-
-> Please publish the current version of this site to my live Wix site. Show me
-> the live link when it's done so I can check it.
+---
 
 ## Everyday content changes — no code needed at all
 
-Most changes you'll want (text, photos, FAQ questions, timeline, stats, footer
-links, nav menu) do **not** need Claude Code or any of the above — they're edited
-directly in your **Wix dashboard → CMS** and **Wix dashboard → Forms**, and go
-live immediately, no "publish" step required. Only ask Claude Code to "publish"
-when a *design or layout* change was made to the actual code.
+Most changes you'll want — text, photos, FAQ questions, timeline, stats,
+footer links, nav menu, form questions — do **not** need Claude Code or
+anything in this file. Edit these directly in your **Wix dashboard → CMS**
+and **Wix dashboard → Forms**. Changes there go live immediately, with no
+"publish" step required.
+
+Only come back to Claude Code when you need to change the actual **design or
+layout** of the site.
+
+---
+
+## Section 5 — Making a design/code change
+
+Anytime you want a design or layout change, start Claude Code in the
+`pearschallenge/tech-for-resilience` folder (Terminal → `claude`) and
+describe what you want in plain English, for example:
+
+> Change the homepage headline to "Pears Challenge 2026" and update the
+> date to March 14.
+
+Claude Code will make the change and show you what it did. Once you're happy
+with it, tell it:
+
+> Please publish the current version of this site to my live Wix site. Show
+> me the live link when it's done so I can check it.
+
+---
 
 ## If something goes wrong
 
-Tell Claude Code plainly what happened (e.g. "the login step failed" or "whoami
-shows the wrong account") and ask it to explain what that means before trying
-anything else. It's better to pause and ask than to guess.
+Tell Claude Code plainly what happened — for example:
+- "The login step failed"
+- "Whoami shows the wrong account"
+- "GitHub access was denied"
+- "My domain isn't showing as connected"
+- "I think I authorized the wrong GitHub account in Section 3"
+
+Ask it to explain what that means before trying anything else. It's always
+better to pause and ask than to let it guess.
+
+---
+
+## A closing note
+
+This is a one-time handover — from this point on, this project is fully
+yours, and Verticalloop won't need to be involved in day-to-day changes. Keep
+this file for future reference; if you ever forget how any of this works,
+just come back and re-read it, or paste the relevant section into Claude
+Code and ask it to walk you through it again.

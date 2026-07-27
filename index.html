@@ -1236,7 +1236,7 @@
       padding: 36px 60px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center; min-width: 300px;
     }
-    .funder-box img { max-height: 90px; width: auto; display: block; }
+    .funder-box img { max-height: 90px; max-width: 100%; width: auto; height: auto; object-fit: contain; display: block; }
     .pears-mark { font-family: var(--font-body); line-height: 0.95; text-align: left; }
     .pears-mark b { display: block; font-size: 2.6rem; font-weight: 800; color: #a4c93f; letter-spacing: -0.01em; }
     .pears-mark span { display: block; font-size: 1.5rem; font-weight: 700; color: #283C70; letter-spacing: 0.02em; }
@@ -1840,7 +1840,7 @@
     <div class="footer-banner-band">
       <div class="footer-banner">
         <div class="funder-box">
-          <img data-cms-img="footer_funder_logo" alt="Pears Foundation" decoding="async" style="display:none" onload="this.style.display='block';this.nextElementSibling&&(this.nextElementSibling.style.display='none')" />
+          <img src="assets/pears-foundation-logo.png" data-cms-img="footer_funder_logo" alt="Pears Foundation" decoding="async" style="display:none" onload="this.style.display='block';this.nextElementSibling&&(this.nextElementSibling.style.display='none')" />
           <span class="pears-mark" data-fallback><b>Pears</b><span>Foundation</span></span>
         </div>
         <p class="funder-text" data-cms="footer_attr"><strong>Pears Challenge</strong> is an initiative of <strong>Nura: Global Innovation Lab</strong>, generously funded by the <strong>Pears Foundation.</strong></p>
@@ -1982,6 +1982,20 @@
       if (v.startsWith('wix:image://')) { try { return media.getScaledToFitImageUrl(v, w, h, {}); } catch (e) { return ''; } }
       return v;
     }
+    // Bypasses Wix's dynamic resize entirely -- some uploaded images carry
+    // orientation metadata that makes getScaledToFit/Fill request transposed
+    // (and thus cropped) dimensions. object-fit: contain (CSS) does the
+    // actual visual fit client-side instead.
+    function originalImgSrc(v) {
+      if (!v) return '';
+      if (typeof v === 'object') v = v.src || v.url || v.image || '';
+      if (typeof v !== 'string') return '';
+      if (v.startsWith('wix:image://')) {
+        const m = v.match(/^wix:image:\/\/v1\/([^/]+)\//);
+        return m ? `https://static.wixstatic.com/media/${m[1]}` : '';
+      }
+      return v;
+    }
 
     /* ---------- Site Content: all one-off text + singleton images ---------- */
     function setColumn(id, text, tight) {
@@ -2080,9 +2094,11 @@
           const r = map[el.getAttribute('data-cms')];
           if (r && r.text != null && r.text !== '') el.textContent = r.text;
         });
+        const FIT_IMG_KEYS = new Set(['footer_funder_logo']);
         document.querySelectorAll('[data-cms-img]').forEach((el) => {
-          const r = map[el.getAttribute('data-cms-img')];
-          const src = imgSrc(r && r.image, 1200, 900);
+          const key = el.getAttribute('data-cms-img');
+          const r = map[key];
+          const src = FIT_IMG_KEYS.has(key) ? originalImgSrc(r && r.image) : imgSrc(r && r.image, 1200, 900);
           if (src) el.src = src;
         });
         document.querySelectorAll('[data-cms-href]').forEach((el) => {

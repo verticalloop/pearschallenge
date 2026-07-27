@@ -229,7 +229,7 @@
       margin-bottom: 26px;
     }
     .hero-title .accent { color: var(--pc-yellow); }
-    .hero-word { display: inline-block; text-align: right; transition: opacity 0.25s ease, transform 0.25s ease; }
+    .hero-word { display: inline-block; text-align: right; transition: opacity 0.15s ease, transform 0.15s ease; }
     .hero-word.swap { opacity: 0; transform: translateY(8px); }
     .hero-sub {
       font-family: var(--font-body);
@@ -2206,8 +2206,8 @@
           i = (i + 1) % words.length;
           el.textContent = words[i];
           el.classList.remove('swap');
-        }, 250);
-      }, 1600);
+        }, 150);
+      }, 1100);
     }
     async function renderPartners() {
       try {

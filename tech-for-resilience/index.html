@@ -1973,13 +1973,18 @@
       if (v.startsWith('wix:image://')) { try { return media.getScaledToFillImageUrl(v, w, h, {}); } catch (e) { return ''; } }
       return v;
     }
-    // For logos: scale-to-FIT (not fill/crop) so the whole mark is preserved,
-    // no matter its native aspect ratio.
-    function logoSrc(v, w = 400, h = 200) {
+    // For logos: skip Wix's dynamic resize/crop transform entirely and use
+    // the original, untouched file -- some uploaded logos carry orientation
+    // metadata that makes getScaledToFit/Fill request transposed (and thus
+    // cropped) dimensions. object-fit: contain (CSS) does the real fitting.
+    function logoSrc(v) {
       if (!v) return '';
       if (typeof v === 'object') v = v.src || v.url || v.image || '';
       if (typeof v !== 'string') return '';
-      if (v.startsWith('wix:image://')) { try { return media.getScaledToFitImageUrl(v, w, h, {}); } catch (e) { return ''; } }
+      if (v.startsWith('wix:image://')) {
+        const m = v.match(/^wix:image:\/\/v1\/([^/]+)\//);
+        return m ? `https://static.wixstatic.com/media/${m[1]}` : '';
+      }
       return v;
     }
 
@@ -2084,7 +2089,7 @@
         document.querySelectorAll('[data-cms-img]').forEach((el) => {
           const key = el.getAttribute('data-cms-img');
           const r = map[key];
-          const src = FIT_IMG_KEYS.has(key) ? logoSrc(r && r.image, 400, 200) : imgSrc(r && r.image, 1200, 900);
+          const src = FIT_IMG_KEYS.has(key) ? logoSrc(r && r.image) : imgSrc(r && r.image, 1200, 900);
           if (src) el.src = src;
         });
         document.querySelectorAll('[data-cms-href]').forEach((el) => {

@@ -1903,11 +1903,11 @@
       if (v.startsWith('wix:image://')) { try { return media.getScaledToFillImageUrl(v, w, h, {}); } catch (e) { return ''; } }
       return v;
     }
-    // For logos: skip Wix's dynamic resize/crop transform entirely and use
-    // the original, untouched file -- some uploaded logos carry orientation
-    // metadata that makes getScaledToFit/Fill request transposed (and thus
-    // cropped) dimensions. object-fit: contain (CSS) does the real fitting.
-    function logoSrc(v) {
+    // Bypasses Wix's dynamic resize entirely -- some uploaded images carry
+    // orientation metadata that makes getScaledToFit/Fill request transposed
+    // (and thus cropped) dimensions. object-fit: contain (CSS) does the
+    // actual visual fit client-side instead.
+    function originalImgSrc(v) {
       if (!v) return '';
       if (typeof v === 'object') v = v.src || v.url || v.image || '';
       if (typeof v !== 'string') return '';
@@ -2017,7 +2017,7 @@
           // Large square bounding box: whatever the true aspect ratio of a
           // future logo upload is, this keeps Wix's own resize from having
           // room to crop it -- object-fit: contain (CSS) does the real fit.
-          const src = FIT_IMG_KEYS.has(key) ? logoSrc(r && r.image) : imgSrc(r && r.image, 1200, 900);
+          const src = FIT_IMG_KEYS.has(key) ? originalImgSrc(r && r.image) : imgSrc(r && r.image, 1200, 900);
           if (src) el.src = src;
         });
         document.querySelectorAll('[data-cms-href]').forEach((el) => {

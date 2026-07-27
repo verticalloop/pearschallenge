@@ -307,6 +307,7 @@
       flex-shrink: 0;
     }
     .partner-logo-box img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+    .partner-link { display: contents; color: inherit; text-decoration: none; }
 
     /* ── WHO WE'RE LOOKING FOR ── */
     .who-section { max-width: 1500px; margin: 0 auto; padding: 64px 48px 96px; }
@@ -2198,9 +2199,13 @@
         if (!el) return;
         const html = rows.map((r) => {
           const logo = logoSrc(r.logo, 180, 180);
-          return logo
+          const inner = logo
             ? `<span class="partner-logo-box"><img src="${logo}" alt="${esc(r.name || '')}"></span>`
             : `<span class="partner">${esc(r.name || '')}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`;
+          const link = linkOf(r);
+          return link
+            ? `<a href="${esc(link)}" target="_blank" rel="noopener noreferrer" class="partner-link">${inner}</a>`
+            : inner;
         }).join('');
         // Duplicated so the marquee can loop seamlessly at -50% translation.
         el.innerHTML = html + html;

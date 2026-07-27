@@ -1436,7 +1436,7 @@
         <li><a href="#faq">Blog</a></li>
         <li><a href="#apply">Contact</a></li>
       </ul>
-      <a href="#apply" class="nav-cta" data-cms="nav_cta">Apply Now</a>
+      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="nav-cta" target="_blank" rel="noopener noreferrer" data-cms="nav_cta">Apply Now</a>
       <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </nav>
 
@@ -1451,7 +1451,7 @@
         <li><a href="#faq">Blog</a></li>
         <li><a href="#apply">Contact</a></li>
       </ul>
-      <a href="#apply" class="mobile-apply" data-cms="nav_cta">Apply Now</a>
+      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="mobile-apply" target="_blank" rel="noopener noreferrer" data-cms="nav_cta">Apply Now</a>
     </div>
 
     <div class="hero-card-frame">
@@ -1460,7 +1460,7 @@
         <p class="hero-eyebrow" data-cms="hero_eyebrow">Pears Challenge 2026</p>
         <h1 class="hero-title"><span class="accent"><span id="hero-word" class="hero-word">Food</span>-Tech for Resilience</span><br><span data-cms="hero_title_rest">In East Africa</span></h1>
         <p class="hero-sub" data-cms="hero_sub">A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets</p>
-        <a href="#apply" class="hero-cta" data-cms="hero_cta">Apply Now</a>
+        <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="hero-cta" target="_blank" rel="noopener noreferrer" data-cms="hero_cta">Apply Now</a>
       </div>
       <span class="hero-bracket hero-bracket-r" aria-hidden="true"></span>
     </div>
@@ -1769,7 +1769,7 @@
           <li class="ready-step"><span class="step-icon"></span><p><strong>Partner</strong> with the leading ecosystem players</p></li>
           <li class="ready-step"><span class="step-icon"></span><p><strong>Fundraise</strong> and scale your venture in East Africa</p></li>
         </ul>
-        <a href="#apply" class="ready-apply" data-cms="ready_cta">Apply Now</a>
+        <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="ready-apply" target="_blank" rel="noopener noreferrer" data-cms="ready_cta">Apply Now</a>
       </div>
     </div>
   </section>
@@ -1826,7 +1826,7 @@
     <div class="cta-inner">
       <h2 data-cms="cta_title">Ready to create your next impact tech venture?</h2>
       <p class="cta-sub" data-cms="cta_write">Applications for the 2026 cohort are open</p>
-      <a href="#apply" class="cta-apply" data-cms="cta_primary">Apply Now</a>
+      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="cta-apply" target="_blank" rel="noopener noreferrer" data-cms="cta_primary">Apply Now</a>
       <p class="cta-note">
         Not sure yet? <button type="button" class="cta-ask-link" id="cta-ask-open">Ask us a question</button>
         or email Amit Kalisker · <a href="mailto:amit@nuraglobal.org" class="cta-email-copy" id="cta-email-copy" data-cms="cta_email_addr" data-cms-mailto="cta_email_addr">amit@nuraglobal.org</a>
@@ -1910,27 +1910,11 @@
     <span>Email copied to clipboard</span>
   </div>
 
-  <!-- APPLICATION MODAL (powered by Wix Forms) -->
-  <div class="modal-overlay" id="apply-modal" role="dialog" aria-modal="true" aria-labelledby="apply-modal-title">
-    <div class="modal">
-      <button class="modal-close" id="apply-modal-close" aria-label="Close">&times;</button>
-      <div id="apply-modal-body">
-        <p class="eyebrow" data-cms="apply_eyebrow">Pears Challenge · East Africa</p>
-        <h2 id="apply-modal-title" data-cms="apply_title">Apply to the Pears Challenge</h2>
-        <p class="modal-sub" data-cms="apply_sub">Tell us about you and your venture. Applications are reviewed on a rolling basis.</p>
-        <form id="apply-form" class="form-grid" novalidate>
-          <div class="form-status" id="apply-loading">Loading application form…</div>
-        </form>
-      </div>
-    </div>
-  </div>
-
   <script type="module">
     import { createClient, OAuthStrategy, media } from 'https://esm.sh/@wix/sdk@1?bundle';
 
     // Public OAuth client id (== the OAuth app id in wix.config.json). Not a secret.
     const CLIENT_ID = '2d0c50dd-a5d6-47f2-ac05-0e190ea93ca1';
-    const FORM_ID = '5423544f-9fbd-4834-aa39-48e9a8989cac';
 
     const client = createClient({
       modules: {},
@@ -2024,7 +2008,7 @@
         // first thing visitors see and was the slowest-perceived image on the page.
         const heroBgSrc = imgSrc((hero[0] || {}).backgroundImage, 1600, 1000);
         if (heroBgSrc) document.documentElement.style.setProperty('--hero-bg-img', `url("${heroBgSrc}")`);
-        const [who, challenge, focus, timeline, alumni, funding, ready, faq, contact, applyForm, footer, footerSocial] = await Promise.all([
+        const [who, challenge, focus, timeline, alumni, funding, ready, faq, contact, footer, footerSocial] = await Promise.all([
           queryCollection('who-content', 1),
           queryCollection('challenge-content', 1),
           queryCollection('focus-content', 1),
@@ -2034,7 +2018,6 @@
           queryCollection('ready-content', 1),
           queryCollection('faq-content', 1),
           queryCollection('contact-content', 1),
-          queryCollection('apply-form-content', 1),
           queryCollection('footer-content', 1),
           queryCollection('footer-social-links', 10),
         ]);
@@ -2081,9 +2064,6 @@
         const ct = contact[0] || {};
         setMap('cta_title', ct.heading); setMap('cta_write', ct.writeLine);
         setMap('cta_email_prefix', ct.emailPrefix); setMap('cta_email_addr', ct.contactEmail);
-
-        const af = applyForm[0] || {};
-        setMap('apply_eyebrow', af.eyebrow); setMap('apply_title', af.heading); setMap('apply_sub', af.subtitle);
 
         const ft = footer[0] || {};
         setMap('footer_nura_tagline', ft.tagline); setMap('footer_attr', ft.attribution);
@@ -2452,11 +2432,6 @@
       if (!wasOpen) item.classList.add('open');
     });
 
-    /* ---------- Application form (Wix Forms, schema-driven) ---------- */
-    const overlay = document.getElementById('apply-modal');
-    const formEl = document.getElementById('apply-form');
-    let schemaFields = null;
-
     function projectFields(form) {
       const raw = (form.fields ?? []);
       return raw
@@ -2475,32 +2450,6 @@
         }));
     }
 
-    function fieldHtml(f) {
-      const full = f.options?.length || f.viewFieldType === 'TEXT_AREA' || f.target === 'message' ? ' full' : '';
-      const reqMark = f.required ? ' <span class="req">*</span>' : '';
-      let control;
-      if (f.options?.length) {
-        control = `<select name="${esc(f.target)}" ${f.required ? 'required' : ''}>
-          <option value="" ${f.required ? 'disabled' : ''} selected>${esc(f.placeholder || 'Select…')}</option>
-          ${f.options.map((o) => `<option value="${esc(o.value)}">${esc(o.label)}</option>`).join('')}
-        </select>`;
-      } else if (f.viewFieldType === 'TEXT_AREA' || f.target === 'message') {
-        control = `<textarea name="${esc(f.target)}" ${f.required ? 'required' : ''}
-          ${f.minLength ? `minlength="${f.minLength}"` : ''} ${f.maxLength ? `maxlength="${f.maxLength}"` : ''}
-          placeholder="${esc(f.placeholder)}"></textarea>`;
-      } else {
-        const type = f.format === 'EMAIL' ? 'email' : f.format === 'PHONE' ? 'tel' : f.format === 'URL' ? 'url' : 'text';
-        control = `<input name="${esc(f.target)}" type="${type}" ${f.required ? 'required' : ''}
-          ${f.minLength ? `minlength="${f.minLength}"` : ''} ${f.maxLength ? `maxlength="${f.maxLength}"` : ''}
-          ${f.pattern ? `pattern="${esc(f.pattern)}"` : ''} placeholder="${esc(f.placeholder)}" />`;
-      }
-      return `<div class="form-field${full}">
-        <label>${esc(f.label)}${reqMark}</label>
-        ${control}
-        <span class="field-error" data-error-for="${esc(f.target)}"></span>
-      </div>`;
-    }
-
     function fieldError(f, raw) {
       const v = (raw ?? '').trim();
       if (f.required && !v) return `${f.label} is required.`;
@@ -2513,90 +2462,6 @@
       if (f.pattern && !new RegExp(f.pattern).test(v)) return `${f.label} is not in the expected format.`;
       return '';
     }
-
-    async function buildForm() {
-      try {
-        const form = await getForm(FORM_ID);
-        schemaFields = projectFields(form);
-        formEl.innerHTML =
-          schemaFields.map(fieldHtml).join('') +
-          `<div class="form-actions"><button type="submit">Submit application</button></div>
-           <div class="form-status" id="apply-error" style="display:none"></div>`;
-      } catch (e) {
-        console.error('Could not load form schema:', e);
-        formEl.innerHTML = `<div class="form-status error">Sorry — the application form could not be loaded right now. Please email us at hello@pearschallenge.org.</div>`;
-      }
-    }
-
-    function clearErrors() {
-      formEl.querySelectorAll('.field-error').forEach((el) => (el.textContent = ''));
-      const g = document.getElementById('apply-error');
-      if (g) { g.style.display = 'none'; g.textContent = ''; }
-    }
-
-    formEl.addEventListener('submit', async (ev) => {
-      ev.preventDefault();
-      if (!schemaFields) return;
-      clearErrors();
-      const data = Object.fromEntries(new FormData(formEl));
-      let hasError = false;
-      for (const f of schemaFields) {
-        const msg = fieldError(f, data[f.target]);
-        if (msg) {
-          hasError = true;
-          const slot = formEl.querySelector(`[data-error-for="${f.target}"]`);
-          if (slot) slot.textContent = msg;
-        }
-      }
-      if (hasError) return;
-
-      const btn = formEl.querySelector('button[type="submit"]');
-      btn.disabled = true; btn.textContent = 'Submitting…';
-      try {
-        await createSubmission(FORM_ID, data);
-        document.getElementById('apply-modal-body').innerHTML = `
-          <div class="modal-success">
-            <div class="check">&#10003;</div>
-            <h2>Application received!</h2>
-            <p>Thanks for applying to the Pears Challenge. Our team reviews applications within two weeks — we'll be in touch by email.</p>
-          </div>`;
-      } catch (err) {
-        const violations = err?.details?.validationError?.fieldViolations ?? [];
-        let mapped = false;
-        for (const v of violations)
-          for (const fe of (v?.data?.errors ?? []))
-            if (fe.errorPath) {
-              mapped = true;
-              const slot = formEl.querySelector(`[data-error-for="${fe.errorPath}"]`);
-              if (slot) slot.textContent = fe.errorMessage ?? 'Invalid value';
-            }
-        const g = document.getElementById('apply-error');
-        if (g && !mapped) { g.style.display = 'block'; g.className = 'form-status error'; g.textContent = 'Something went wrong submitting your application. Please try again.'; }
-        btn.disabled = false; btn.textContent = 'Submit application';
-        console.error('Submission failed:', err);
-      }
-    });
-
-    /* ---------- Modal open/close wiring ---------- */
-    let formBuilt = false;
-    function openModal(ev) {
-      if (ev) ev.preventDefault();
-      overlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      if (!formBuilt) { formBuilt = true; buildForm(); }
-    }
-    function closeModal() {
-      overlay.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-    document.getElementById('apply-modal-close').addEventListener('click', closeModal);
-    overlay.addEventListener('click', (ev) => { if (ev.target === overlay) closeModal(); });
-    document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
-
-    // Every "Apply" / "Start your application" CTA opens the modal.
-    document.querySelectorAll('a[href="#apply"], .nav-cta, .bottom-cta .btn-primary').forEach((a) => {
-      a.addEventListener('click', openModal);
-    });
 
     /* ---------- "The Challenge" read-more modal ---------- */
     const chOverlay = document.getElementById('challenge-modal');

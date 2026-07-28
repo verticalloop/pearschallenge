@@ -229,7 +229,7 @@
       margin-bottom: 26px;
     }
     .hero-title .accent { color: var(--pc-yellow); }
-    .hero-word { display: inline-block; text-align: right; transition: opacity 0.15s ease, transform 0.15s ease; }
+    .hero-word { display: inline-block; transition: opacity 0.45s ease, transform 0.45s ease; }
     .hero-word.swap { opacity: 0; transform: translateY(8px); }
     .hero-sub {
       font-family: var(--font-body);
@@ -2170,31 +2170,6 @@
       const el = document.getElementById('hero-word');
       if (!el) return;
       const words = ['Food', 'Climate', 'Energy', 'Water', 'Log', 'Fin', 'Agri'];
-      // Lock the box to the widest word's width so "-Tech for Resilience"
-      // never reflows as shorter/longer words swap in. Measured after
-      // webfonts finish loading so the widths (and the lock) are accurate.
-      const lockWidth = () => {
-        const measure = document.createElement('span');
-        const style = getComputedStyle(el);
-        measure.style.cssText = 'position:absolute; visibility:hidden; white-space:nowrap;';
-        measure.style.fontFamily = style.fontFamily;
-        measure.style.fontSize = style.fontSize;
-        measure.style.fontWeight = style.fontWeight;
-        measure.style.letterSpacing = style.letterSpacing;
-        document.body.appendChild(measure);
-        let maxWidth = 0;
-        words.forEach((w) => {
-          measure.textContent = w;
-          maxWidth = Math.max(maxWidth, measure.offsetWidth);
-        });
-        measure.remove();
-        el.style.minWidth = maxWidth + 'px';
-      };
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(lockWidth);
-      } else {
-        lockWidth();
-      }
       let i = 0;
       setInterval(() => {
         el.classList.add('swap');
@@ -2202,8 +2177,8 @@
           i = (i + 1) % words.length;
           el.textContent = words[i];
           el.classList.remove('swap');
-        }, 150);
-      }, 1100);
+        }, 450);
+      }, 2600);
     }
     async function renderPartners() {
       try {

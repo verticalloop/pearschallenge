@@ -191,6 +191,16 @@ anything in this file. Edit these directly in your **Wix dashboard → CMS**
 and **Wix dashboard → Forms**. Changes there go live immediately, with no
 "publish" step required.
 
+**If you edit something and the site still shows the old text**, this is
+almost always your browser showing you a saved copy of the page rather than
+anything being broken. Do a "hard refresh" and it will pick up the change:
+
+- **Mac:** hold `Cmd` + `Shift` and press `R`
+- **Windows:** hold `Ctrl` + `Shift` and press `R`
+
+If the old text is *still* there after a hard refresh, wait a minute and try
+once more before assuming something is wrong — then ask Claude Code about it.
+
 Only come back to Claude Code when you need to change the actual **design or
 layout** of the site.
 
@@ -221,6 +231,8 @@ Tell Claude Code plainly what happened — for example:
 - "GitHub access was denied"
 - "My domain isn't showing as connected"
 - "I think I authorized the wrong GitHub account in Section 3"
+- "I changed text in the CMS but the site still shows the old text, even
+  after a hard refresh"
 
 Ask it to explain what that means before trying anything else. It's always
 better to pause and ask than to let it guess.

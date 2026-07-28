@@ -4,10 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nura · Pears Challenge 2026 — Food-Tech for Resilience</title>
+  <meta name="description" content="A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets in East Africa." />
+  <link rel="icon" type="image/png" href="assets/nura-logo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Nura · Pears Challenge 2026 — Food-Tech for Resilience" />
+  <meta property="og:description" content="A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets in East Africa." />
+  <!-- Relative path: social crawlers need an absolute URL to render this preview image.
+       Swap for the final absolute URL (https://your-domain/assets/nura-logo.png) once the site's live domain is set. -->
+  <meta property="og:image" content="assets/nura-logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://static.wixstatic.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" />
+  <link rel="preconnect" href="https://esm.sh" crossorigin />
+  <link rel="modulepreload" href="https://esm.sh/@wix/sdk@1?bundle" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -183,9 +194,8 @@
       justify-content: center;
       text-align: center;
       border-radius: 40px;
-      background: rgba(24,20,8,0.28);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
     }
     /* yellow corner brackets — real flex-stretch siblings so height always
        matches the card exactly, avoiding the Safari abspos top/bottom bug */
@@ -276,18 +286,22 @@
     }
     .btn-primary:hover { opacity: 0.88; }
 
-    /* ── PARTNERS / BACKERS STRIP ── */
-    .partners {
+    /* ── PARTNERS / BACKERS STRIP (auto-scrolling marquee) ── */
+    .partners-marquee {
       max-width: 1500px;
       margin: 0 auto;
       padding: 56px 48px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 28px 40px;
-      flex-wrap: wrap;
+      height: 90px;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
     }
-    .partners .partner {
+    .partners-track {
+      display: flex; align-items: center; gap: 88px; width: max-content; height: 100%;
+      animation: funding-scroll 38s linear infinite;
+    }
+    .partners-marquee:hover .partners-track { animation-play-state: paused; }
+    .partners-track .partner {
       font-family: var(--font-body);
       font-weight: 700;
       font-size: 0.98rem;
@@ -299,14 +313,19 @@
       flex-direction: column;
       line-height: 1.15;
     }
-    .partners .partner small {
+    .partners-track .partner small {
       font-size: 0.56rem;
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       opacity: 0.8;
     }
-    .partners img { height: 42px; width: auto; object-fit: contain; }
+    .partner-logo-box {
+      width: 90px; height: 90px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .partner-logo-box img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
     .partner-link { display: contents; color: inherit; text-decoration: none; }
 
     /* ── WHO WE'RE LOOKING FOR ── */
@@ -376,7 +395,8 @@
       line-height: 1.62;
     }
     @media (max-width: 900px) {
-      .partners { padding: 40px 20px 16px; gap: 20px 28px; justify-content: center; }
+      .partners-marquee { padding: 40px 20px 16px; height: 70px; }
+      .partners-track { gap: 56px; }
       .who-section { padding: 44px 20px 64px; }
       .who-section > h2 { font-size: 34px; }
       .who-sub { font-size: 17px; }
@@ -517,7 +537,7 @@
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      filter: blur(8px) brightness(0.92) saturate(1.1);
+      filter: blur(4px) brightness(0.92) saturate(1.1);
       transform: scale(1.05);
       z-index: -1;
     }
@@ -609,7 +629,7 @@
       position: absolute;
       inset: 0;
       background: var(--challenge-bg-img) center/cover no-repeat;
-      filter: blur(24px) brightness(0.5);
+      filter: blur(12px) brightness(0.5);
       transform: scale(1.18);
     }
     .challenge-modal {
@@ -952,7 +972,7 @@
     }
     .funding-sub { font-family: var(--font-body); font-size: 20px; color: var(--text-mid); font-weight: 500; }
     .marquee {
-      height: 120px;
+      height: 90px;
       overflow: hidden;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
       mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
@@ -966,7 +986,12 @@
       flex-shrink: 0; white-space: nowrap;
       font-family: var(--font-body); font-weight: 700; font-size: 1.3rem; color: var(--navy);
     }
-    .marquee-track img { max-height: 64px; max-width: 180px; width: auto; height: auto; object-fit: contain; flex-shrink: 0; }
+    .funder-logo-box {
+      width: 90px; height: 90px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .funder-logo-box img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
     @keyframes funding-scroll {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -981,6 +1006,9 @@
       .funding-sub { font-size: 17px; }
       .marquee-track { gap: 56px; }
       .funder-logo { font-size: 1.1rem; }
+      .marquee { height: 70px; }
+      .funder-logo-box { width: 70px; height: 70px; }
+      .partner-logo-box { width: 70px; height: 70px; }
     }
 
     /* ── READY SECTION (split card + steps) ── */
@@ -994,12 +1022,12 @@
       content: '';
       position: absolute;
       inset: 0;
-      background-color: var(--navy);
+      background-color: #A57E05;
       background-image: var(--ready-bg-img);
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      filter: blur(28px) brightness(0.9) saturate(1.05);
+      filter: blur(4px) brightness(0.9) saturate(1.05);
       transform: scale(1.18);
       z-index: -1;
     }
@@ -1012,7 +1040,7 @@
       gap: 40px;
       align-items: stretch;
     }
-    .ready-photo { position: relative; overflow: hidden; border-radius: 30px; }
+    .ready-photo { position: relative; overflow: hidden; border-radius: 30px; min-height: 520px; background: #A57E05; }
     .ready-photo img, .ready-photo video {
       width: 100%; height: 100%; min-height: 520px;
       object-fit: cover; border-radius: 30px; display: block;
@@ -1103,6 +1131,19 @@
     .faq-item.open .faq-answer { display: block; }
     .faq-answer p { font-family: var(--font-body); color: var(--text-mid); font-size: 1.02rem; line-height: 1.6; margin-bottom: 14px; }
     .faq-answer p:last-child { margin-bottom: 0; }
+    .faq-load-more {
+      display: block; margin: 32px auto 0;
+      font-family: var(--font-mono);
+      background: #fff; color: #0c1420;
+      border: 1.5px solid var(--gray-mid);
+      padding: 16px 38px;
+      border-radius: 999px;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s, color 0.2s;
+    }
+    .faq-load-more:hover { transform: translateY(-2px); background: #0c1420; color: #fff; }
     @media (max-width: 900px) {
       .faq-section { padding: 56px 20px 64px; }
       .faq-section h2 { font-size: 32px; margin-bottom: 28px; }
@@ -1112,7 +1153,7 @@
 
     /* ── BOTTOM CTA (cyan + inline contact form) ── */
     .bottom-cta {
-      background: #45c3f2;
+      background: #5CDCFF;
       padding: 110px 48px 120px;
       text-align: center;
       position: relative;
@@ -1133,43 +1174,62 @@
       text-decoration: none; transition: transform 0.2s;
     }
     .cta-apply:hover { transform: translateY(-2px); }
-    .cta-write {
+    .cta-sub {
       font-family: var(--font-body);
-      font-size: clamp(1.05rem, 1.5vw, 1.35rem); font-weight: 700; color: #0c1420;
-      max-width: 620px; margin: 72px auto 30px; line-height: 1.35;
+      font-size: clamp(1.05rem, 1.5vw, 1.35rem); font-weight: 600; color: #0c1420;
+      max-width: 620px; margin: 0 auto 34px; line-height: 1.35;
     }
-    .cta-email {
-      font-family: var(--font-body); font-size: 1rem; font-weight: 500;
-      color: #0c1420; margin-top: 20px;
+    .cta-note {
+      font-family: var(--font-body); font-size: 1.05rem; font-weight: 500;
+      color: #0c1420; margin-top: 60px;
     }
-    .cta-email a { color: #0c1420; text-decoration: none; font-weight: 700; }
-    .cta-email a:hover { text-decoration: underline; }
+    .cta-note a, .cta-ask-link {
+      color: #0c1420; font-weight: 700; text-decoration: underline; text-underline-offset: 2px;
+    }
+    .cta-ask-link {
+      background: none; border: none; padding: 0; font: inherit; cursor: pointer;
+    }
+    .cta-note a:hover, .cta-ask-link:hover { opacity: 0.75; }
     .contact-form { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
     .contact-fields { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; flex: 1 1 auto; max-width: 860px; }
     .contact-fields input {
       font-family: var(--font-body); font-size: 1rem;
       flex: 1 1 200px; min-width: 0;
-      background: #fff; border: none; border-radius: 999px;
-      padding: 18px 26px; color: var(--text-dark);
+      background: #fff; border: 1px solid var(--gray-mid); border-radius: 999px;
+      padding: 17px 25px; color: var(--text-dark);
     }
     .contact-fields input::placeholder { color: #8a9099; }
-    .contact-fields input:focus { outline: none; box-shadow: 0 0 0 3px rgba(12,20,32,0.18); }
+    .contact-fields input:focus { outline: none; border-color: var(--blue-accent); box-shadow: 0 0 0 3px rgba(30,111,168,0.14); }
     .contact-submit {
-      flex-shrink: 0; width: 58px; height: 58px; border-radius: 50%;
+      flex-shrink: 0; height: 58px; border-radius: 999px; padding: 0 34px;
       background: #0c1420; color: #fff; border: none; cursor: pointer;
-      font-size: 1.4rem; line-height: 1; display: flex; align-items: center; justify-content: center;
-      transition: transform 0.2s;
+      font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      line-height: 1; display: flex; align-items: center; justify-content: center;
+      transition: transform 0.2s, background 0.2s;
     }
-    .contact-submit:hover { transform: scale(1.06); }
+    .contact-submit:hover { transform: translateY(-2px); background: #16283a; }
     .contact-submit:disabled { opacity: 0.55; cursor: default; }
     .contact-status { flex-basis: 100%; margin-top: 14px; font-family: var(--font-body); font-size: 0.9rem; color: #0c1420; }
     .contact-status.error { color: #7a1f1f; font-weight: 600; }
     .contact-thanks { font-family: var(--font-body); font-size: 1.15rem; font-weight: 700; color: #0c1420; }
+    #ask-modal .modal { max-width: 560px; }
+    #ask-modal .contact-status { color: var(--text-mid); }
+    /* copy-to-clipboard toast */
+    .copy-toast {
+      position: fixed; left: 50%; bottom: 36px; transform: translateX(-50%) translateY(12px);
+      background: #0c1420; color: #fff; font-family: var(--font-body); font-size: 0.9rem; font-weight: 600;
+      padding: 13px 22px; border-radius: 999px; box-shadow: 0 12px 32px rgba(0,0,0,0.28);
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 2000;
+    }
+    .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .copy-toast svg { width: 16px; height: 16px; flex-shrink: 0; }
     /* decorative squiggles */
     .cta-squiggle { position: absolute; z-index: 1; pointer-events: none; }
     .cta-squiggle svg { display: block; }
     .cta-sq-tr { top: -10px; right: 0; }
-    .cta-sq-bl { bottom: -10px; left: -30px; }
     @media (max-width: 700px) {
       .bottom-cta { padding: 72px 20px 84px; }
       .bottom-cta h2 { font-size: 32px; margin-top: 0; }
@@ -1403,7 +1463,7 @@
         <li><a href="#faq">Blog</a></li>
         <li><a href="#apply">Contact</a></li>
       </ul>
-      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="nav-cta" target="_blank" rel="noopener noreferrer" data-cms="nav_cta">Apply Now</a>
+      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="nav-cta" target="_blank" rel="noopener noreferrer" data-cms="nav_cta" data-cms-href="apply_url">Apply Now</a>
       <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </nav>
 
@@ -1418,7 +1478,7 @@
         <li><a href="#faq">Blog</a></li>
         <li><a href="#apply">Contact</a></li>
       </ul>
-      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="mobile-apply" target="_blank" rel="noopener noreferrer" data-cms="nav_cta">Apply Now</a>
+      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="mobile-apply" target="_blank" rel="noopener noreferrer" data-cms="nav_cta" data-cms-href="apply_url">Apply Now</a>
     </div>
 
     <div class="hero-card-frame">
@@ -1427,22 +1487,32 @@
         <p class="hero-eyebrow" data-cms="hero_eyebrow">Pears Challenge 2026</p>
         <h1 class="hero-title"><span class="hero-word-viewport"><span id="hero-word" class="accent hero-word-reel">Food-Tech</span></span><span class="accent hero-title-line">for Resilience</span><span class="hero-title-line" data-cms="hero_title_rest">In East Africa</span></h1>
         <p class="hero-sub" data-cms="hero_sub">A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets</p>
-        <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="hero-cta" target="_blank" rel="noopener noreferrer" data-cms="hero_cta">Apply Now</a>
+        <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="hero-cta" target="_blank" rel="noopener noreferrer" data-cms="hero_cta" data-cms-href="apply_url">Apply Now</a>
       </div>
       <span class="hero-bracket hero-bracket-r" aria-hidden="true"></span>
     </div>
   </header>
 
-  <!-- PARTNERS / BACKERS STRIP -->
-  <div class="partners" id="partners">
-    <span class="partner">TradeIL<small>Israel Trade &amp; Invest</small></span>
-    <span class="partner">2B.Friendly</span>
-    <span class="partner">Herzog<small>Fox &amp; Neeman</small></span>
-    <span class="partner">British Embassy<small>Israel</small></span>
-    <span class="partner">Embassy of Israel<small>in Kenya</small></span>
-    <span class="partner">Kenya Climate Ventures<small>KCV</small></span>
-    <span class="partner">Pears Foundation</span>
-    <span class="partner">Quercus Group</span>
+  <!-- PARTNERS / BACKERS STRIP (auto-scrolling marquee, same behavior as funders) -->
+  <div class="partners-marquee">
+    <div class="partners-track" id="partners">
+      <span class="partner">TradeIL<small>Israel Trade &amp; Invest</small></span>
+      <span class="partner">2B.Friendly</span>
+      <span class="partner">Herzog<small>Fox &amp; Neeman</small></span>
+      <span class="partner">British Embassy<small>Israel</small></span>
+      <span class="partner">Embassy of Israel<small>in Kenya</small></span>
+      <span class="partner">Kenya Climate Ventures<small>KCV</small></span>
+      <span class="partner">Pears Foundation</span>
+      <span class="partner">Quercus Group</span>
+      <span class="partner">TradeIL<small>Israel Trade &amp; Invest</small></span>
+      <span class="partner">2B.Friendly</span>
+      <span class="partner">Herzog<small>Fox &amp; Neeman</small></span>
+      <span class="partner">British Embassy<small>Israel</small></span>
+      <span class="partner">Embassy of Israel<small>in Kenya</small></span>
+      <span class="partner">Kenya Climate Ventures<small>KCV</small></span>
+      <span class="partner">Pears Foundation</span>
+      <span class="partner">Quercus Group</span>
+    </div>
   </div>
 
   <!-- WHO WE'RE LOOKING FOR -->
@@ -1479,7 +1549,7 @@
         <button type="button" class="challenge-readmore" id="challenge-open" data-cms="challenge_readmore">Read More</button>
       </div>
       <div class="challenge-image">
-        <img data-cms-img="challenge_image" alt="East African market" style="display:none" onload="this.style.display='block'" />
+        <img data-cms-img="challenge_image" alt="East African market" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
@@ -1607,7 +1677,7 @@
           </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="2" data-side="right">
-          <img alt="Bootcamp collaboration" style="display:none" onload="this.style.display='block'" />
+          <img alt="Bootcamp collaboration" loading="lazy" decoding="async" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="3" data-side="right" style="--c:#FFE53C">
@@ -1624,7 +1694,7 @@
           </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="3" data-side="left">
-          <img alt="Pears Challenge cohort" style="display:none" onload="this.style.display='block'" />
+          <img alt="Pears Challenge cohort" loading="lazy" decoding="async" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="4" data-side="left" style="--c:#31FFB1">
@@ -1641,7 +1711,7 @@
           </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="4" data-side="right">
-          <img alt="Field validation visit" style="display:none" onload="this.style.display='block'" />
+          <img alt="Field validation visit" loading="lazy" decoding="async" />
         </div>
 
         <div class="tl-content" data-reveal data-tl="5" data-side="right" style="--c:#5CDCFF">
@@ -1659,7 +1729,7 @@
           </div>
         </div>
         <div class="tl-photo" data-reveal data-tl-photo="5" data-side="left">
-          <img alt="Demo day presentation" style="display:none" onload="this.style.display='block'" />
+          <img alt="Demo day presentation" loading="lazy" decoding="async" />
         </div>
       </div>
     </div>
@@ -1714,9 +1784,7 @@
     <div class="ready-grid">
       <div class="ready-photo">
         <span class="ready-frame"></span>
-        <video autoplay muted loop playsinline preload="metadata" aria-label="East African market">
-          <source data-cms-video="ready_video" src="https://video.wixstatic.com/video/3efa7e_1c3f39d16e0b4f84a281c06c000ac692/1080p/mp4/file.mp4" type="video/mp4" />
-        </video>
+        <img data-cms-img="ready_image" alt="East African market" loading="lazy" decoding="async" />
       </div>
       <div class="ready-card">
         <h2 data-cms="ready_title">Ready for the journey?</h2>
@@ -1728,7 +1796,7 @@
           <li class="ready-step"><span class="step-icon"></span><p><strong>Partner</strong> with the leading ecosystem players</p></li>
           <li class="ready-step"><span class="step-icon"></span><p><strong>Fundraise</strong> and scale your venture in East Africa</p></li>
         </ul>
-        <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="ready-apply" target="_blank" rel="noopener noreferrer" data-cms="ready_cta">Apply Now</a>
+        <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="ready-apply" target="_blank" rel="noopener noreferrer" data-cms="ready_cta" data-cms-href="apply_url">Apply Now</a>
       </div>
     </div>
   </section>
@@ -1769,6 +1837,7 @@
           <div class="faq-answer"><p>Yes. We welcome ventures from early concept through to an early product with initial traction. Whether you are validating a new idea or refining an existing product for East African markets, the program meets you where you are.</p></div>
         </div>
       </div>
+      <button type="button" id="faq-load-more" class="faq-load-more" hidden>Load More</button>
     </div>
   </section>
 
@@ -1781,28 +1850,14 @@
         <path d="M165 150 H195 Q230 150 230 190 V255 Q230 300 250 300" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
       </svg>
     </div>
-    <!-- left + bottom: one continuous green -> yellow serpentine -> navy (PNG 1) -->
-    <div class="cta-squiggle cta-sq-bl" aria-hidden="true">
-      <svg width="640" height="470" viewBox="0 0 640 470" fill="none">
-        <path d="M40 0 V300 Q40 360 105 360 H150" stroke="#3fe3a3" stroke-width="11" stroke-linecap="round"/>
-        <path d="M150 360 H220 Q285 360 285 405 Q285 450 350 450 H400 Q465 450 465 405 V395" stroke="#fdff9e" stroke-width="11" stroke-linecap="round"/>
-        <path d="M465 395 Q465 360 525 360 H620" stroke="#232e63" stroke-width="11" stroke-linecap="round"/>
-      </svg>
-    </div>
     <div class="cta-inner">
       <h2 data-cms="cta_title">Ready to create your next impact tech venture?</h2>
-      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="cta-apply" target="_blank" rel="noopener noreferrer" data-cms="cta_primary">Apply Now</a>
-      <p class="cta-write" data-cms="cta_write">Do you have any questions before embarking on your impact journey? Write to us</p>
-      <form id="contact-form" class="contact-form" novalidate>
-        <div class="contact-fields" id="contact-fields">
-          <input name="full_name" type="text" placeholder="Full Name*" required />
-          <input name="email" type="email" placeholder="Email*" required />
-          <input name="question" type="text" placeholder="Question" />
-        </div>
-        <button type="submit" class="contact-submit" aria-label="Send">&#8594;</button>
-        <div class="contact-status" id="contact-status"></div>
-      </form>
-      <p class="cta-email"><span data-cms="cta_email_prefix">Or email to Amit Kalisker at</span> <a href="mailto:amit@nuraglobal.org" data-cms="cta_email_addr" data-cms-mailto="cta_email_addr">amit@nuraglobal.org</a></p>
+      <p class="cta-sub" data-cms="cta_subtitle">Do you have any questions before embarking on your impact journey? See our FAQs or write to us!</p>
+      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="cta-apply" target="_blank" rel="noopener noreferrer" data-cms="cta_primary" data-cms-href="apply_url">Apply Now</a>
+      <p class="cta-note">
+        Not sure yet? <button type="button" class="cta-ask-link" id="cta-ask-open">Ask us a question</button>
+        or email Amit Kalisker · <a href="mailto:amit@nuraglobal.org" class="cta-email-copy" id="cta-email-copy" data-cms="cta_email_addr" data-cms-mailto="cta_email_addr">amit@nuraglobal.org</a>
+      </p>
     </div>
   </section>
 
@@ -1811,7 +1866,7 @@
     <div class="footer-banner-band">
       <div class="footer-banner">
         <div class="funder-box">
-          <img src="assets/pears-foundation-logo.png" data-cms-img="footer_funder_logo" alt="Pears Foundation" style="display:none" onload="this.style.display='block';this.nextElementSibling&&(this.nextElementSibling.style.display='none')" />
+          <img src="assets/pears-foundation-logo.png" data-cms-img="footer_funder_logo" alt="Pears Foundation" decoding="async" style="display:none" onload="this.style.display='block';this.nextElementSibling&&(this.nextElementSibling.style.display='none')" />
           <span class="pears-mark" data-fallback><b>Pears</b><span>Foundation</span></span>
         </div>
         <p class="funder-text" data-cms="footer_attr"><strong>Pears Challenge</strong> is an initiative of <strong>Nura: Global Innovation Lab</strong>, generously funded by the <strong>Pears Foundation.</strong></p>
@@ -1857,8 +1912,32 @@
     </div>
   </footer>
 
+  <!-- ASK A QUESTION MODAL (powered by Wix Forms) -->
+  <div class="modal-overlay" id="ask-modal" role="dialog" aria-modal="true" aria-labelledby="ask-modal-title">
+    <div class="modal">
+      <button class="modal-close" id="ask-modal-close" aria-label="Close">&times;</button>
+      <h2 id="ask-modal-title">Ask us a question</h2>
+      <p class="modal-sub">Not sure the Pears Challenge is right for you yet? Send us a note and we'll follow up.</p>
+      <form id="contact-form" class="contact-form" novalidate>
+        <div class="contact-fields" id="contact-fields">
+          <input name="full_name" type="text" placeholder="Full Name*" required />
+          <input name="email" type="email" placeholder="Email*" required />
+          <input name="question" type="text" placeholder="Question" />
+        </div>
+        <button type="submit" class="contact-submit">Send Question</button>
+        <div class="contact-status" id="contact-status"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- copy-to-clipboard toast -->
+  <div class="copy-toast" id="copy-toast" role="status" aria-live="polite">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    <span>Email copied to clipboard</span>
+  </div>
+
   <script type="module">
-    import { createClient, OAuthStrategy, media } from 'https://esm.sh/@wix/sdk@1';
+    import { createClient, OAuthStrategy, media } from 'https://esm.sh/@wix/sdk@1?bundle';
 
     // Public OAuth client id (== the OAuth app id in wix.config.json). Not a secret.
     const CLIENT_ID = '2d0c50dd-a5d6-47f2-ac05-0e190ea93ca1';
@@ -1871,10 +1950,26 @@
     // @wix/wix-data-items-sdk and @wix/forms currently pin an incompatible
     // @wix/sdk-runtime peer range vs. @wix/sdk core, which breaks
     // client.items/.forms/.submissions module registration outright. Call the
-    // REST endpoints directly via client.fetchWithAuth (unaffected by the bug)
-    // instead of registering those host modules.
+    // REST endpoints directly instead of registering those host modules.
+    //
+    // client.fetchWithAuth() does NOT share a cached token across concurrent
+    // calls -- each call independently re-authenticates (measured: ~15 separate
+    // token round-trips firing at once on page load, each ~500ms, all
+    // contending for bandwidth/event-loop time and delaying everything behind
+    // them, including the hero image). Memoizing the auth-headers promise here
+    // guarantees exactly one token fetch no matter how many collections load
+    // concurrently -- every caller below awaits the same in-flight promise.
+    let authHeadersPromise = null;
+    function getAuthHeaders() {
+      if (!authHeadersPromise) authHeadersPromise = client.auth.getAuthHeaders();
+      return authHeadersPromise;
+    }
+    async function authedFetch(url, options = {}) {
+      const { headers: authHeaders } = await getAuthHeaders();
+      return fetch(url, { ...options, headers: { ...authHeaders, ...(options.headers || {}) } });
+    }
     async function queryCollection(dataCollectionId, limit) {
-      const res = await client.fetchWithAuth('https://www.wixapis.com/wix-data/v2/items/query', {
+      const res = await authedFetch('https://www.wixapis.com/wix-data/v2/items/query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ dataCollectionId, query: { paging: { limit } } }),
@@ -1884,13 +1979,13 @@
       return (json.dataItems || []).map((d) => d.data);
     }
     async function getForm(formId) {
-      const res = await client.fetchWithAuth(`https://www.wixapis.com/form-schema-service/v4/forms/${formId}`);
+      const res = await authedFetch(`https://www.wixapis.com/form-schema-service/v4/forms/${formId}`);
       if (!res.ok) throw new Error('getForm failed: ' + res.status);
       const json = await res.json();
       return json.form;
     }
     async function createSubmission(formId, data) {
-      const res = await client.fetchWithAuth('https://www.wixapis.com/forms/v4/submissions', {
+      const res = await authedFetch('https://www.wixapis.com/forms/v4/submissions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ submission: { formId, submissions: data } }),
@@ -1913,11 +2008,23 @@
     const linkOf = (r) => String(r.url1 || r.link || r.url || '').trim();
 
     // Resolve a CMS image value (wix:image:// via SDK, or a plain https URL passthrough).
-    function imgSrc(v, w = 1000, h = 750) {
+    // `quality` (1-100) trims JPEG/WebP payload size for large decorative images
+    // (backgrounds) where full fidelity isn't perceptible; omit it for content
+    // photos people may look at closely.
+    function imgSrc(v, w = 1000, h = 750, quality) {
       if (!v) return '';
       if (typeof v === 'object') v = v.src || v.url || v.image || '';
       if (typeof v !== 'string') return '';
-      if (v.startsWith('wix:image://')) { try { return media.getScaledToFillImageUrl(v, w, h, {}); } catch (e) { return ''; } }
+      if (v.startsWith('wix:image://')) { try { return media.getScaledToFillImageUrl(v, w, h, quality ? { quality } : {}); } catch (e) { return ''; } }
+      return v;
+    }
+    // For logos: scale-to-FIT (not fill/crop) so the whole mark is preserved,
+    // no matter its native aspect ratio.
+    function logoSrc(v, w = 400, h = 200) {
+      if (!v) return '';
+      if (typeof v === 'object') v = v.src || v.url || v.image || '';
+      if (typeof v !== 'string') return '';
+      if (v.startsWith('wix:image://')) { try { return media.getScaledToFitImageUrl(v, w, h, {}); } catch (e) { return ''; } }
       return v;
     }
     // Bypasses Wix's dynamic resize entirely -- some uploaded images carry
@@ -1947,33 +2054,39 @@
         const map = {};
         const setMap = (key, text, image) => { map[key] = { text: text ?? '', image: image ?? '' }; };
 
-        // Sequential (not Promise.all) so we don't fire a burst of concurrent
-        // visitor-auth token requests — Wix's OAuth token endpoint has been
-        // observed to intermittently 500 under that kind of concurrency spike.
+        // Fetch nav+hero first (sequentially, not part of the Promise.all below)
+        // purely to get the hero background painting as early as possible — it's
+        // the first thing visitors see. (Token sharing is handled by
+        // authedFetch()'s memoized auth-headers promise, above.)
         const nav = await queryCollection('nav-content', 1);
         const hero = await queryCollection('hero-content', 1);
         // Apply the hero background as soon as we have it, instead of waiting
-        // for the other 12 collections below to finish loading — it's the
+        // for the other collections below to finish loading — it's the
         // first thing visitors see and was the slowest-perceived image on the page.
-        const heroBgSrc = imgSrc((hero[0] || {}).backgroundImage, 1600, 1000);
+        const heroBgSrc = imgSrc((hero[0] || {}).backgroundImage, 1600, 1000, 80);
         if (heroBgSrc) document.documentElement.style.setProperty('--hero-bg-img', `url("${heroBgSrc}")`);
-        const who = await queryCollection('who-content', 1);
-        const challenge = await queryCollection('challenge-content', 1);
-        const focus = await queryCollection('focus-content', 1);
-        const timeline = await queryCollection('timeline-content', 1);
-        const alumni = await queryCollection('alumni-content', 1);
-        const funding = await queryCollection('funding-content', 1);
-        const ready = await queryCollection('ready-content', 1);
-        const faq = await queryCollection('faq-content', 1);
-        const contact = await queryCollection('contact-content', 1);
-        const footer = await queryCollection('footer-content', 1);
-        const footerSocial = await queryCollection('footer-social-links', 10);
+        const [who, challenge, focus, timeline, alumni, funding, ready, faq, contact, footer, footerSocial] = await Promise.all([
+          queryCollection('who-content', 1),
+          queryCollection('challenge-content', 1),
+          queryCollection('focus-content', 1),
+          queryCollection('timeline-content', 1),
+          queryCollection('alumni-content', 1),
+          queryCollection('funding-content', 1),
+          queryCollection('ready-content', 1),
+          queryCollection('faq-content', 1),
+          queryCollection('contact-content', 1),
+          queryCollection('footer-content', 1),
+          queryCollection('footer-social-links', 10),
+        ]);
 
         const n = nav[0] || {};
         setMap('nav_cta', n.ctaText); setMap('nav_logo', '', n.logo);
+        // Shared destination for every "Apply Now" button on the page (nav, hero,
+        // ready, bottom CTA) — one field controls all five, via data-cms-href="apply_url".
+        setMap('apply_url', n.applyUrl);
 
         const h = hero[0] || {};
-        setMap('hero_eyebrow', h.eyebrow); setMap('hero_title_accent', h.titleAccent);
+        setMap('hero_eyebrow', h.eyebrow);
         setMap('hero_title_rest', h.titleRest); setMap('hero_sub', h.subtitle);
         setMap('hero_cta', h.ctaText); setMap('hero_bg', '', h.backgroundImage);
 
@@ -2003,14 +2116,15 @@
 
         const r = ready[0] || {};
         setMap('ready_title', r.heading); setMap('ready_sub', r.subtitle); setMap('ready_cta', r.ctaText);
-        setMap('ready_image', '', r.photo); setMap('ready_video', r.backgroundVideo);
+        setMap('ready_image', '', r.photo);
 
         const fq = faq[0] || {};
         setMap('faq_eyebrow', fq.eyebrow); setMap('faq_title', fq.heading);
 
         const ct = contact[0] || {};
-        setMap('cta_title', ct.heading); setMap('cta_write', ct.writeLine);
+        setMap('cta_title', ct.heading); setMap('cta_subtitle', ct.subtitle); setMap('cta_write', ct.writeLine);
         setMap('cta_email_prefix', ct.emailPrefix); setMap('cta_email_addr', ct.contactEmail);
+        setMap('cta_primary', ct.ctaText);
 
         const ft = footer[0] || {};
         setMap('footer_nura_tagline', ft.tagline); setMap('footer_attr', ft.attribution);
@@ -2031,9 +2145,6 @@
         document.querySelectorAll('[data-cms-img]').forEach((el) => {
           const key = el.getAttribute('data-cms-img');
           const r = map[key];
-          // Large square bounding box: whatever the true aspect ratio of a
-          // future logo upload is, this keeps Wix's own resize from having
-          // room to crop it -- object-fit: contain (CSS) does the real fit.
           const src = FIT_IMG_KEYS.has(key) ? originalImgSrc(r && r.image) : imgSrc(r && r.image, 1200, 900);
           if (src) el.src = src;
         });
@@ -2062,7 +2173,7 @@
         });
         const bgMap = { challenge_image: '--challenge-bg-img', cta_bg: '--cta-bg-img', ready_image: '--ready-bg-img' };
         Object.entries(bgMap).forEach(([key, varName]) => {
-          const src = imgSrc(map[key] && map[key].image, 1600, 1000);
+          const src = imgSrc(map[key] && map[key].image, 1600, 1000, 80);
           if (src) document.documentElement.style.setProperty(varName, `url("${src}")`);
         });
         if (map.challenge_col1 && map.challenge_col1.text) setColumn('challenge-col1', map.challenge_col1.text);
@@ -2102,10 +2213,24 @@
       menu.addEventListener('click', (ev) => { if (ev.target.closest('a')) shut(); });
       document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') shut(); });
     }
-    function initHeroWordCycle() {
+    // Fallback list used until (or unless) the "hero-words" CMS collection has rows.
+    const DEFAULT_HERO_WORDS = ['Food', 'Climate', 'Energy', 'Water', 'Log', 'Fin', 'Agri'];
+    async function loadHeroWords() {
+      try {
+        const rows = await queryCollection('hero-words', 50);
+        if (!rows.length) return DEFAULT_HERO_WORDS;
+        rows.sort(byOrder);
+        const words = rows.map((r) => String(r.word || '').trim()).filter(Boolean);
+        return words.length ? words : DEFAULT_HERO_WORDS;
+      } catch (e) {
+        console.warn('hero-words load failed, using fallback:', e);
+        return DEFAULT_HERO_WORDS;
+      }
+    }
+    function initHeroWordCycle(words) {
       const el = document.getElementById('hero-word');
       if (!el) return;
-      const words = ['Food', 'Climate', 'Energy', 'Water', 'Log', 'Fin', 'Agri'];
+      if (!words || !words.length) words = DEFAULT_HERO_WORDS;
       // Drive the slide with a JS-computed pixel offset (rather than a CSS
       // percentage translateY) so the distance always matches the reel's
       // actual rendered height, regardless of viewport/font-size.
@@ -2131,16 +2256,27 @@
         }, 200);
       }, 1400);
     }
-    const renderPartners = () => renderList('partners', 'partners', (r) => {
-      const logo = imgSrc(r.logo, 320, 130);
-      const inner = logo
-        ? `<span class="partner"><img src="${logo}" alt="${esc(r.name || '')}" style="height:42px;width:auto;object-fit:contain"></span>`
-        : `<span class="partner">${esc(r.name || '')}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`;
-      const link = linkOf(r);
-      return link
-        ? `<a href="${esc(link)}" target="_blank" rel="noopener noreferrer" class="partner-link">${inner}</a>`
-        : inner;
-    });
+    async function renderPartners() {
+      try {
+        const rows = await queryCollection('partners', 100);
+        if (!rows.length) return;
+        rows.sort(byOrder);
+        const el = document.getElementById('partners');
+        if (!el) return;
+        const html = rows.map((r) => {
+          const logo = logoSrc(r.logo, 180, 180);
+          const inner = logo
+            ? `<span class="partner-logo-box"><img src="${logo}" alt="${esc(r.name || '')}"></span>`
+            : `<span class="partner">${esc(r.name || '')}${r.sub ? `<small>${esc(r.sub)}</small>` : ''}</span>`;
+          const link = linkOf(r);
+          return link
+            ? `<a href="${esc(link)}" target="_blank" rel="noopener noreferrer" class="partner-link">${inner}</a>`
+            : inner;
+        }).join('');
+        // Duplicated so the marquee can loop seamlessly at -50% translation.
+        el.innerHTML = html + html;
+      } catch (e) { console.warn('partners load failed:', e); }
+    }
     async function renderFunders() {
       try {
         const rows = await queryCollection('funders', 100);
@@ -2149,8 +2285,8 @@
         const el = document.getElementById('funders-track');
         if (!el) return;
         const html = rows.map((r) => {
-          const logo = imgSrc(r.logo, 220, 80);
-          return logo ? `<img src="${logo}" alt="${esc(r.name || '')}">` : `<span class="funder-logo">${esc(r.name || '')}</span>`;
+          const logo = logoSrc(r.logo, 180, 180);
+          return logo ? `<span class="funder-logo-box"><img src="${logo}" alt="${esc(r.name || '')}"></span>` : `<span class="funder-logo">${esc(r.name || '')}</span>`;
         }).join('');
         // Duplicated so the marquee can loop seamlessly at -50% translation.
         el.innerHTML = html + html;
@@ -2287,6 +2423,37 @@
           </div>`;
         }).join('');
       } catch (e) { console.warn('FAQ load failed, using fallback:', e); }
+      setupFaqPaging();
+    }
+
+    /* ---------- FAQ "Load More" paging ---------- */
+    const FAQ_PAGE_SIZE = 6;
+    function setupFaqPaging() {
+      const list = document.getElementById('faq-list');
+      const btn = document.getElementById('faq-load-more');
+      const items = Array.from(list.querySelectorAll('.faq-item'));
+      const total = items.length;
+      if (total <= FAQ_PAGE_SIZE) {
+        items.forEach((it) => { it.hidden = false; });
+        btn.hidden = true;
+        return;
+      }
+      let visibleCount = FAQ_PAGE_SIZE;
+      function render() {
+        items.forEach((it, i) => { it.hidden = i >= visibleCount; });
+        btn.textContent = visibleCount >= total ? 'Show Less' : 'Load More';
+      }
+      btn.hidden = false;
+      btn.onclick = () => {
+        if (visibleCount >= total) {
+          visibleCount = FAQ_PAGE_SIZE;
+          document.getElementById('faq').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          visibleCount = Math.min(total, visibleCount + FAQ_PAGE_SIZE);
+        }
+        render();
+      };
+      render();
     }
 
     const FOCUS_COLORS = ['#3fe3a3', '#45c3f2', '#ecec78'];
@@ -2309,21 +2476,6 @@
           </div>`;
         }).join('');
       } catch (e) { console.warn('Focus areas load failed, using fallback:', e); }
-    }
-
-    async function renderTimeline() {
-      try {
-        const rows = await queryCollection('timeline', 50);
-        if (!rows.length) return;
-        rows.sort(byOrder);
-        const el = document.getElementById('timeline-list');
-        el.innerHTML = rows.map((r) => `
-          <div class="timeline-item">
-            <p class="date">${esc(r.phase)}</p>
-            <h3>${esc(r.title)}</h3>
-            <p>${esc(r.description)}</p>
-          </div>`).join('');
-      } catch (e) { console.warn('Timeline load failed, using fallback:', e); }
     }
 
     /* ---------- FAQ accordion (delegated — works for rendered items) ---------- */
@@ -2378,6 +2530,52 @@
       chClose && chClose.addEventListener('click', closeCh);
       chOverlay.addEventListener('click', (ev) => { if (ev.target === chOverlay) closeCh(); });
       document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeCh(); });
+    }
+
+    /* ---------- "Ask us a question" modal ---------- */
+    const askOverlay = document.getElementById('ask-modal');
+    const askOpen = document.getElementById('cta-ask-open');
+    const askClose = document.getElementById('ask-modal-close');
+    if (askOverlay && askOpen) {
+      const openAsk = () => { askOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; };
+      const closeAsk = () => { askOverlay.classList.remove('open'); document.body.style.overflow = ''; };
+      askOpen.addEventListener('click', openAsk);
+      askClose && askClose.addEventListener('click', closeAsk);
+      askOverlay.addEventListener('click', (ev) => { if (ev.target === askOverlay) closeAsk(); });
+      document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && askOverlay.classList.contains('open')) closeAsk(); });
+    }
+
+    /* ---------- Copy email to clipboard ---------- */
+    const emailCopyLink = document.getElementById('cta-email-copy');
+    const copyToast = document.getElementById('copy-toast');
+    if (emailCopyLink) {
+      emailCopyLink.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const email = emailCopyLink.textContent.trim();
+        const showToast = () => {
+          if (!copyToast) return;
+          copyToast.classList.add('show');
+          clearTimeout(showToast._t);
+          showToast._t = setTimeout(() => copyToast.classList.remove('show'), 2200);
+        };
+        if (navigator.clipboard?.writeText) {
+          navigator.clipboard.writeText(email).then(showToast).catch(() => {
+            const ta = document.createElement('textarea');
+            ta.value = email; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(ta);
+            showToast();
+          });
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = email; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); } catch (e) {}
+          document.body.removeChild(ta);
+          showToast();
+        }
+      });
     }
 
     /* ---------- Cohort video lightbox ---------- */
@@ -2524,10 +2722,13 @@
     }
 
     /* ---------- Kick off ---------- */
+    // All of the calls below share one memoized auth-headers fetch (see
+    // authedFetch() above), so firing them concurrently is safe and no
+    // longer causes a burst of redundant token round-trips.
     applySiteContent();
     initContactForm();
     initMobileMenu();
-    initHeroWordCycle();
+    loadHeroWords().then(initHeroWordCycle);
     renderNav();
     renderPartners();
     renderFunders();
@@ -2535,6 +2736,7 @@
     renderStats().then(initStatsCountUp);
     renderChecklist();
     renderFooter();
+    setupFaqPaging();
     renderFAQ();
     renderFocus();
     initTimeline();

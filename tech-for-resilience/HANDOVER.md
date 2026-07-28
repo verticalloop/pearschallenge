@@ -18,8 +18,7 @@ the one-time setup to make this all yours.
 
 **What you'll need before starting:**
 - A Mac or Windows computer
-- Your **GitHub** login (Verticalloop will send you this separately — never
-  written down in this file)
+- Your own **GitHub** account (the one you already use)
 - Your **Wix** account (the one you already use)
 - A **claude.ai** account (free to create if you don't have one)
 
@@ -85,10 +84,10 @@ Claude Code prompt instead of an error.
 ### 1e. Download your website's code onto your computer
 
 Before this step, make sure you've completed **Section 2** below (accepting
-the GitHub transfer) — you need your GitHub account ready first.
+the GitHub transfer) — you need the repository in your own account first.
 
-In the Terminal, type this, replacing `YOUR-GITHUB-USERNAME` with the GitHub
-username Verticalloop gave you:
+In the Terminal, type this, replacing `YOUR-GITHUB-USERNAME` with your own
+GitHub username:
 
 ```
 git clone https://github.com/YOUR-GITHUB-USERNAME/pearschallenge.git
@@ -101,17 +100,15 @@ afterward should show files like `index.html` and this `HANDOVER.md`.
 
 ---
 
-## Section 2 — Accept the accounts Verticalloop set up for you
+## Section 2 — Accept the repository and site transfers
 
-Do these in any order, but finish all three before Section 3.
+Do these in any order, but finish both before Section 3.
 
 1. **GitHub email:** check your inbox for an email from GitHub about a
-   "repository transfer" or "invitation" — click to accept it.
-2. **First GitHub login:** go to [github.com](https://github.com) and log in
-   using the username and temporary password Verticalloop gave you
-   separately (not in this file). GitHub will ask you to set your own new
-   password — do that now and save it somewhere safe.
-3. **Wix email:** check your inbox for an email from Wix about a "site
+   "repository transfer" or "invitation" (sent to the GitHub account you
+   gave Verticalloop) — click to accept it. This moves the `pearschallenge`
+   code repository into your own GitHub account.
+2. **Wix email:** check your inbox for an email from Wix about a "site
    transfer" — click to accept it. This makes the website officially yours
    inside your existing Wix account.
 
@@ -134,8 +131,9 @@ one screen you click through, done once.
 3. This is a GitHub screen asking for permission to read and edit
    repositories on your behalf — this is expected and safe.
 4. **Look carefully at the account name shown at the top of that screen.**
-   It must be *your* GitHub account (the one from Section 2), not any other
-   GitHub account you or someone else may have used on this browser before.
+   It must be *your* GitHub account (the one the repository was transferred
+   into in Section 2), not any other GitHub account you or someone else may
+   have used on this browser before.
    Picking the wrong account here is the single most common mistake — if
    you're not sure, log out of GitHub in your browser first and log back in
    as yourself before clicking Authorize.

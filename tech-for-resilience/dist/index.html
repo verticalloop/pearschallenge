@@ -228,8 +228,18 @@
       margin-bottom: 26px;
     }
     .hero-title .accent { color: var(--pc-yellow); }
-    .hero-word { display: inline-block; transition: opacity 0.45s ease, transform 0.45s ease; }
-    .hero-word.swap { opacity: 0; transform: translateY(8px); }
+    /* "{Word}-Tech" lives on its own line in a clipped viewport so the whole
+       chunk -- word, dash, and "Tech" together -- can slide as one reel;
+       "for Resilience" sits on the next line and never reflows. */
+    .hero-word-viewport { display: block; overflow: hidden; }
+    .hero-word-reel {
+      display: inline-block;
+      transform: translateY(0);
+      transition: transform 0.25s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+    .hero-word-reel.exit { transition-duration: 0.2s; }
+    .hero-word-reel.enter-start { transition: none; }
+    .hero-title-line { display: block; }
     .hero-sub {
       font-family: var(--font-body);
       color: rgba(255,255,255,0.92);
@@ -1408,7 +1418,7 @@
       <span class="hero-bracket hero-bracket-l" aria-hidden="true"></span>
       <div class="hero-card">
         <p class="hero-eyebrow" data-cms="hero_eyebrow">Pears Challenge 2026</p>
-        <h1 class="hero-title"><span class="accent"><span id="hero-word" class="hero-word">Food</span>-Tech for Resilience</span><br><span data-cms="hero_title_rest">In East Africa</span></h1>
+        <h1 class="hero-title"><span class="hero-word-viewport"><span id="hero-word" class="accent hero-word-reel">Food-Tech</span></span><span class="accent hero-title-line">for Resilience</span><span class="hero-title-line" data-cms="hero_title_rest">In East Africa</span></h1>
         <p class="hero-sub" data-cms="hero_sub">A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets</p>
         <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="hero-cta" target="_blank" rel="noopener noreferrer" data-cms="hero_cta">Apply Now</a>
       </div>
@@ -2089,15 +2099,30 @@
       const el = document.getElementById('hero-word');
       if (!el) return;
       const words = ['Food', 'Climate', 'Energy', 'Water', 'Log', 'Fin', 'Agri'];
+      // Drive the slide with a JS-computed pixel offset (rather than a CSS
+      // percentage translateY) so the distance always matches the reel's
+      // actual rendered height, regardless of viewport/font-size.
+      el.style.transform = 'translateY(0)';
       let i = 0;
       setInterval(() => {
-        el.classList.add('swap');
+        // Exit: the whole "{Word}-Tech" reel slides up and out of the clipped viewport.
+        const h = el.offsetHeight;
+        el.classList.add('exit');
+        el.style.transform = `translateY(-${h}px)`;
         setTimeout(() => {
           i = (i + 1) % words.length;
-          el.textContent = words[i];
-          el.classList.remove('swap');
-        }, 450);
-      }, 2600);
+          el.textContent = words[i] + '-Tech';
+          const h2 = el.offsetHeight;
+          el.classList.remove('exit');
+          // Enter: jump to just below the viewport (no transition), then let
+          // the default transition carry it back up into place.
+          el.classList.add('enter-start');
+          el.style.transform = `translateY(${h2}px)`;
+          void el.offsetWidth; // force reflow so the jump is committed first
+          el.classList.remove('enter-start');
+          el.style.transform = 'translateY(0)';
+        }, 200);
+      }, 1400);
     }
     const renderPartners = () => renderList('partners', 'partners', (r) => {
       const logo = imgSrc(r.logo, 320, 130);

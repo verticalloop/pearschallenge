@@ -4,6 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nura · Pears Challenge 2026 — Food-Tech for Resilience</title>
+  <meta name="description" content="A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets in East Africa." />
+  <link rel="icon" type="image/png" href="assets/nura-logo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Nura · Pears Challenge 2026 — Food-Tech for Resilience" />
+  <meta property="og:description" content="A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets in East Africa." />
+  <!-- Relative path: social crawlers need an absolute URL to render this preview image.
+       Swap for the final absolute URL (https://your-domain/assets/nura-logo.png) once the site's live domain is set. -->
+  <meta property="og:image" content="assets/nura-logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://static.wixstatic.com" />
@@ -229,8 +238,18 @@
       margin-bottom: 26px;
     }
     .hero-title .accent { color: var(--pc-yellow); }
-    .hero-word { display: inline-block; transition: opacity 0.45s ease, transform 0.45s ease; }
-    .hero-word.swap { opacity: 0; transform: translateY(8px); }
+    /* "{Word}-Tech" lives on its own line in a clipped viewport so the whole
+       chunk -- word, dash, and "Tech" together -- can slide as one reel;
+       "for Resilience" sits on the next line and never reflows. */
+    .hero-word-viewport { display: block; overflow: hidden; }
+    .hero-word-reel {
+      display: inline-block;
+      transform: translateY(0);
+      transition: transform 0.25s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+    .hero-word-reel.exit { transition-duration: 0.2s; }
+    .hero-word-reel.enter-start { transition: none; }
+    .hero-title-line { display: block; }
     .hero-sub {
       font-family: var(--font-body);
       color: rgba(255,255,255,0.92);
@@ -1437,7 +1456,7 @@
         <li><a href="#faq">Blog</a></li>
         <li><a href="#apply">Contact</a></li>
       </ul>
-      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="nav-cta" target="_blank" rel="noopener noreferrer" data-cms="nav_cta">Apply Now</a>
+      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="nav-cta" target="_blank" rel="noopener noreferrer" data-cms="nav_cta" data-cms-href="apply_url">Apply Now</a>
       <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </nav>
 
@@ -1452,16 +1471,16 @@
         <li><a href="#faq">Blog</a></li>
         <li><a href="#apply">Contact</a></li>
       </ul>
-      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="mobile-apply" target="_blank" rel="noopener noreferrer" data-cms="nav_cta">Apply Now</a>
+      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="mobile-apply" target="_blank" rel="noopener noreferrer" data-cms="nav_cta" data-cms-href="apply_url">Apply Now</a>
     </div>
 
     <div class="hero-card-frame">
       <span class="hero-bracket hero-bracket-l" aria-hidden="true"></span>
       <div class="hero-card">
         <p class="hero-eyebrow" data-cms="hero_eyebrow">Pears Challenge 2026</p>
-        <h1 class="hero-title"><span class="accent"><span id="hero-word" class="hero-word">Food</span>-Tech for Resilience</span><br><span data-cms="hero_title_rest">In East Africa</span></h1>
+        <h1 class="hero-title"><span class="hero-word-viewport"><span id="hero-word" class="accent hero-word-reel">Food-Tech</span></span><span class="accent hero-title-line">for Resilience</span><span class="hero-title-line" data-cms="hero_title_rest">In East Africa</span></h1>
         <p class="hero-sub" data-cms="hero_sub">A prestigious venture builder program for early-stage Israeli impact ventures targeting emerging markets</p>
-        <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="hero-cta" target="_blank" rel="noopener noreferrer" data-cms="hero_cta">Apply Now</a>
+        <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="hero-cta" target="_blank" rel="noopener noreferrer" data-cms="hero_cta" data-cms-href="apply_url">Apply Now</a>
       </div>
       <span class="hero-bracket hero-bracket-r" aria-hidden="true"></span>
     </div>
@@ -1770,7 +1789,7 @@
           <li class="ready-step"><span class="step-icon"></span><p><strong>Partner</strong> with the leading ecosystem players</p></li>
           <li class="ready-step"><span class="step-icon"></span><p><strong>Fundraise</strong> and scale your venture in East Africa</p></li>
         </ul>
-        <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="ready-apply" target="_blank" rel="noopener noreferrer" data-cms="ready_cta">Apply Now</a>
+        <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="ready-apply" target="_blank" rel="noopener noreferrer" data-cms="ready_cta" data-cms-href="apply_url">Apply Now</a>
       </div>
     </div>
   </section>
@@ -1827,7 +1846,7 @@
     <div class="cta-inner">
       <h2 data-cms="cta_title">Ready to create your next impact tech venture?</h2>
       <p class="cta-sub" data-cms="cta_subtitle">Do you have any questions before embarking on your impact journey? See our FAQs or write to us!</p>
-      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="cta-apply" target="_blank" rel="noopener noreferrer" data-cms="cta_primary">Apply Now</a>
+      <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="cta-apply" target="_blank" rel="noopener noreferrer" data-cms="cta_primary" data-cms-href="apply_url">Apply Now</a>
       <p class="cta-note">
         Not sure yet? <button type="button" class="cta-ask-link" id="cta-ask-open">Ask us a question</button>
         or email Amit Kalisker · <a href="mailto:amit@nuraglobal.org" class="cta-email-copy" id="cta-email-copy" data-cms="cta_email_addr" data-cms-mailto="cta_email_addr">amit@nuraglobal.org</a>
@@ -2038,9 +2057,12 @@
 
         const n = nav[0] || {};
         setMap('nav_cta', n.ctaText); setMap('nav_logo', '', n.logo);
+        // Shared destination for every "Apply Now" button on the page (nav, hero,
+        // ready, bottom CTA) — one field controls all five, via data-cms-href="apply_url".
+        setMap('apply_url', n.applyUrl);
 
         const h = hero[0] || {};
-        setMap('hero_eyebrow', h.eyebrow); setMap('hero_title_accent', h.titleAccent);
+        setMap('hero_eyebrow', h.eyebrow);
         setMap('hero_title_rest', h.titleRest); setMap('hero_sub', h.subtitle);
         setMap('hero_cta', h.ctaText); setMap('hero_bg', '', h.backgroundImage);
 
@@ -2070,7 +2092,7 @@
 
         const r = ready[0] || {};
         setMap('ready_title', r.heading); setMap('ready_sub', r.subtitle); setMap('ready_cta', r.ctaText);
-        setMap('ready_image', '', r.photo); setMap('ready_video', r.backgroundVideo);
+        setMap('ready_image', '', r.photo);
 
         const fq = faq[0] || {};
         setMap('faq_eyebrow', fq.eyebrow); setMap('faq_title', fq.heading);
@@ -2078,6 +2100,7 @@
         const ct = contact[0] || {};
         setMap('cta_title', ct.heading); setMap('cta_subtitle', ct.subtitle); setMap('cta_write', ct.writeLine);
         setMap('cta_email_prefix', ct.emailPrefix); setMap('cta_email_addr', ct.contactEmail);
+        setMap('cta_primary', ct.ctaText);
 
         const ft = footer[0] || {};
         setMap('footer_nura_tagline', ft.tagline); setMap('footer_attr', ft.attribution);
@@ -2166,19 +2189,48 @@
       menu.addEventListener('click', (ev) => { if (ev.target.closest('a')) shut(); });
       document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') shut(); });
     }
-    function initHeroWordCycle() {
+    // Fallback list used until (or unless) the "hero-words" CMS collection has rows.
+    const DEFAULT_HERO_WORDS = ['Food', 'Climate', 'Energy', 'Water', 'Log', 'Fin', 'Agri'];
+    async function loadHeroWords() {
+      try {
+        const rows = await queryCollection('hero-words', 50);
+        if (!rows.length) return DEFAULT_HERO_WORDS;
+        rows.sort(byOrder);
+        const words = rows.map((r) => String(r.word || '').trim()).filter(Boolean);
+        return words.length ? words : DEFAULT_HERO_WORDS;
+      } catch (e) {
+        console.warn('hero-words load failed, using fallback:', e);
+        return DEFAULT_HERO_WORDS;
+      }
+    }
+    function initHeroWordCycle(words) {
       const el = document.getElementById('hero-word');
       if (!el) return;
-      const words = ['Food', 'Climate', 'Energy', 'Water', 'Log', 'Fin', 'Agri'];
+      if (!words || !words.length) words = DEFAULT_HERO_WORDS;
+      // Drive the slide with a JS-computed pixel offset (rather than a CSS
+      // percentage translateY) so the distance always matches the reel's
+      // actual rendered height, regardless of viewport/font-size.
+      el.style.transform = 'translateY(0)';
       let i = 0;
       setInterval(() => {
-        el.classList.add('swap');
+        // Exit: the whole "{Word}-Tech" reel slides up and out of the clipped viewport.
+        const h = el.offsetHeight;
+        el.classList.add('exit');
+        el.style.transform = `translateY(-${h}px)`;
         setTimeout(() => {
           i = (i + 1) % words.length;
-          el.textContent = words[i];
-          el.classList.remove('swap');
-        }, 450);
-      }, 2600);
+          el.textContent = words[i] + '-Tech';
+          const h2 = el.offsetHeight;
+          el.classList.remove('exit');
+          // Enter: jump to just below the viewport (no transition), then let
+          // the default transition carry it back up into place.
+          el.classList.add('enter-start');
+          el.style.transform = `translateY(${h2}px)`;
+          void el.offsetWidth; // force reflow so the jump is committed first
+          el.classList.remove('enter-start');
+          el.style.transform = 'translateY(0)';
+        }, 200);
+      }, 1400);
     }
     async function renderPartners() {
       try {
@@ -2400,21 +2452,6 @@
           </div>`;
         }).join('');
       } catch (e) { console.warn('Focus areas load failed, using fallback:', e); }
-    }
-
-    async function renderTimeline() {
-      try {
-        const rows = await queryCollection('timeline', 50);
-        if (!rows.length) return;
-        rows.sort(byOrder);
-        const el = document.getElementById('timeline-list');
-        el.innerHTML = rows.map((r) => `
-          <div class="timeline-item">
-            <p class="date">${esc(r.phase)}</p>
-            <h3>${esc(r.title)}</h3>
-            <p>${esc(r.description)}</p>
-          </div>`).join('');
-      } catch (e) { console.warn('Timeline load failed, using fallback:', e); }
     }
 
     /* ---------- FAQ accordion (delegated — works for rendered items) ---------- */
@@ -2664,7 +2701,7 @@
     applySiteContent();
     initContactForm();
     initMobileMenu();
-    initHeroWordCycle();
+    loadHeroWords().then(initHeroWordCycle);
     renderNav();
     renderPartners();
     renderFunders();

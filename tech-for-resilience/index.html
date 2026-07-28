@@ -1855,8 +1855,8 @@
       <p class="cta-sub" data-cms="cta_subtitle">Do you have any questions before embarking on your impact journey? See our FAQs or write to us!</p>
       <a href="https://forms.monday.com/forms/28c4adb013a5e5f9d29258b3fafc7040?r=euc1" class="cta-apply" target="_blank" rel="noopener noreferrer" data-cms="cta_primary" data-cms-href="apply_url">Apply Now</a>
       <p class="cta-note">
-        Not sure yet? <button type="button" class="cta-ask-link" id="cta-ask-open">Ask us a question</button>
-        or email Amit Kalisker · <a href="mailto:amit@nuraglobal.org" class="cta-email-copy" id="cta-email-copy" data-cms="cta_email_addr" data-cms-mailto="cta_email_addr">amit@nuraglobal.org</a>
+        <button type="button" class="cta-ask-link" id="cta-ask-open" data-cms="cta_write">Not sure yet? Ask us a question</button>
+        <span data-cms="cta_email_prefix">or email Amit Kalisker ·</span> <a href="mailto:amit@nuraglobal.org" class="cta-email-copy" id="cta-email-copy" data-cms="cta_email_addr" data-cms-mailto="cta_email_addr">amit@nuraglobal.org</a>
       </p>
     </div>
   </section>
@@ -2088,7 +2088,7 @@
         const h = hero[0] || {};
         setMap('hero_eyebrow', h.eyebrow);
         setMap('hero_title_rest', h.titleRest); setMap('hero_sub', h.subtitle);
-        setMap('hero_cta', h.ctaText); setMap('hero_bg', '', h.backgroundImage);
+        setMap('hero_cta', h.ctaText);
 
         const w = who[0] || {};
         setMap('who_eyebrow', w.eyebrow); setMap('who_title', w.heading); setMap('who_sub', w.subtitle);

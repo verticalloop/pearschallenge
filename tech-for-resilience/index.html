@@ -22,6 +22,64 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ---------- CMS content fade-in ----------
+       Every text/image below is fetched from the Wix CMS *after* the page
+       paints (~1.4s). Without this, the hardcoded fallback markup is visible
+       first and then visibly swaps once the real content lands. Holding these
+       elements at opacity:0 (not display:none, so the layout is already
+       reserved and nothing shifts) until the data is applied means visitors
+       never read text that is about to change.
+
+       The `cms-pending` class is added by JS, never in the markup — so if
+       scripting is unavailable the content simply renders normally instead of
+       staying invisible forever. A timeout in that same script is the backstop
+       for a slow or blocked CMS. */
+    html.cms-pending [data-cms],
+    html.cms-pending [data-cms-img],
+    /* The hero <h1> interleaves CMS spans with a static "for Resilience" line,
+       so hiding only the CMS parts would leave that fragment stranded on its
+       own. Hide the whole card and let it arrive as one piece — the yellow
+       bracket frame around it is separate markup and stays visible throughout. */
+    html.cms-pending .hero-card,
+    html.cms-pending #nav-links,
+    html.cms-pending #mobile-nav-links,
+    html.cms-pending #partners,
+    html.cms-pending #funders-track,
+    html.cms-pending #who-cards,
+    html.cms-pending #stats-grid,
+    html.cms-pending #checklist,
+    html.cms-pending #footer-links,
+    html.cms-pending #faq-list,
+    html.cms-pending #focus-cards,
+    html.cms-pending [data-tl],
+    html.cms-pending [data-tl-photo] { opacity: 0; }
+
+    /* A keyframe animation rather than a transition: several of these elements
+       (buttons, links, the hero word reel) already declare their own
+       `transition`, and a transition shorthand here would clobber it. */
+    html:not(.cms-pending) [data-cms],
+    html:not(.cms-pending) [data-cms-img],
+    html:not(.cms-pending) .hero-card,
+    html:not(.cms-pending) #nav-links,
+    html:not(.cms-pending) #mobile-nav-links,
+    html:not(.cms-pending) #partners,
+    html:not(.cms-pending) #funders-track,
+    html:not(.cms-pending) #who-cards,
+    html:not(.cms-pending) #stats-grid,
+    html:not(.cms-pending) #checklist,
+    html:not(.cms-pending) #footer-links,
+    html:not(.cms-pending) #faq-list,
+    html:not(.cms-pending) #focus-cards,
+    html:not(.cms-pending) [data-tl],
+    html:not(.cms-pending) [data-tl-photo] { animation: cmsFadeIn .3s ease both; }
+
+    @keyframes cmsFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      html:not(.cms-pending) [data-cms],
+      html:not(.cms-pending) [data-cms-img] { animation-duration: .01ms; }
+    }
+
     :root {
       --navy: #0a1628;
       --pc-yellow: #fdff9e;
@@ -1445,6 +1503,19 @@
       .banner-yellow { padding: 12px 20px; }
     }
   </style>
+  <script>
+    // Runs before first paint so CMS-driven content starts hidden (see the
+    // "CMS content fade-in" block above). Deliberately set from JS, not in the
+    // markup: with scripting off, nothing is ever hidden.
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('cms-pending');
+      // Backstop — if the CMS is slow, blocked, or the module script fails to
+      // run at all, reveal the fallback markup rather than leaving a blank page.
+      window.__cmsReveal = function () { root.classList.remove('cms-pending'); };
+      setTimeout(window.__cmsReveal, 4000);
+    })();
+  </script>
 </head>
 <body>
 
@@ -1972,7 +2043,17 @@
       const res = await authedFetch('https://www.wixapis.com/wix-data/v2/items/query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dataCollectionId, query: { paging: { limit } } }),
+        // consistentRead: Wix Data reads from eventually-consistent replicas by
+        // default, so for a while after someone edits a value in the CMS a read
+        // can still come back with the PREVIOUS value -- the site then renders
+        // stale text even though the dashboard shows the new one. Reading from
+        // the primary costs some latency but is the only way to guarantee an
+        // edit made in the CMS is what visitors actually see.
+        body: JSON.stringify({
+          dataCollectionId,
+          query: { paging: { limit } },
+          consistentRead: true,
+        }),
       });
       if (!res.ok) throw new Error('wix-data query failed: ' + res.status);
       const json = await res.json();
@@ -2725,22 +2806,30 @@
     // All of the calls below share one memoized auth-headers fetch (see
     // authedFetch() above), so firing them concurrently is safe and no
     // longer causes a burst of redundant token round-trips.
-    applySiteContent();
-    initContactForm();
+    initContactForm();   // contact form lives in a closed modal — nothing to wait for
     initMobileMenu();
-    loadHeroWords().then(initHeroWordCycle);
-    renderNav();
-    renderPartners();
-    renderFunders();
-    renderWhoCards();
-    renderStats().then(initStatsCountUp);
-    renderChecklist();
-    renderFooter();
     setupFaqPaging();
-    renderFAQ();
-    renderFocus();
     initTimeline();
-    renderTimelineContent();
+
+    // Everything that paints CMS-backed content. The page keeps this content
+    // hidden (see `cms-pending`) until they all settle, so no one reads text
+    // that is a moment away from being replaced. allSettled, not all: one
+    // failed collection must not keep the whole page invisible — each renderer
+    // already falls back to its static markup on error.
+    Promise.allSettled([
+      applySiteContent(),
+      loadHeroWords().then(initHeroWordCycle),
+      renderNav(),
+      renderPartners(),
+      renderFunders(),
+      renderWhoCards(),
+      renderStats().then(initStatsCountUp),
+      renderChecklist(),
+      renderFooter(),
+      renderFAQ(),
+      renderFocus(),
+      renderTimelineContent(),
+    ]).finally(() => window.__cmsReveal && window.__cmsReveal());
   </script>
 
 </body>

@@ -43,8 +43,11 @@
     html.cms-pending .hero-card,
     html.cms-pending #nav-links,
     html.cms-pending #mobile-nav-links,
-    html.cms-pending #partners,
-    html.cms-pending #funders-track,
+    /* The two logo marquees fade in via their CONTAINER, not their track: the
+       track carries the `funding-scroll` animation, and an `animation` shorthand
+       on the same element (below) would clobber it and leave the strip frozen. */
+    html.cms-pending .partners-marquee,
+    html.cms-pending .marquee,
     html.cms-pending #who-cards,
     html.cms-pending #stats-grid,
     html.cms-pending #checklist,
@@ -62,8 +65,8 @@
     html:not(.cms-pending) .hero-card,
     html:not(.cms-pending) #nav-links,
     html:not(.cms-pending) #mobile-nav-links,
-    html:not(.cms-pending) #partners,
-    html:not(.cms-pending) #funders-track,
+    html:not(.cms-pending) .partners-marquee,
+    html:not(.cms-pending) .marquee,
     html:not(.cms-pending) #who-cards,
     html:not(.cms-pending) #stats-grid,
     html:not(.cms-pending) #checklist,
@@ -355,10 +358,20 @@
       mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
     }
     .partners-track {
-      display: flex; align-items: center; gap: 88px; width: max-content; height: 100%;
-      animation: funding-scroll 38s linear infinite;
+      --logo-gap: 88px;
+      display: flex; align-items: center; width: max-content; height: 100%;
+      animation: funding-scroll 15s linear infinite;
     }
-    .partners-marquee:hover .partners-track { animation-play-state: paused; }
+    /* The spacing lives on each item as margin-right rather than as a flex `gap`,
+       because the loop translates by exactly -50%. With `gap`, a track holding two
+       copies of n items has 2n-1 gaps, so -50% lands half a gap short of one full
+       copy and the strip visibly hitches once per lap. Folding the gap into each
+       item makes the track exactly 2 x (copy width), so -50% is pixel-perfect. */
+    .partners-track > *,
+    .partners-track .partner-logo-box { margin-right: var(--logo-gap); }
+    /* :active keeps the pause reachable on touch, where :hover never fires. */
+    .partners-marquee:hover .partners-track,
+    .partners-marquee:active .partners-track { animation-play-state: paused; }
     .partners-track .partner {
       font-family: var(--font-body);
       font-weight: 700;
@@ -454,7 +467,7 @@
     }
     @media (max-width: 900px) {
       .partners-marquee { padding: 40px 20px 16px; height: 70px; }
-      .partners-track { gap: 56px; }
+      .partners-track { --logo-gap: 56px; }
       .who-section { padding: 44px 20px 64px; }
       .who-section > h2 { font-size: 34px; }
       .who-sub { font-size: 17px; }
@@ -1036,10 +1049,14 @@
       mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
     }
     .marquee-track {
-      display: flex; align-items: center; gap: 88px; width: max-content; height: 100%;
-      animation: funding-scroll 38s linear infinite;
+      --logo-gap: 88px;
+      display: flex; align-items: center; width: max-content; height: 100%;
+      animation: funding-scroll 15s linear infinite;
     }
-    .marquee:hover .marquee-track { animation-play-state: paused; }
+    /* Per-item margin instead of flex `gap` -- see the note on .partners-track. */
+    .marquee-track > * { margin-right: var(--logo-gap); }
+    .marquee:hover .marquee-track,
+    .marquee:active .marquee-track { animation-play-state: paused; }
     .funder-logo {
       flex-shrink: 0; white-space: nowrap;
       font-family: var(--font-body); font-weight: 700; font-size: 1.3rem; color: var(--navy);
@@ -1054,15 +1071,15 @@
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
     }
-    @media (prefers-reduced-motion: reduce) {
-      .marquee-track { animation: none; }
-    }
+    /* NOTE: there used to be a `prefers-reduced-motion` rule here that stopped the
+       funding marquee outright. It was removed deliberately -- the brief is that
+       both strips scroll continuously and never stop, on every device. */
     @media (max-width: 900px) {
       .funding-section { padding: 56px 0; }
       .funding-head { padding: 0 20px; margin-bottom: 32px; }
       .funding-head h2 { font-size: 32px; }
       .funding-sub { font-size: 17px; }
-      .marquee-track { gap: 56px; }
+      .marquee-track { --logo-gap: 56px; }
       .funder-logo { font-size: 1.1rem; }
       .marquee { height: 70px; }
       .funder-logo-box { width: 70px; height: 70px; }
